@@ -12,7 +12,7 @@
       v-for="post in posts"
       :key="post.id">
       <router-link :to="{ name: 'PostDetail', params: { id: post.id } }">
-        {{ post.title }}
+        {{ post.titulo }}
       </router-link>
     </div>
   </LoadingPage>
@@ -34,7 +34,7 @@ export default {
   created() {
     this.loading = true
 
-    HTTP.get('posts')
+    HTTP.get('movies')
     .then(response => this.posts = response.data)
     .catch(err => this.error = err.response.data)
     .finally(() => this.loading = false)

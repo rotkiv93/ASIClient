@@ -12,8 +12,13 @@
           :to="{ name: 'PostUpdate', params: { id: post.id }}"
           variant="primary">Edit</b-btn>
       </div>
-      <h3>{{ post.title }}</h3>
-      <h5>{{ post.author.name }}</h5>
+      <h3>{{ post.titulo }}</h3>
+      <h5>Productora: {{ post.productora }}</h5>
+      <h5>Fecha de estreno: {{ post.fecha_estreno }}</h5>
+      <h5>Pais: {{ post.pais }}</h5>
+      <h5>Año de salida: {{ post.ano_salida }}</h5>
+      <h5>Duracion: {{ post.duracion }}</h5>
+      <h6>Sinopsis: {{ post.sinopsis }}</h6>
       <hr>
       <div class="post">{{ post.body }}</div>
     </div>
@@ -44,7 +49,7 @@ export default {
       this.error = this.post = null
       this.loading = true
 
-      HTTP.get(`posts/${this.$route.params.id}`)
+      HTTP.get(`movies/${this.$route.params.id}`)
       .then(response => this.post = response.data)
       .catch(err => this.error = err.message)
       .finally(() => this.loading = false)

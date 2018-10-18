@@ -5,10 +5,10 @@ import Home from './components/Home'
 
 const routes = [
   { path: '/', component: Home },
-  { name: 'PostDetail', path: '/posts/:id', component: PostDetail },
-  { name: 'PostCreate', path: '/posts/new', component: PostForm },
-  { name: 'PostUpdate', path: '/posts/:id/edit', component: PostForm },
-  { name: 'PostList', path: '/posts', component: PostList }
+  { name: 'PostDetail', path: '/movies/:id', component: PostDetail },
+  { name: 'PostCreate', path: '/movies/new', component: PostForm },
+  { name: 'PostUpdate', path: '/movies/:id/edit', component: PostForm },
+  { name: 'PostList', path: '/movies', component: PostList }
 ]
 
 export default new VueRouter({

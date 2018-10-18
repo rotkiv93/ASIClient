@@ -18,11 +18,11 @@
       @submit="save">
 
       <b-form-group
-        label="Title:"
+        label="Titulo:"
         label-for="title">
         <b-form-input
-          id="title"
-          v-model="post.title"
+          id="titulo"
+          v-model="post.titulo"
           type="text"
           required
           placeholder="Enter title"/>
@@ -82,7 +82,7 @@ export default {
     if (this.$route.params.id) {
       this.loading = true
 
-      HTTP.get(`posts/${this.$route.params.id}`)
+      HTTP.get(`movies/${this.$route.params.id}`)
       .then(response => this.post = response.data)
       .catch(err => this.error = err.message)
       .finally(() => this.loading = false)
@@ -92,18 +92,18 @@ export default {
   },
   methods: {
     getUsers() {
-      HTTP.get('users')
+      HTTP.get('movies')
       .then(response => this.allUsers = response.data)
       .catch(err => this.error = err.message)
     },
     save() {
       if (this.$route.params.id) {
-        HTTP.put(`posts/${this.$route.params.id}`, this.post)
+        HTTP.put(`movies/${this.$route.params.id}`, this.post)
         .then(response =>
           this.$router.replace({ name: 'PostDetail', params: { id: response.data.id }}))
         .catch(err => this.error = err.message)
       } else {
-        HTTP.post('posts', this.post)
+        HTTP.post('movies', this.post)
         .then(response =>
           this.$router.replace({ name: 'PostDetail', params: { id: response.data.id }}))
         .catch(err => this.error = err.message)
