@@ -13,11 +13,11 @@
           variant="primary">Edit</b-btn>
       </div>
       <h3>{{ post.titulo }}</h3>
-      <h5>Productora: {{ post.productora }}</h5>
-      <h5>Fecha de estreno: {{ post.fecha_estreno }}</h5>
       <h5>Pais: {{ post.pais }}</h5>
-      <h5>Año de salida: {{ post.ano_salida }}</h5>
+      <h5>Productora: {{ post.productora }}</h5>
       <h5>Duracion: {{ post.duracion }}</h5>
+      <h5>Año de salida: {{ post.ano_salida }}</h5>
+      <h5>Fecha de estreno: {{ post.fecha_estreno }}</h5>
       <h6>Sinopsis: {{ post.sinopsis }}</h6>
       <hr>
       <div class="post">{{ post.body }}</div>

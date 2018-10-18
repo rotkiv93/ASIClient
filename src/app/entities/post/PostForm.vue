@@ -25,29 +25,69 @@
           v-model="post.titulo"
           type="text"
           required
-          placeholder="Enter title"/>
+          placeholder="Introduce titulo"/>
+      </b-form-group>
+
+       <b-form-group
+        label="Pais:"
+        label-for="pais">
+        <b-form-input
+          id="pais"
+          v-model="post.pais"
+          required
+          placeholder="Introduce pais "/>
       </b-form-group>
 
       <b-form-group
-        label="Author:"
-        label-for="author">
-        <b-form-select
-          id="author"
-          :options="users"
-          v-model="post.author"
-          required/>
+        label="Productora:"
+        label-for="productora">
+        <b-form-input
+          id="productora"
+          v-model="post.productora"
+          required
+          placeholder="Introduce productora "/>
+      </b-form-group>
+
+       <b-form-group
+        label="Duracion:"
+        label-for="duracion">
+        <b-form-input
+          id="duracion"
+          v-model="post.duracion"
+          required
+          placeholder="Introduce duracion "/>
+      </b-form-group>
+
+       <b-form-group
+        label="Año salida:"
+        label-for="ano_salida">
+        <b-form-input
+          id="ano_salida"
+          v-model="post.ano_salida"
+          required
+          placeholder="Introduce año salida "/>
+      </b-form-group>
+
+       <b-form-group
+        label="Fecha Estreno::"
+        label-for="fecha_estreno">
+        <b-form-input
+          id="fecha_estreno"
+          v-model="post.fecha_estreno"
+          required
+          placeholder="Introduce fecha estreno "/>
       </b-form-group>
 
       <b-form-group
-        label="Body:"
-        label-for="body">
+        label="Sinopsis:"
+        label-for="sinopsis">
         <b-form-textarea
-          id="body"
-          v-model="post.body"
+          id="sinopsis"
+          v-model="post.sinopsis"
           :rows="3"
           :max-rows="6"
           required
-          placeholder="Enter body"/>
+          placeholder="Introduce sinopsis"/>
       </b-form-group>
     </b-form>
   </LoadingPage>
