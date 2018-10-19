@@ -38,6 +38,16 @@
           placeholder="Introduce pais "/>
       </b-form-group>
 
+       <b-form-group
+        label="Genero:"
+        label-for="genero">
+        <b-form-select
+          id="genero"
+          :options="users"
+          v-model="post.genero"
+          required/>
+      </b-form-group>
+
       <b-form-group
         label="Productora:"
         label-for="productora">
@@ -111,7 +121,7 @@ export default {
     users() {
       return this.allUsers.map(user => {
         return {
-          text: user.name,
+          text: user.nombre,
           value: user
         }
       })
@@ -132,7 +142,7 @@ export default {
   },
   methods: {
     getUsers() {
-      HTTP.get('movies')
+      HTTP.get('genres')
       .then(response => this.allUsers = response.data)
       .catch(err => this.error = err.message)
     },
