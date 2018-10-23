@@ -11,8 +11,8 @@
 
       <b-navbar-nav>
         <b-nav-item
-          :to="{ name: 'PostList' }"
-          exact>Posts</b-nav-item>
+          :to="{ name: 'MovieList' }"
+          exact>Movies</b-nav-item>
       </b-navbar-nav>
 
     </b-collapse>

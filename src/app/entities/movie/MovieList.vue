@@ -5,14 +5,14 @@
 
     <div class="float-right">
       <b-btn
-        :to="{ name: 'PostCreate' }"
+        :to="{ name: 'MovieCreate' }"
         variant="primary">New</b-btn>
     </div>
     <div
-      v-for="post in posts"
-      :key="post.id">
-      <router-link :to="{ name: 'PostDetail', params: { id: post.id } }">
-        {{ post.titulo }}
+      v-for="movie in movies"
+      :key="movie.id">
+      <router-link :to="{ name: 'MovieDetail', params: { id: movie.id } }">
+        {{ movie.titulo }}
       </router-link>
     </div>
   </LoadingPage>
@@ -27,7 +27,7 @@ export default {
   data() {
     return {
       loading: false,
-      posts: null,
+      movies: null,
       error: null
     }
   },
@@ -35,7 +35,7 @@ export default {
     this.loading = true
 
     HTTP.get('movies')
-    .then(response => this.posts = response.data)
+    .then(response => this.movies = response.data)
     .catch(err => this.error = err.response.data)
     .finally(() => this.loading = false)
   }

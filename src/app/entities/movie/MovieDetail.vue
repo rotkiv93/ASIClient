@@ -3,25 +3,25 @@
     :loading="loading"
     :error="error">
 
-    <div v-if="post">
+    <div v-if="movie">
       <div class="float-right">
         <b-btn
           variant="primary"
           @click="back()">Back</b-btn>
         <b-btn
-          :to="{ name: 'PostUpdate', params: { id: post.id }}"
+          :to="{ name: 'MovieUpdate', params: { id: movie.id }}"
           variant="primary">Edit</b-btn>
       </div>
-      <h3>{{ post.titulo }}</h3>
-      <h5>Pais: {{ post.pais }}</h5>
-      <h5>Productora: {{ post.productora }}</h5>
-      <h5>Duracion: {{ post.duracion }}</h5>
-      <h5>Genero: {{post.genero.nombre}}</h5>
-      <h5>Año de salida: {{ post.ano_salida }}</h5>
-      <h5>Fecha de estreno: {{ post.fecha_estreno }}</h5>
-      <h6>Sinopsis: {{ post.sinopsis }}</h6>
+      <h3>{{ movie.titulo }}</h3>
+      <h5>Pais: {{ movie.pais }}</h5>
+      <h5>Productora: {{ movie.productora }}</h5>
+      <h5>Duracion: {{ movie.duracion }}</h5>
+      <h5>Genero: {{movie.genero.nombre}}</h5>
+      <h5>Año de salida: {{ movie.ano_salida }}</h5>
+      <h5>Fecha de estreno: {{ movie.fecha_estreno }}</h5>
+      <h6>Sinopsis: {{ movie.sinopsis }}</h6>
       <hr>
-      <div class="post">{{ post.body }}</div>
+      <div class="movie">{{ movie.body }}</div>
     </div>
   </LoadingPage>
 </template>
@@ -35,7 +35,7 @@ export default {
   data() {
     return {
       loading: false,
-      post: null,
+      movie: null,
       error: null
     }
   },
@@ -47,11 +47,11 @@ export default {
   },
   methods: {
     fetchData() {
-      this.error = this.post = null
+      this.error = this.movie = null
       this.loading = true
 
       HTTP.get(`movies/${this.$route.params.id}`)
-      .then(response => this.post = response.data)
+      .then(response => this.movie = response.data)
       .catch(err => this.error = err.message)
       .finally(() => this.loading = false)
     },
@@ -63,7 +63,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-  .post {
+  .movie {
     white-space: pre;
   }
 </style>

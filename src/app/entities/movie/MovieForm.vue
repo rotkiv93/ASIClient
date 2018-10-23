@@ -13,7 +13,7 @@
     </div>
 
     <b-form
-      v-if="post"
+      v-if="movie"
       class="app-form"
       @submit="save">
 
@@ -22,7 +22,7 @@
         label-for="title">
         <b-form-input
           id="titulo"
-          v-model="post.titulo"
+          v-model="movie.titulo"
           type="text"
           required
           placeholder="Introduce titulo"/>
@@ -33,7 +33,7 @@
         label-for="pais">
         <b-form-input
           id="pais"
-          v-model="post.pais"
+          v-model="movie.pais"
           required
           placeholder="Introduce pais "/>
       </b-form-group>
@@ -44,7 +44,7 @@
         <b-form-select
           id="genero"
           :options="users"
-          v-model="post.genero"
+          v-model="movie.genero"
           required/>
       </b-form-group>
 
@@ -53,7 +53,7 @@
         label-for="productora">
         <b-form-input
           id="productora"
-          v-model="post.productora"
+          v-model="movie.productora"
           required
           placeholder="Introduce productora "/>
       </b-form-group>
@@ -63,7 +63,7 @@
         label-for="duracion">
         <b-form-input
           id="duracion"
-          v-model="post.duracion"
+          v-model="movie.duracion"
           required
           placeholder="Introduce duracion "/>
       </b-form-group>
@@ -73,7 +73,7 @@
         label-for="ano_salida">
         <b-form-input
           id="ano_salida"
-          v-model="post.ano_salida"
+          v-model="movie.ano_salida"
           required
           placeholder="Introduce año salida "/>
       </b-form-group>
@@ -83,7 +83,7 @@
         label-for="fecha_estreno">
         <b-form-input
           id="fecha_estreno"
-          v-model="post.fecha_estreno"
+          v-model="movie.fecha_estreno"
           required
           placeholder="Introduce fecha estreno "/>
       </b-form-group>
@@ -93,7 +93,7 @@
         label-for="sinopsis">
         <b-form-textarea
           id="sinopsis"
-          v-model="post.sinopsis"
+          v-model="movie.sinopsis"
           :rows="3"
           :max-rows="6"
           required
@@ -111,7 +111,7 @@ export default {
   components: { LoadingPage },
   data() {
     return {
-      post: {},
+      movie: {},
       error: null,
       loading: false,
       allUsers: []
@@ -133,11 +133,11 @@ export default {
       this.loading = true
 
       HTTP.get(`movies/${this.$route.params.id}`)
-      .then(response => this.post = response.data)
+      .then(response => this.movie = response.data)
       .catch(err => this.error = err.message)
       .finally(() => this.loading = false)
     } else {
-      this.post = {}
+      this.movie = {}
     }
   },
   methods: {
@@ -148,14 +148,14 @@ export default {
     },
     save() {
       if (this.$route.params.id) {
-        HTTP.put(`movies/${this.$route.params.id}`, this.post)
+        HTTP.put(`movies/${this.$route.params.id}`, this.movie)
         .then(response =>
-          this.$router.replace({ name: 'PostDetail', params: { id: response.data.id }}))
+          this.$router.replace({ name: 'MovieDetail', params: { id: response.data.id }}))
         .catch(err => this.error = err.message)
       } else {
-        HTTP.post('movies', this.post)
+        HTTP.post('movies', this.movie)
         .then(response =>
-          this.$router.replace({ name: 'PostDetail', params: { id: response.data.id }}))
+          this.$router.replace({ name: 'MovieDetail', params: { id: response.data.id }}))
         .catch(err => this.error = err.message)
       }
     },
