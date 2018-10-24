@@ -11,6 +11,9 @@
         <b-btn
           :to="{ name: 'MovieUpdate', params: { id: movie.id }}"
           variant="primary">Edit</b-btn>
+        <b-btn
+          variant="primary"
+          @click="eliminateMovie()">Eliminate</b-btn>
       </div>
       <h3>{{ movie.titulo }}</h3>
       <h5>Pais: {{ movie.pais }}</h5>
@@ -58,6 +61,13 @@ export default {
     },
     back() {
       this.$router.go(-1)
+    },
+    eliminateMovie(){
+      HTTP.delete(`movies/${this.$route.params.id}`, {params: { id: this.movie.id }})
+      .catch(err => this.error = err.message)
+      .finally(() => this.loading = false)
+      this.fetchData()
+      this.back()
     }
   }
 }
