@@ -38,16 +38,6 @@
           placeholder="Introduce pais "/>
       </b-form-group>
 
-       <b-form-group
-        label="Genero:"
-        label-for="genero">
-        <b-form-select
-          id="genero"
-          :options="users"
-          v-model="movie.genero"
-          required/>
-      </b-form-group>
-
       <b-form-group
         label="Productora:"
         label-for="productora">
@@ -66,6 +56,26 @@
           v-model="movie.duracion"
           required
           placeholder="Introduce duracion "/>
+      </b-form-group>
+
+       <b-form-group
+        label="Genero:"
+        label-for="genero">
+        <b-form-select
+          id="genero"
+          :options="users"
+          v-model="movie.genero"
+          required/>
+      </b-form-group>
+
+      <b-form-group
+        label="Director:"
+        label-for="director">
+        <b-form-select
+          id="director"
+          :options="directors"
+          v-model="movie.director"
+          required/>
       </b-form-group>
 
        <b-form-group
@@ -114,7 +124,8 @@ export default {
       movie: {},
       error: null,
       loading: false,
-      allUsers: []
+      allUsers: [],
+      allDirectors: []
     }
   },
   computed: {
@@ -125,10 +136,19 @@ export default {
           value: user
         }
       })
+    },
+    directors(){
+      return this.allDirectors.map(director => {
+        return {
+          text: director.nombre + ' ' + director.apellido1 + ' '+ director.apellido2,
+          value: director
+        }
+      })
     }
   },
   created() {
     this.getUsers()
+    this.getDirectors()
     if (this.$route.params.id) {
       this.loading = true
 
@@ -145,6 +165,11 @@ export default {
       HTTP.get('genres')
       .then(response => this.allUsers = response.data)
       .catch(err => this.error = err.message)
+    },
+    getDirectors(){
+      HTTP.get('directors')
+      .then(response => this.allDirectors = response.data)
+      .catch(err => this.error = err.message)     
     },
     save() {
       if (this.$route.params.id) {

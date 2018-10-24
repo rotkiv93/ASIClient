@@ -17,6 +17,7 @@
       <h5>Productora: {{ movie.productora }}</h5>
       <h5>Duracion: {{ movie.duracion }}</h5>
       <h5>Genero: {{movie.genero.nombre}}</h5>
+      <h5>Director : {{movie.director.nombre}} {{movie.director.apellido1}} {{movie.director.apellido2}}</h5>
       <h5>Año de salida: {{ movie.ano_salida }}</h5>
       <h5>Fecha de estreno: {{ movie.fecha_estreno }}</h5>
       <h6>Sinopsis: {{ movie.sinopsis }}</h6>
