@@ -64,10 +64,9 @@ export default {
     },
     eliminateMovie(){
       HTTP.delete(`movies/${this.$route.params.id}`, {params: { id: this.movie.id }})
-      .catch(err => this.error = err.message)
-      .finally(() => this.loading = false)
-      this.fetchData()
-      this.back()
+       .then(response =>
+          this.$router.replace({ name: 'MovieList', params: { id: response.data }}))
+       .catch(err => this.error = err.message)
     }
   }
 }
