@@ -12,12 +12,12 @@
       v-for="movie in movies"
       :key="movie.id">
       <router-link :to="{ name: 'MovieDetail', params: { id: movie.id } }">
-        {{ movie.titulo }}
+        {{ movie.titulo }} 
       </router-link>
     </div>
   </LoadingPage>
 </template>
-
+ 
 <script>
 import { HTTP } from '../../common/http-common'
 import LoadingPage from '../../components/LoadingPage'

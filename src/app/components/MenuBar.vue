@@ -15,6 +15,12 @@
           exact>Movies</b-nav-item>
       </b-navbar-nav>
 
+      <b-navbar-nav>
+        <b-nav-item
+          :to="{ name: 'DirectorList' }"
+          exact>Directors</b-nav-item>
+      </b-navbar-nav>
+
     </b-collapse>
   </b-navbar>
 </template>
@@ -23,7 +29,7 @@
 export default {
   computed: {
     entitiesActive: function () {
-      return [ 'MovieCreate', 'MovieList', 'DirectorList' ].indexOf(this.$route.name) != -1
+      return [ 'MovieCreate', 'MovieList', 'DirectorList'].indexOf(this.$route.name) != -1
     }
   }
 }
