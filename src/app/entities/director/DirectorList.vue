@@ -21,9 +21,11 @@
       </button> 
        <h5>  
         <b-btn
-         :to= "{ name: 'DirectorUpdate'}"
+         :to= "{ name: 'DirectorUpdate', params:{id : director.id}}"
          variant = "primary">Edit</b-btn>
-       {{ director.nombre }} {{ director.apellido1 }} {{ director.apellido2 }}
+       <router-link :to="{ name: 'DirectorDetail', params: { id: director.id } }">
+      {{director.nombre}} {{director.apellido1}} {{director.apellido2}}
+      </router-link>
        </h5>
     </div>
   </LoadingPage>

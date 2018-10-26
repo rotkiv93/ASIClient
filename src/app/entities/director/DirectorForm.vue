@@ -64,36 +64,16 @@ export default {
       loading: false,
     }
   },
-  computed: {
-    users() {
-      return this.allUsers.map(user => {
-        return {
-          text: user.nombre,
-          value: user
-        }
-      })
-    },
-    directors(){
-      return this.allDirectors.map(director => {
-        return {
-          text: director.nombre + ' ' + director.apellido1 + ' '+ director.apellido2,
-          value: director
-        }
-      })
-    }
-  },
   created() {
-    this.getUsers()
-    this.getDirectors()
     if (this.$route.params.id) {
       this.loading = true
 
       HTTP.get(`directors/${this.$route.params.id}`)
-      .then(response => this.movie = response.data)
+      .then(response => this.director = response.data)
       .catch(err => this.error = err.message)
       .finally(() => this.loading = false)
     } else {
-      this.movie = {}
+      this.director = {}
     }
   },
   methods: {
