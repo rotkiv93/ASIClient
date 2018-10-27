@@ -9,15 +9,15 @@
           variant="outline-primary">New</b-btn>
       </div> -->
       <div
-        v-for="genre in genres"
+        v-for="genre in orderedGenres"
         :key="genre.id"> 
          <h5>
           <!-- <b-btn
            :to= "{ name: 'GenreUpdate', params:{id : genre.id}}"
            variant = "outline-primary">Edit</b-btn> -->
+        {{genre.nombre}} 
 
         <!-- <router-link :to="{ name: 'GenreDetail', params: { id: genre.id } }"> -->
-        {{genre.nombre}} 
        <!--  </router-link> -->
          </h5>
       </div>
@@ -37,6 +37,11 @@ export default {
       loading: false,
       genres: null,
       error: null
+    }
+  },
+  computed:{
+    orderedGenres(){
+      return this.genres.sort()
     }
   },
   created() {
