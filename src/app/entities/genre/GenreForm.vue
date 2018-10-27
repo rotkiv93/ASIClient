@@ -2,33 +2,32 @@
   <LoadingPage
     :loading="loading"
     :error="error">
+    <div class="margenes">
+      <div class="float-right">
+        <b-btn
+          variant="primary"
+          @click="back()">Back</b-btn>
+        <b-btn
+          variant="primary"
+          @click="save()">Submit</b-btn>
+      </div>
 
-    <div class="float-right">
-      <b-btn
-        variant="primary"
-        @click="back()">Back</b-btn>
-      <b-btn
-        variant="primary"
-        @click="save()">Submit</b-btn>
-    </div>
+      <b-form
+        v-if="genre"
+        class="app-form"
+        @submit="save">
 
-    <b-form
-      v-if="genre"
-      class="app-form"
-      @submit="save">
-
-      <b-form-group
-        label="Nombre:"
-        label-for="nombre">
-        <b-form-input
-          id="nombre"
-          v-model="genre.nombre"
-          type="text"
-          required
-          placeholder="Introduce nombre"/>
-      </b-form-group>
-
-    </b-form>
+        <b-form-group
+          label="Nombre:"
+          label-for="nombre">
+          <b-form-input
+            id="nombre"
+            v-model="genre.nombre"
+            type="text"
+            required
+            placeholder="Introduce nombre"/>
+        </b-form-group>
+    <div class="margenes">
   </LoadingPage>
 </template>
 

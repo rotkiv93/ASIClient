@@ -2,24 +2,25 @@
   <LoadingPage
     :loading="loading"
     :error="error">
+    <div class="margenes">
+      <!-- <div class="float-right" >
+        <b-btn
+          :to="{ name: 'GenreCreate' }"
+          variant="outline-primary">New</b-btn>
+      </div> -->
+      <div
+        v-for="genre in genres"
+        :key="genre.id"> 
+         <h5>
+          <!-- <b-btn
+           :to= "{ name: 'GenreUpdate', params:{id : genre.id}}"
+           variant = "outline-primary">Edit</b-btn> -->
 
-    <!-- <div class="float-right" >
-      <b-btn
-        :to="{ name: 'GenreCreate' }"
-        variant="outline-primary">New</b-btn>
-    </div> -->
-    <div
-      v-for="genre in genres"
-      :key="genre.id"> 
-       <h5>
-        <!-- <b-btn
-         :to= "{ name: 'GenreUpdate', params:{id : genre.id}}"
-         variant = "outline-primary">Edit</b-btn> -->
-
-      <!-- <router-link :to="{ name: 'GenreDetail', params: { id: genre.id } }"> -->
-      {{genre.nombre}} 
-     <!--  </router-link> -->
-       </h5>
+        <!-- <router-link :to="{ name: 'GenreDetail', params: { id: genre.id } }"> -->
+        {{genre.nombre}} 
+       <!--  </router-link> -->
+         </h5>
+      </div>
     </div>
   </LoadingPage>
 </template>

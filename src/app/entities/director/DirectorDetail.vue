@@ -2,21 +2,22 @@
   <LoadingPage
     :loading="loading"
     :error="error">
-
-    <div v-if="director">
-      <div class="float-right">
-        <b-btn
-          variant="primary"
-          @click="back()">Back</b-btn>
-        <b-btn
-          :to="{ name: 'DirectorUpdate', params: { id: director.id }}"
-          variant="primary">Edit</b-btn>
+    <div class="margenes">
+      <div v-if="director">
+        <div class="float-right">
+          <b-btn
+            variant="primary"
+            @click="back()">Back</b-btn>
+          <b-btn
+            :to="{ name: 'DirectorUpdate', params: { id: director.id }}"
+            variant="primary">Edit</b-btn>
+        </div>
+        <h5>Nombre: {{ director.nombre }}</h5>
+        <h5>Primer Apellido: {{ director.apellido1 }}</h5>
+        <h5 v-if="director.apellido2">Segundo Apellido: {{ director.apellido2 }}</h5>
+        <hr>
+        <div class="director">{{ director.body }}</div>
       </div>
-      <h5>Nombre: {{ director.nombre }}</h5>
-      <h5>Primer Apellido: {{ director.apellido1 }}</h5>
-      <h5 v-if="director.apellido2">Segundo Apellido: {{ director.apellido2 }}</h5>
-      <hr>
-      <div class="director">{{ director.body }}</div>
     </div>
   </LoadingPage>
 </template>
