@@ -3,18 +3,24 @@
     :loading="loading"
     :error="error">
 
-    <div class="float-right">
+    <div class="float-left">
       <b-btn
         :to="{ name: 'MovieCreate' }"
-        variant="primary">New</b-btn>
+        variant="dark">New</b-btn>
     </div>
-    <div
-      v-for="movie in movies"
-      :key="movie.id">
-      <router-link :to="{ name: 'MovieDetail', params: { id: movie.id } }">
-        {{ movie.titulo }} 
-      </router-link>
-    </div>
+    <transition-group tag="main" name="card">
+      <article v-for="movie in movies" :key="movie.id" class="card">
+        <div class="image">
+          <img src="https://source.unsplash.com/random/300x300" v-on:load="isLoaded()" v-bind:class="{ active: isActive }">
+        </div>
+        <div class="description">
+          <router-link :to="{ name: 'MovieDetail', params: { id: movie.id } }">
+            <h3 class="titulo"> {{ movie.titulo }} </h3> 
+          </router-link>
+          <p class="release"> {{ movie.fecha_estreno }} </p>
+        </div>
+      </article>
+    </transition-group>
   </LoadingPage>
 </template>
  
@@ -28,7 +34,8 @@ export default {
     return {
       loading: false,
       movies: null,
-      error: null
+      error: null,
+      isActive: false,
     }
   },
   created() {
@@ -38,6 +45,11 @@ export default {
     .then(response => this.movies = response.data)
     .catch(err => this.error = err.response.data)
     .finally(() => this.loading = false)
+  },
+  methods: {
+    isLoaded: function(){
+      this.isActive = true;
+    }
   }
 }
 </script>
