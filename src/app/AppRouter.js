@@ -2,7 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import auth from './common/auth'
 
-import { MovieDetail, MovieForm, MovieList, DirectorForm, DirectorList , DirectorDetail} from './entities'
+import { MovieDetail, MovieForm, MovieList, DirectorForm, DirectorList , DirectorDetail, ActorList, ActorDetail, ActorForm, GenreList} from './entities'
 import { Home, NotFound, Login } from './components'
 
 const routes = [
@@ -16,10 +16,13 @@ const routes = [
   { name: 'DirectorCreate', path: '/directors/new', component: DirectorForm, meta: {authority: 'ADMIN'} },
   { name: 'DirectorUpdate', path: '/directors/:id/edit', component: DirectorForm, meta: {authority: 'ADMIN'} },
   { name: 'DirectorList', path: '/directors', component: DirectorList, meta: {authority: 'ADMIN'} },
+  { name: 'ActorDetail', path: '/actors/:id', component: ActorDetail, meta: {authority: 'ADMIN'} },
+  { name: 'ActorCreate', path: '/actors/new', component: ActorForm, meta: {authority: 'ADMIN'} },
+  { name: 'ActorUpdate', path: '/actors/:id/edit', component: ActorForm, meta: {authority: 'ADMIN'} },
+  { name: 'ActorList', path: '/actors', component: ActorList, meta: {authority: 'ADMIN'} },
+  { name: 'GenreList', path: '/genres', component: GenreList, meta: {authority: 'ADMIN'} },
   { name: 'Login', path: '/login', component: Login, meta: { public: true, isLoginPage: true }},
   { path: '*', component: NotFound, meta: { public: true } }
-
-
 
 ]
 

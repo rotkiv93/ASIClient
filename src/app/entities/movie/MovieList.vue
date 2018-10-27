@@ -9,6 +9,7 @@
         :to="{ name: 'MovieCreate' }"
         variant="dark">New</b-btn>
     </div>
+    
     <transition-group tag="main" name="card">
       <article v-for="movie in movies" :key="movie.id" class="card">
         <div class="image">

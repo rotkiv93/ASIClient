@@ -13,7 +13,7 @@
     </div>
 
     <b-form
-      v-if="director"
+      v-if="actor"
       class="app-form"
       @submit="save">
 
@@ -22,7 +22,7 @@
         label-for="nombre">
         <b-form-input
           id="nombre"
-          v-model="director.nombre"
+          v-model="actor.nombre"
           type="text"
           required
           placeholder="Introduce nombre"/>
@@ -33,7 +33,7 @@
         label-for="apellido1">
         <b-form-input
           id="apellido1"
-          v-model="director.apellido1"
+          v-model="actor.apellido1"
           required
           placeholder="Introduce primer apellido "/>
       </b-form-group>
@@ -43,7 +43,7 @@
         label-for="apellido2">
         <b-form-input
           id="apellido2"
-          v-model="director.apellido2"
+          v-model="actor.apellido2"
           required
           placeholder="Introduce segundo apellido "/>
       </b-form-group>
@@ -59,7 +59,7 @@ export default {
   components: { LoadingPage },
   data() {
     return {
-      director: {},
+      actor: {},
       error: null,
       loading: false,
     }
@@ -68,25 +68,25 @@ export default {
     if (this.$route.params.id) {
       this.loading = true
 
-      HTTP.get(`directors/${this.$route.params.id}`)
-      .then(response => this.director = response.data)
+      HTTP.get(`actors/${this.$route.params.id}`)
+      .then(response => this.actor = response.data)
       .catch(err => this.error = err.message)
       .finally(() => this.loading = false)
     } else {
-      this.director = {}
+      this.actor = {}
     }
   },
   methods: {
     save() {
       if (this.$route.params.id) {
-        HTTP.put(`directors/${this.$route.params.id}`, this.director)
+        HTTP.put(`actors/${this.$route.params.id}`, this.actor)
         .then(response =>
-          this.$router.replace({ name: 'DirectorList', params: { id: response.data.id }}))
+          this.$router.replace({ name: 'ActorList', params: { id: response.data.id }}))
         .catch(err => this.error = err.message)
       } else {
-        HTTP.post('directors', this.director)
+        HTTP.post('actors', this.actor)
         .then(response =>
-          this.$router.replace({ name: 'DirectorList', params: { id: response.data.id }}))
+          this.$router.replace({ name: 'ActorList', params: { id: response.data.id }}))
         .catch(err => this.error = err.message)
       }
     },
