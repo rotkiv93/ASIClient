@@ -7,12 +7,13 @@ import BootstrapVue from 'bootstrap-vue'
 Vue.use(BootstrapVue)
 
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faSearch, faMinusSquare } from '@fortawesome/free-solid-svg-icons'
+import { faSearch, faMinusSquare, faArrowLeft } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import Notifications from 'vue-notification'
 Vue.use(Notifications)
 library.add(faSearch)
 library.add(faMinusSquare)
+library.add(faArrowLeft)
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 
 import App from './app/App'

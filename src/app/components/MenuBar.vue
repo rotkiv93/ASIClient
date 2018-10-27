@@ -6,46 +6,48 @@
     </button>
 
     <div class="collapse navbar-collapse" id="navbarColor02">
-      <ul class="navbar-nav mr-auto">
+        <ul class="navbar-nav mr-auto">
 
-        <li class="nav-item active">
-          <b-navbar-brand to="/"> Home </b-navbar-brand>
-        </li>
+          <li class="nav-item active">
+            <b-navbar-brand to="/"> Home </b-navbar-brand>
+          </li>
 
-        <li class="nav-item">
-          <b-nav-item :to="{ name: 'MovieList' }" exact>Movies</b-nav-item>
-        </li>
+          <li class="nav-item">
+            <b-nav-item :to="{ name: 'MovieList' }" exact>Movies</b-nav-item>
+          </li>
 
-        <li class="nav-item">
-        <b-nav-item :to="{ name: 'DirectorList' }" exact>Directors</b-nav-item>
-        </li>
+          <li class="nav-item">
+          <b-nav-item :to="{ name: 'DirectorList' }" exact>Directors</b-nav-item>
+          </li>
 
-        <li class="nav-item">
-        <b-nav-item :to="{ name: 'ActorList' }" exact>Actors</b-nav-item>
-        </li>
+          <li class="nav-item">
+          <b-nav-item :to="{ name: 'ActorList' }" exact>Actors</b-nav-item>
+          </li>
 
-        <li class="nav-item">
-        <b-nav-item :to="{ name: 'GenreList' }" exact>Genres</b-nav-item>
-        </li>
+          <li class="nav-item">
+          <b-nav-item :to="{ name: 'GenreList' }" exact>Genres</b-nav-item>
+          </li>
 
-      </ul>
+        </ul>
 
-      <form class="form-inline my-2 my-lg-0">
-        <input class="form-control mr-sm-2" type="text" placeholder="Search">
-        <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
-      </form>
-      <b-nav-item-dropdown right>
-        <template slot="button-content">
-          <em>{{ loggedUser }}</em>
-        </template>
-        <template v-if="!isLogged">
-          <b-dropdown-item :to="{ name: 'Login' }" exact>Login</b-dropdown-item>
-        </template>
-        <template v-if="isLogged">
-          <b-dropdown-item href="#">Profile</b-dropdown-item>
-          <b-dropdown-item @click="logout()">Logout</b-dropdown-item>
-        </template>
-      </b-nav-item-dropdown>
+        <form class="form-inline my-2 my-lg-0">
+          <input class="form-control mr-sm-2" type="text" placeholder="Search">
+          <button class="btn btn-secondary my-2 my-sm-0" type="submit">
+             <font-awesome-icon icon="search"/> </button>
+        </form>
+
+        <b-dropdown class="m-2">
+          <template slot="button-content">
+            <em>{{ loggedUser }}</em>
+          </template>
+          <template v-if="!isLogged">
+            <b-dropdown-item :to="{ name: 'Login' }" exact> Login </b-dropdown-item>
+          </template>
+          <template v-if="isLogged">
+            <b-dropdown-item href="#"> Profile </b-dropdown-item>
+            <b-dropdown-item @click="logout()"> Logout </b-dropdown-item>
+          </template>
+        </b-dropdown>
       </b-navbar-nav>
     </div>
   </nav>
@@ -74,3 +76,22 @@ export default {
   }
 }
 </script>
+
+<style scoped lang="scss">
+
+  .slide-fade-enter-active {
+    transition: all .3s ease;
+  }
+  .slide-fade-leave-active {
+    transition: all .2s ease;
+  }
+  .slide-fade-enter { 
+    transform: translateY(-50px);
+    opacity: 0;
+  }
+  .slide-fade-leave-to {
+   transform: translateY(-50px);
+    opacity: 0; 
+  }
+
+</style>

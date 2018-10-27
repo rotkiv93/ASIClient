@@ -20,7 +20,8 @@
           :title="movie.titulo"
           :sub-title="movie.fecha_estreno">
           <div> {{ movie.body }} </div>
-          <b-btn class="button" variant="primary" @click="back()"> Back </b-btn>
+          <b-btn class="button" size=lg @click="back()">
+           <font-awesome-icon icon="arrow-left"/> </b-btn>
         </b-card>
       </div>
     </div>
@@ -95,7 +96,10 @@ export default {
     top: 0%;
     left: 0%;
     overflow: auto;
+    background-color: Transparent;
+    border: none;
+    cursor:pointer;
   }
-  
+
 </style>
 
