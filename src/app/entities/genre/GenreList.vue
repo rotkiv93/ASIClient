@@ -9,7 +9,7 @@
           variant="outline-primary">New</b-btn>
       </div> -->
       <div
-        v-for="genre in orderedGenres"
+        v-for="genre in genres"
         :key="genre.id"> 
          <h5>
           <!-- <b-btn
@@ -37,11 +37,6 @@ export default {
       loading: false,
       genres: null,
       error: null
-    }
-  },
-  computed:{
-    orderedGenres(){
-      return this.genres.sort()
     }
   },
   created() {
