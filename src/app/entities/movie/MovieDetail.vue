@@ -2,7 +2,6 @@
   <LoadingPage
     :loading="loading"
     :error="error">
-
     <div v-if="movie">
         <b-btn
           v-if="isAdmin"
@@ -97,5 +96,6 @@ export default {
     left: 0%;
     overflow: auto;
   }
+  
 </style>
 
