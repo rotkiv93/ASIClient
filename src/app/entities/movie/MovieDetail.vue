@@ -22,20 +22,21 @@
           :to="{ name: 'MovieUpdate', params: { id: movie.id }}"
           variant="primary">Edit</b-btn>
         <b-btn
+          v-if="isAdmin"
           variant="primary"
           @click="eliminateMovie()">Eliminate</b-btn>
       </div>
-      <h3>{{ movie.titulo }}</h3>
-      <h5>Pais: {{ movie.pais }}</h5>
-      <h5>Productora: {{ movie.productora }}</h5>
-      <h5>Duracion: {{ movie.duracion }}</h5>
-      <h5>Genero: {{movie.genero.nombre}}</h5>
-      <h5>Director : {{movie.director.nombre}} {{movie.director.apellido1}} {{movie.director.apellido2}}</h5>
-      <h5>Año de salida: {{ movie.ano_salida }}</h5>
-      <h5>Fecha de estreno: {{ movie.fecha_estreno }}</h5>
-      <h6>Sinopsis: {{ movie.sinopsis }}</h6>
-      <hr>
-      <div class="movie">{{ movie.body }}</div>
+      <div class="movie">
+        <b-card class="detail" overlay
+          img-src="https://source.unsplash.com/random/300x300"
+          img-alt="***"
+          :title="movie.titulo"
+          :sub-title="movie.fecha_estreno">
+          <p class="card-text">
+            {{movie.sinopsis}}
+          </p>
+        </b-card>
+      </div>
     </div>
   </LoadingPage>
 </template>
@@ -102,7 +103,15 @@ export default {
 </script>
 
 <style scoped lang="scss">
+  
   .movie {
-    white-space: pre;
+    display: block;
+    margin: auto;
+    overflow: auto;
+    width: 50%;
+    height: 100%;
+  }
+  .detail{
+
   }
 </style>
