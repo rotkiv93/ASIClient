@@ -6,15 +6,17 @@
       position="top center"/>
     <MenuBar/>
     <router-view class="content"/>
+    <Footer/>
   </div>
 </template>
 
 <script>
 import MenuBar from './components/MenuBar'
+import Footer from './components/Footer'
 
 export default {
   name: 'App',
-  components: { MenuBar },
+  components: { MenuBar, Footer },
   data() {
     return {
       // enlazamos el objeto donde vamos a guardar los datos de autenticación

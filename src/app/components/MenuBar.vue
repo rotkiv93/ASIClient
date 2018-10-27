@@ -26,17 +26,18 @@
         <input class="form-control mr-sm-2" type="text" placeholder="Search">
         <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
       </form>
-      <b-nav-item
-          v-if="!isLogged"
-          :to="{ name: 'Login' }"
-          exact>Login</b-nav-item>
-        <b-nav-item
-          v-if="isLogged"
-          @click="logout()">Logout</b-nav-item>
-      </b-navbar-nav>
-
-      <b-navbar-nav class="ml-auto">
-        <b-nav-item>{{ loggedUser }}</b-nav-item>
+      <b-nav-item-dropdown right>
+        <template slot="button-content">
+          <em>{{ loggedUser }}</em>
+        </template>
+        <template v-if="!isLogged">
+          <b-dropdown-item :to="{ name: 'Login' }" exact>Login</b-dropdown-item>
+        </template>
+        <template v-if="isLogged">
+          <b-dropdown-item href="#">Profile</b-dropdown-item>
+          <b-dropdown-item @click="logout()">Logout</b-dropdown-item>
+        </template>
+      </b-nav-item-dropdown>
       </b-navbar-nav>
     </div>
   </nav>
@@ -54,7 +55,7 @@ export default {
       return auth.user.logged
     },
     loggedUser() {
-      return auth.user.logged ? `${auth.user.login} (${auth.user.authority})` : 'not logged'
+      return auth.user.logged ? `${auth.user.login} (${auth.user.authority})` : 'User'
     }
   },
   methods: {
