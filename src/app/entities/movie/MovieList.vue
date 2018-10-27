@@ -5,6 +5,7 @@
 
     <div class="float-left">
       <b-btn
+        v-if="isAdmin"
         :to="{ name: 'MovieCreate' }"
         variant="dark">New</b-btn>
     </div>
@@ -36,6 +37,11 @@ export default {
       movies: null,
       error: null,
       isActive: false,
+    }
+  },
+  computed: {
+    isAdmin() {
+      return auth.isAdmin()
     }
   },
   created() {

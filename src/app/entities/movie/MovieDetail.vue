@@ -9,6 +9,7 @@
           variant="primary"
           @click="back()">Back</b-btn>
         <b-btn
+          v-if="isAdmin"
           :to="{ name: 'MovieUpdate', params: { id: movie.id }}"
           variant="primary">Edit</b-btn>
         <b-btn
@@ -33,6 +34,7 @@
 <script>
 import { HTTP } from '../../common/http-common'
 import LoadingPage from '../../components/LoadingPage'
+import auth from '../../common/auth'
 
 export default {
   components: { LoadingPage },
@@ -41,6 +43,11 @@ export default {
       loading: false,
       movie: null,
       error: null
+    }
+  },
+  computed: {
+    isAdmin() {
+      return auth.isAdmin()
     }
   },
   watch: {

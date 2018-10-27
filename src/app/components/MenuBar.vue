@@ -15,24 +15,52 @@
         </li>
         <li class="nav-item">
         <b-nav-item :to="{ name: 'DirectorList' }" exact>Directors</b-nav-item>
+
         </li>
         <li class="nav-item">
           <a class="nav-link" href="#">Actores</a>
         </li>
       </ul>
+
       <form class="form-inline my-2 my-lg-0">
         <input class="form-control mr-sm-2" type="text" placeholder="Search">
         <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
       </form>
+      <b-nav-item
+          v-if="!isLogged"
+          :to="{ name: 'Login' }"
+          exact>Login</b-nav-item>
+        <b-nav-item
+          v-if="isLogged"
+          @click="logout()">Logout</b-nav-item>
+      </b-navbar-nav>
+
+      <b-navbar-nav class="ml-auto">
+        <b-nav-item>{{ loggedUser }}</b-nav-item>
+      </b-navbar-nav>
     </div>
   </nav>
 </template>
 
 <script>
+import auth from '../common/auth'
+
 export default {
   computed: {
     entitiesActive: function () {
       return [ 'MovieCreate', 'MovieList', 'DirectorList'].indexOf(this.$route.name) != -1
+    },
+     isLogged() {
+      return auth.user.logged
+    },
+    loggedUser() {
+      return auth.user.logged ? `${auth.user.login} (${auth.user.authority})` : 'not logged'
+    }
+  },
+  methods: {
+    logout() {
+      auth.logout()
+      this.$router.push({ name: 'Home' })
     }
   }
 }

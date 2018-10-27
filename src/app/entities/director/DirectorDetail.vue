@@ -11,13 +11,10 @@
         <b-btn
           :to="{ name: 'DirectorUpdate', params: { id: director.id }}"
           variant="primary">Edit</b-btn>
-        <b-btn
-          variant="primary"
-          @click="eliminateDirector()">Eliminate</b-btn>
       </div>
-      <h3>Nombre; {{ director.nombre }}</h3>
+      <h5>Nombre: {{ director.nombre }}</h5>
       <h5>Primer Apellido: {{ director.apellido1 }}</h5>
-      <h5>Segundo Apellido {{ director.apellido2 }}</h5>
+      <h5 v-if="director.apellido2">Segundo Apellido: {{ director.apellido2 }}</h5>
       <hr>
       <div class="director">{{ director.body }}</div>
     </div>
@@ -45,7 +42,7 @@ export default {
   },
   methods: {
     fetchData() {
-      this.error = this.director = null
+      this.error = this.director != null
       this.loading = true
 
       HTTP.get(`directors/${this.$route.params.id}`)
@@ -55,12 +52,6 @@ export default {
     },
     back() {
       this.$router.go(-1)
-    },
-    eliminateDirector(){
-      HTTP.delete(`directors/${this.$route.params.id}`, {params: { id: this.director.id }})
-       .then(response =>
-          this.$router.replace({ name: 'DirectorList', params: { id: response.data }}))
-       .catch(err => this.error = err.message)
     }
   }
 }
