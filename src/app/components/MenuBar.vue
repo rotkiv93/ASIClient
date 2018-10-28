@@ -7,19 +7,27 @@
 
     <div class="collapse navbar-collapse" id="navbarColor02">
       <ul class="navbar-nav mr-auto">
+
         <li class="nav-item active">
           <b-navbar-brand to="/"> Home </b-navbar-brand>
         </li>
+
         <li class="nav-item">
           <b-nav-item :to="{ name: 'MovieList' }" exact>Movies</b-nav-item>
         </li>
+
         <li class="nav-item">
         <b-nav-item :to="{ name: 'DirectorList' }" exact>Directors</b-nav-item>
+        </li>
 
-        </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Actores</a>
+        <b-nav-item :to="{ name: 'ActorList' }" exact>Actors</b-nav-item>
         </li>
+
+        <li class="nav-item">
+        <b-nav-item :to="{ name: 'GenreList' }" exact>Genres</b-nav-item>
+        </li>
+
       </ul>
 
       <form class="form-inline my-2 my-lg-0">
@@ -48,7 +56,7 @@ import auth from '../common/auth'
 export default {
   computed: {
     entitiesActive: function () {
-      return [ 'MovieCreate', 'MovieList', 'DirectorList'].indexOf(this.$route.name) != -1
+      return [ 'MovieCreate', 'MovieList', 'DirectorList', 'ActorList'].indexOf(this.$route.name) != -1
     },
      isLogged() {
       return auth.user.logged

@@ -3,20 +3,20 @@
     :loading="loading"
     :error="error">
     <div class="margenes">
-      <div v-if="director">
+      <div v-if="genre">
         <div class="float-right">
           <b-btn
             variant="primary"
             @click="back()">Back</b-btn>
           <b-btn
-            :to="{ name: 'DirectorUpdate', params: { id: director.id }}"
+            :to="{ name: 'GenreUpdate', params: { id: genre.id }}"
             variant="primary">Edit</b-btn>
         </div>
-        <h5>Nombre: {{ director.nombre }}</h5>
-        <h5>Primer Apellido: {{ director.apellido1 }}</h5>
-        <h5 v-if="director.apellido2">Segundo Apellido: {{ director.apellido2 }}</h5>
+        <h5>Nombre: {{ genre.nombre }}</h5>
+        <h5>Primer Apellido: {{ genre.apellido1 }}</h5>
+        <h5 v-if="genre.apellido2">Segundo Apellido: {{ genre.apellido2 }}</h5>
         <hr>
-        <div class="director">{{ director.body }}</div>
+        <div class="genre">{{ genre.body }}</div>
       </div>
     </div>
   </LoadingPage>
@@ -31,7 +31,7 @@ export default {
   data() {
     return {
       loading: false,
-      director: null,
+      genre: null,
       error: null
     }
   },
@@ -43,11 +43,11 @@ export default {
   },
   methods: {
     fetchData() {
-      this.error = this.director != null
+      this.error = this.genre != null
       this.loading = true
 
-      HTTP.get(`directors/${this.$route.params.id}`)
-      .then(response => this.director = response.data)
+      HTTP.get(`genres/${this.$route.params.id}`)
+      .then(response => this.genre = response.data)
       .catch(err => this.error = err.message)
       .finally(() => this.loading = false)
     },

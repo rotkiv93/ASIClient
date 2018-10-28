@@ -3,23 +3,22 @@
     :loading="loading"
     :error="error">
     <div class="margenes">
-      <div class="float-right" >
+      <!-- <div class="float-right" >
         <b-btn
-          :to="{ name: 'DirectorCreate' }"
+          :to="{ name: 'GenreCreate' }"
           variant="outline-primary">New</b-btn>
-      </div>
+      </div> -->
       <div
-        v-for="director in directors"
-        :key="director.id">
-        </button> 
-         <h5>  
-          <b-btn
-           :to= "{ name: 'DirectorUpdate', params:{id : director.id}}"
-           variant = "outline-primary">Edit</b-btn>
+        v-for="genre in genres"
+        :key="genre.id"> 
+         <h5>
+          <!-- <b-btn
+           :to= "{ name: 'GenreUpdate', params:{id : genre.id}}"
+           variant = "outline-primary">Edit</b-btn> -->
 
-         <router-link :to="{ name: 'DirectorDetail', params: { id: director.id } }">
-        {{director.nombre}} {{director.apellido1}} {{director.apellido2}}
-        </router-link>
+        <!-- <router-link :to="{ name: 'GenreDetail', params: { id: genre.id } }"> -->
+        {{genre.nombre}} 
+       <!--  </router-link> -->
          </h5>
       </div>
     </div>
@@ -36,15 +35,15 @@ export default {
   data() {
     return {
       loading: false,
-      directors: null,
+      genres: null,
       error: null
     }
   },
   created() {
     this.loading = true
 
-    HTTP.get('directors')
-    .then(response => this.directors = response.data)
+    HTTP.get('genre')
+    .then(response => this.genres = response.data)
     .catch(err => this.error = err.response.data)
     .finally(() => this.loading = false)
   }

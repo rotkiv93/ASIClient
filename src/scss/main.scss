@@ -25,6 +25,10 @@ body {
     --grid-items: auto-fill;
 }
 
+.margenes {
+	margin: 0 7%;
+}
+
 #app main {
     display: grid;
     grid-template-columns: repeat(var(--grid-items), minmax(var(--grid-min), 1fr));
