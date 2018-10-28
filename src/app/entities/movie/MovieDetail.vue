@@ -2,32 +2,8 @@
   <LoadingPage
     :loading="loading"
     :error="error">
-    <div class="margenes">
-      <div v-if="movie">
-        <div class="float-right">
-          <div class="float-left">
-         <b-form-select
-            id="puntuacion "
-            :options="puntuation"
-            v-model="selected"
-            placeholder="Puntúa la película"
-            @click="updatePunt()"
-            required/>
-          </div>
-          <b-btn
-            variant="primary"
-            @click="back()">Back</b-btn>
-          <b-btn
-            v-if="isAdmin"
-            :to="{ name: 'MovieUpdate', params: { id: movie.id }}"
-            variant="primary">Edit</b-btn>
-          <b-btn
-            variant="primary"
-            @click="eliminateMovie()">Eliminate</b-btn>
-        </div>
-        <b-btn
-          variant="primary"
-          @click="back()">Back</b-btn>
+
+    <div v-if="movie">
         <b-btn
           v-if="isAdmin"
           :to="{ name: 'MovieUpdate', params: { id: movie.id }}"
@@ -38,14 +14,14 @@
           @click="eliminateMovie()">Eliminate</b-btn>
       </div>
       <div class="movie">
-        <b-card class="detail" overlay
+        <b-card class="movie"
           img-src="https://source.unsplash.com/random/300x300"
           img-alt="***"
+          img-top
           :title="movie.titulo"
           :sub-title="movie.fecha_estreno">
-          <p class="card-text">
-            {{movie.sinopsis}}
-          </p>
+          <div> {{ movie.body }} </div>
+          <b-btn class="button" variant="primary" @click="back()"> Back </b-btn>
         </b-card>
       </div>
     </div>
@@ -114,15 +90,12 @@ export default {
 </script>
 
 <style scoped lang="scss">
-  
-  .movie {
-    display: block;
-    margin: auto;
-    overflow: auto;
-    width: 50%;
-    height: 100%;
-  }
-  .detail{
 
+  .button{
+    position: absolute;
+    top: 0%;
+    left: 0%;
+    overflow: auto;
   }
 </style>
+

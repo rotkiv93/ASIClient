@@ -105,6 +105,18 @@ body {
     }
 }
 
+  .movie {
+    display: block;
+    margin: auto;
+    overflow: auto;
+    width: 50%;
+    height: 100%;
+  }
+  
+  .detail{
+
+  }
+  
 // ANIMATIONS
 @keyframes mouseOver {
     0% {
