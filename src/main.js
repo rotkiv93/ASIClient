@@ -6,6 +6,10 @@ Vue.use(VueRouter)
 import BootstrapVue from 'bootstrap-vue'
 Vue.use(BootstrapVue)
 
+import moment from 'moment'
+import VueMoment from 'vue-moment'
+Vue.use(VueMoment, moment)
+
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faSearch, faMinusSquare, faArrowLeft } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'

@@ -18,7 +18,7 @@
           img-alt="***"
           img-top
           :title="movie.titulo"
-          :sub-title="movie.fecha_estreno">
+          :sub-title="movie.fecha_estreno | moment('LL')">
           <div> {{ movie.body }} </div>
           <b-btn class="button" size=lg @click="back()">
            <font-awesome-icon icon="arrow-left"/> </b-btn>
