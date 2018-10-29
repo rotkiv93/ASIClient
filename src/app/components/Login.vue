@@ -34,6 +34,13 @@
         </div>
         <div class="reg_mar">
           <h2>Why register?</h2>
+            <ul style="list-style-type:disc; margin-top:6%; font-size:130%">
+              <li>Diario de tus películas y series vistas</li>
+              <li>Una red social de cine con tus amigos</li>
+              <li>Poco mas que decir</li>
+            </ul>
+            <button class="btn btn-primary my-2 my-sm-0" type="submit">
+      <font-awesome-icon icon="button"/> Registrate! </button>
         </div>
     </form>
   </div>
