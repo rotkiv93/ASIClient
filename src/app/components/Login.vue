@@ -6,35 +6,35 @@
         class="error">
         <pre>{{ error }}</pre>
       </div>
-      <div class = "login_mar">
-        <h2>Sign in</h2>
-        <div class="form-group">
-          <label for="username">Username</label>
-          <input
-            id="username"
-            v-model="username"
-            name="username"
-            type="text"
-            class="form-control"
-            required>
+        <div class = "login_mar">
+          <h2>Sign in</h2>
+          <div class="form-group">
+            <label for="username">Username</label>
+            <input
+              id="username"
+              v-model="username"
+              name="username"
+              type="text"
+              class="form-control"
+              required>
+          </div>
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input
+              id="password"
+              v-model="password"
+              type="password"
+              class="form-control"
+              name="password"
+              required>
+          </div>
+          <button
+            type="submit"
+            class="btn btn-primary">Log In</button>
         </div>
-        <div class="form-group">
-          <label for="password">Password</label>
-          <input
-            id="password"
-            v-model="password"
-            type="password"
-            class="form-control"
-            name="password"
-            required>
+        <div class="reg_mar">
+          <h2>Why register?</h2>
         </div>
-        <button
-          type="submit"
-          class="btn btn-primary">Log In</button>
-      </div>
-      <div class="reg_mar"; float:right>
-        <h2>Why register?</h2>
-      </div>
     </form>
   </div>
 </template>
