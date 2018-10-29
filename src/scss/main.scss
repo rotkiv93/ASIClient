@@ -29,6 +29,20 @@ body {
 	margin: 0 7%;
 }
 
+.log_marg{
+	margin: 10% 0 0 5%
+}
+
+.reg_mar{
+	width: 80%;
+	float:right;
+}
+
+.login_mar{
+	width: 20%;
+	float:left;
+}
+
 #app main {
     display: grid;
     grid-template-columns: repeat(var(--grid-items), minmax(var(--grid-min), 1fr));
