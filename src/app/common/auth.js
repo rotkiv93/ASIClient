@@ -61,7 +61,8 @@ function isAdmin() {
   return store.user.authority == 'ADMIN'
 }
 
-function isUser() {
+/*function isUser() {
   return store.user.authority == 'USER'
-}
+}*/
+
 export default store
