@@ -13,6 +13,7 @@
 <script>
 import MenuBar from './components/MenuBar'
 import Footer from './components/Footer'
+import auth from './common/auth'
 
 export default {
   name: 'App',
@@ -28,7 +29,7 @@ export default {
   created() {
     // nada más ejecutar la aplicación comprobamos si estamos autenticados
     if (auth.getToken()) {
-      auth.authenticate()
+      auth.authenticate().catch(() => auth.logout())
     }
   }
 }
