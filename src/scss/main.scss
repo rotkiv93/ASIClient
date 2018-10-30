@@ -26,7 +26,7 @@ body {
 }
 
 .margenes {
-	margin: 0 7%;
+	margin: 2% 7%;
 }
 
 .log_marg{
@@ -45,6 +45,10 @@ body {
 	float: left;
   	width: 45%;
  }
+
+.multiselect_actores{
+	background-color:green;
+}
 
 #app main {
     display: grid;

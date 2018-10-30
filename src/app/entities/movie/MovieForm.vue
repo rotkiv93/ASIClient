@@ -110,6 +110,31 @@
             required
             placeholder="Introduce sinopsis"/>
         </b-form-group>
+
+        <b-form-group
+          <label> Actores: </label>
+          <multiselect 
+            class =multiselect_actores 
+            v-model="movie.actores" 
+            :options="allActors" 
+            :multiple="true" 
+            :close-on-select="false" 
+            :clear-on-select="false" 
+            :preserve-search="true" 
+            placeholder="Pick some" 
+            label="nombre" 
+            track-by="nombre"
+            :preselect-first="true"
+            :custom-label="customLabel">
+          <template slot="selection" slot-scope="{ values, search, isOpen }"><span class="multiselect__single" v-if="movie.actores.length &amp;&amp; !isOpen">{{ values.length }} options selected</span></template>
+          </multiselect>
+          <ul style= ""> Actores que has seleccionado:
+            <li v-for="actor in movie.actores">
+              {{ actor.nombre }} {{ actor.apellido1 }} {{ actor.apellido2 }}
+            </li>
+          </ul>
+        </b-form-group>
+      
       </b-form>
     </div>
   </LoadingPage>
@@ -119,15 +144,17 @@
 import { HTTP } from '../../common/http-common'
 import LoadingPage from '../../components/LoadingPage'
 import auth from '../../common/auth'
+import Multiselect from 'vue-multiselect'
 
 export default {
-  components: { LoadingPage },
+  components: { LoadingPage,  Multiselect},
   data() {
     return {
       movie: {},
       error: null,
       loading: false,
       allGenres: [],
+      allActors: [],
       allDirectors: []
     }
   },
@@ -152,6 +179,7 @@ export default {
   created() {
     this.getUsers()
     this.getDirectors()
+    this.getActors()
     if (this.$route.params.id) {
       this.loading = true
 
@@ -173,6 +201,14 @@ export default {
       HTTP.get('directors')
       .then(response => this.allDirectors = response.data)
       .catch(err => this.error = err.message)     
+    },
+    customLabel(actor){
+      return `${actor.nombre} - ${actor.apellido1}`
+    },
+    getActors(){
+       HTTP.get('actors')
+      .then(response => this.allActors = response.data)
+      .catch(err => this.error = err.message)
     },
     save() {
       if (this.$route.params.id) {

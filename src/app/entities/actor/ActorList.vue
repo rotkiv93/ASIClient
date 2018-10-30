@@ -9,7 +9,7 @@
         variant="outline-primary">New</b-btn>
     </div>
 
-    <div
+    <div class = "margenes"
       v-for="actor in actors"
       :key="actor.id">
       </button> 
