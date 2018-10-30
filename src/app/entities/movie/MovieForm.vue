@@ -110,31 +110,29 @@
             required
             placeholder="Introduce sinopsis"/>
         </b-form-group>
-
+    
         <b-form-group
-          <label> Actores: </label>
-          <multiselect 
+          label = "Actores:"
+          label-for="actores">
+          <multiselect
             class =multiselect_actores 
             v-model="movie.actores" 
             :options="allActors" 
             :multiple="true" 
             :close-on-select="false" 
             :clear-on-select="false" 
-            :preserve-search="true" 
-            placeholder="Pick some" 
-            label="nombre" 
+            :preserve-search="true"
+            placeholder="Pick some actors" 
+            label="nombre"
             track-by="nombre"
-            :preselect-first="true"
-            :custom-label="customLabel">
-          <template slot="selection" slot-scope="{ values, search, isOpen }"><span class="multiselect__single" v-if="movie.actores.length &amp;&amp; !isOpen">{{ values.length }} options selected</span></template>
+            :preselect-first="false">
           </multiselect>
-          <ul style= ""> Actores que has seleccionado:
-            <li v-for="actor in movie.actores">
+          <ul style= "margin:1%;"> Actores que has seleccionado:
+            <li style= "margin: 0 2%" v-for="actor in movie.actores">
               {{ actor.nombre }} {{ actor.apellido1 }} {{ actor.apellido2 }}
             </li>
           </ul>
         </b-form-group>
-      
       </b-form>
     </div>
   </LoadingPage>
@@ -202,9 +200,6 @@ export default {
       .then(response => this.allDirectors = response.data)
       .catch(err => this.error = err.message)     
     },
-    customLabel(actor){
-      return `${actor.nombre} - ${actor.apellido1}`
-    },
     getActors(){
        HTTP.get('actors')
       .then(response => this.allActors = response.data)
@@ -230,5 +225,8 @@ export default {
 }
 </script>
 
-<style scoped lang="scss">
+<style lang="sass" src="vue-multiselect/dist/vue-multiselect.min.css"></style>
+<style lang="scss">
+
+
 </style>

@@ -46,10 +46,6 @@ body {
   	width: 45%;
  }
 
-.multiselect_actores{
-	background-color:green;
-}
-
 #app main {
     display: grid;
     grid-template-columns: repeat(var(--grid-items), minmax(var(--grid-min), 1fr));
