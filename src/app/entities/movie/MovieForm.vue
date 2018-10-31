@@ -28,7 +28,7 @@
             placeholder="Introduce titulo"/>
         </b-form-group>
 
-         <b-form-group
+         <b-form-group class="form-group"
           label="Pais:"
           label-for="pais">
           <b-form-input
