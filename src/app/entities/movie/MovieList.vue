@@ -53,9 +53,11 @@ export default {
       return auth.isAdmin()
     },
     searchMovie: function(){
-      return this.movies.filter((movie) => {
-        return movie.titulo.toLowerCase().match(this.search.toLowerCase());
-      });
+      if (this.movies !=null){
+        return this.movies.filter((movie) => {
+          return movie.titulo.toLowerCase().match(this.search.toLowerCase());
+        });
+      }
     }
   },
   created() {
