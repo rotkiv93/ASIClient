@@ -7,16 +7,16 @@
       <div class="float-right" >
         <b-btn
           :to="{ name: 'ActorCreate' }"
-          variant="outline-primary">New</b-btn>
+          variant="outline-success">New</b-btn>
       </div>
 
-      <div 
+      <div
         v-for="actor in actors"
         :key="actor.id">
          <h5>  
           <b-btn
            :to= "{ name: 'ActorUpdate', params:{id : actor.id}}"
-           variant = "outline-primary">Edit</b-btn>
+           variant = "outline-success">Edit</b-btn>
            <router-link :to="{ name: 'ActorDetail', params: { id: actor.id } }">
             {{actor.nombre}} {{actor.apellido1}} {{actor.apellido2}}
            </router-link>

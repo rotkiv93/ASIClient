@@ -3,13 +3,16 @@
     :loading="loading"
     :error="error">
     <div class="margenes">
-      <div class="float-right">
-        <b-btn
-          variant="primary"
+        <b-btn style="float left;"
+          variant="success"
           @click="back()">Back</b-btn>
-        <b-btn
-          variant="primary"
+        <b-btn style="float left;"
+          variant="success"
           @click="save()">Submit</b-btn>
+
+      <div class="float-right">
+          <p style="margin:1%;">Ocultar</p>
+          <toggle-button v-model="movie.oculta"/>
       </div>
 
       <b-form
@@ -131,7 +134,7 @@
             required
             placeholder="Introduce sinopsis"/>
         </b-form-group>
-    
+
       </b-form>
     </div>
   </LoadingPage>
