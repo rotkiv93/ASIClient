@@ -2,26 +2,28 @@
   <LoadingPage
     :loading="loading"
     :error="error">
-    
-    <div class="float-right" >
-      <b-btn
-        :to="{ name: 'ActorCreate' }"
-        variant="outline-primary">New</b-btn>
-    </div>
 
-    <div class = "margenes"
-      v-for="actor in actors"
-      :key="actor.id">
-      </button> 
-       <h5>  
+    <div class="margenes">
+      <div class="float-right" >
         <b-btn
-         :to= "{ name: 'ActorUpdate', params:{id : actor.id}}"
-         variant = "outline-primary">Edit</b-btn>
-       <router-link :to="{ name: 'ActorDetail', params: { id: actor.id } }">
-      {{actor.nombre}} {{actor.apellido1}} {{actor.apellido2}}
-      </router-link>
-       </h5>
+          :to="{ name: 'ActorCreate' }"
+          variant="outline-primary">New</b-btn>
+      </div>
+
+      <div 
+        v-for="actor in actors"
+        :key="actor.id">
+         <h5>  
+          <b-btn
+           :to= "{ name: 'ActorUpdate', params:{id : actor.id}}"
+           variant = "outline-primary">Edit</b-btn>
+           <router-link :to="{ name: 'ActorDetail', params: { id: actor.id } }">
+            {{actor.nombre}} {{actor.apellido1}} {{actor.apellido2}}
+           </router-link>
+         </h5>
+      </div>
     </div>
+    
   </LoadingPage>
 </template>
 
