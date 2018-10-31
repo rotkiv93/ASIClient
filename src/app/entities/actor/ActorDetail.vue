@@ -42,7 +42,7 @@ export default {
   },
   methods: {
     fetchData() {
-      this.error = this.actor != null
+      this.error = this.actor = null
       this.loading = true
 
       HTTP.get(`actors/${this.$route.params.id}`)

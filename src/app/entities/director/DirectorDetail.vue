@@ -43,7 +43,7 @@ export default {
   },
   methods: {
     fetchData() {
-      this.error = this.director != null
+      this.error = this.director = null
       this.loading = true
 
       HTTP.get(`directors/${this.$route.params.id}`)

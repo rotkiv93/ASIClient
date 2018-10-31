@@ -11,7 +11,6 @@
           v-if="isAdmin"
           variant="primary"
           @click="eliminateMovie()">Eliminate</b-btn>
-      </div>
       <div class="movie">
         <b-card class="movie"
           img-src="https://source.unsplash.com/random/300x300"
@@ -23,6 +22,7 @@
           <b-btn class="button" size=lg @click="back()">
            <font-awesome-icon icon="arrow-left"/> </b-btn>
         </b-card>
+      </div>
       </div>
     </div>
   </LoadingPage>
