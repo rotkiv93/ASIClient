@@ -1,8 +1,6 @@
 <template>
-  <LoadingPage
-    :loading="loading"
-    :error="error">
     <div class="margenes">
+
       <div class="float-right">
         <b-btn
           variant="primary"
@@ -50,22 +48,20 @@
             required
             placeholder="Introduce e-mail"/>
         </b-form-group>
+      </b-form>
 
-    <div class="margenes">
-  </LoadingPage>
+    </div>
 </template>
 
 <script>
-import { HTTP } from '../../common/http-common'
-import LoadingPage from '../../components/LoadingPage'
+import { HTTP } from '../common/http-common'
 
 export default {
-  components: { LoadingPage },
   data() {
     return {
-      user: null,
+      user: {},
       error: null,
-      loading: false,
+      loading: false
     }
   },
   
@@ -75,11 +71,11 @@ export default {
         .then(response =>
           this.$router.replace({ name: 'Login', params: { id: response.data.id }}))
         .catch(err => this.error = err.message)
-      }
-    },
+      },
+   
     back() {
       this.$router.go(-1)
     }
   }
-
+}
 </script>

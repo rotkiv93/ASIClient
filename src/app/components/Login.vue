@@ -40,7 +40,7 @@
               <li>Poco mas que decir</li>
             </ul>
               <b-btn
-              :to= "{ name: 'Register', params:{}}"
+              :to= "{ name: 'Register'}"
               variant = "outline-success">Register</b-btn>
         </div>
     </form>
