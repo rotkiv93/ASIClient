@@ -33,7 +33,7 @@
           <b-form-input
             id="password"
             v-model="user.password"
-            type="text"
+            type="password"
             required
             placeholder="Introduce password"/>
         </b-form-group>
