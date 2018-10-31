@@ -110,12 +110,12 @@
             required
             placeholder="Introduce sinopsis"/>
         </b-form-group>
-  
+    
         <b-form-group
           label = "Actores:"
           label-for="actores">
           <multiselect
-            class = "multiselect_actores" 
+            class =multiselect_actores 
             v-model="movie.actores" 
             :options="allActors" 
             :multiple="true" 
@@ -132,7 +132,6 @@
               {{ actor.nombre }} {{ actor.apellido1 }} {{ actor.apellido2 }}
             </li>
           </ul>
-          <link rel="stylesheet" href="https://unpkg.com/vue-multiselect@2.1.0/dist/vue-multiselect.min.css">
         </b-form-group>
       </b-form>
     </div>
@@ -226,4 +225,8 @@ export default {
 }
 </script>
 
+<style lang="sass" src="vue-multiselect/dist/vue-multiselect.min.css"></style>
+<style lang="scss">
 
+
+</style>
