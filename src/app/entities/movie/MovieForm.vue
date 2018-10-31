@@ -58,16 +58,6 @@
             placeholder="Introduce duracion "/>
         </b-form-group>
 
-         <b-form-group
-          label="Genero:"
-          label-for="genero">
-          <b-form-select
-            id="genero"
-            :options="genres"
-            v-model="movie.genero"
-            required/>
-        </b-form-group>
-
         <b-form-group
           label="Director:"
           label-for="director">
@@ -75,6 +65,37 @@
             id="director"
             :options="directors"
             v-model="movie.director"
+            required/>
+        </b-form-group>
+
+        <b-form-group
+          label = "Actores:"
+          label-for="actores">
+          <multiselect
+            class =multiselect_actores 
+            v-model="movie.actores" 
+            :options="allActors" 
+            :multiple="true" 
+            :close-on-select="false" 
+            :clear-on-select="false" 
+            :preserve-search="true"
+            :custom-label="customLabel"
+            :show-labels="false"
+            placeholder="Pick some actors" 
+            label="nombre"
+            track-by="nombre"
+            :preselect-first="false">
+          </multiselect>
+          <link rel="stylesheet" href="https://unpkg.com/vue-multiselect@2.1.0/dist/vue-multiselect.min.css">
+        </b-form-group>
+
+         <b-form-group
+          label="Genero:"
+          label-for="genero">
+          <b-form-select
+            id="genero"
+            :options="genres"
+            v-model="movie.genero"
             required/>
         </b-form-group>
 
@@ -111,28 +132,6 @@
             placeholder="Introduce sinopsis"/>
         </b-form-group>
     
-        <b-form-group
-          label = "Actores:"
-          label-for="actores">
-          <multiselect
-            class =multiselect_actores 
-            v-model="movie.actores" 
-            :options="allActors" 
-            :multiple="true" 
-            :close-on-select="false" 
-            :clear-on-select="false" 
-            :preserve-search="true"
-            placeholder="Pick some actors" 
-            label="nombre"
-            track-by="nombre"
-            :preselect-first="false">
-          </multiselect>
-          <ul style= "margin:1%;"> Actores que has seleccionado:
-            <li style= "margin: 0 2%" v-for="actor in movie.actores">
-              {{ actor.nombre }} {{ actor.apellido1 }} {{ actor.apellido2 }}
-            </li>
-          </ul>
-        </b-form-group>
       </b-form>
     </div>
   </LoadingPage>
@@ -190,6 +189,15 @@ export default {
     }
   },
   methods: {
+    customLabel(actor){
+      if (actor.apellido2 != null){
+        return `${actor.nombre} ${actor.apellido1} ${actor.apellido2}`;
+      } else if (actor.apellido1 !=null) {
+        return `${actor.nombre} ${actor.apellido1}`;
+      } else {
+        return `${actor.nombre}`;
+      }
+    },
     getUsers() {
       HTTP.get('genre')
       .then(response => this.allGenres = response.data)
