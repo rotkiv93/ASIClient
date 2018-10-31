@@ -68,23 +68,12 @@ export default {
       loading: false,
     }
   },
-  created() {
-    if (this.$route.params.id) {
-      this.loading = true
-
-      HTTP.get(`users/${this.$route.params.id}`)
-      .then(response => this.user = response.data)
-      .catch(err => this.error = err.message)
-      .finally(() => this.loading = false)
-    } else {
-      this.user = {}
-    }
-  },
+  
   methods: {
     save() {
         HTTP.post('users', this.user)
         .then(response =>
-          this.$router.replace({ name: 'UserList', params: { id: response.data.id }}))
+          this.$router.replace({ name: 'Login', params: { id: response.data.id }}))
         .catch(err => this.error = err.message)
       }
     },
@@ -92,5 +81,5 @@ export default {
       this.$router.go(-1)
     }
   }
-}
+
 </script>

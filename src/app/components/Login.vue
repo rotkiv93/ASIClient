@@ -39,8 +39,9 @@
               <li>Una red social de cine con tus amigos</li>
               <li>Poco mas que decir</li>
             </ul>
-            <button class="btn btn-primary my-2 my-sm-0" type="submit">
-      <font-awesome-icon icon="button"/> Registrate! </button>
+              <b-btn
+              :to= "{ name: 'Register', params:{}}"
+              variant = "outline-success">Register</b-btn>
         </div>
     </form>
   </div>

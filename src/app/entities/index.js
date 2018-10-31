@@ -9,4 +9,6 @@ import ActorForm from './actor/ActorForm'
 import ActorDetail from './actor/ActorDetail'
 import GenreList from './genre/GenreList'
 
+
 export { MovieDetail, MovieForm, MovieList, DirectorList, DirectorForm, DirectorDetail, ActorList, ActorForm, ActorDetail, GenreList }
+ 
