@@ -3,19 +3,29 @@
     :loading="loading"
     :error="error">
 
-    <form class="form-inline my-2 my-lg-0">
-      <input class="form-control mr-sm-2" type="text" v-model="search" placeholder="Search movies">
-      <button class="btn btn-secondary my-2 my-sm-0" type="submit">
-      <font-awesome-icon icon="search"/> </button>
-    </form>
-
     <div class="float-left">
       <b-btn
         v-if="isAdmin"
         :to="{ name: 'MovieCreate' }"
         variant="dark">New</b-btn>
     </div>
-    
+
+    <nav class="nav">
+      <b-button-group>
+        <b-button v-on:click="filter = ''" :class="{ active: filter == '' }"> Viewed </b-button>
+        <b-button v-on:click="filter = ''" :class="{ active: filter == '' }"> Pending </b-button>
+      </b-button-group>
+
+      <form class="form-inline my-2 my-lg-0">
+        <input class="form-control mr-sm-2" type="text" v-model="filter" placeholder="Search movies">
+        <button class="btn btn-secondary my-2 my-sm-0" type="submit">
+        <font-awesome-icon icon="search"/> </button>
+      </form>
+    </nav>
+
+    <menu>
+    </menu>
+
     <transition-group tag="main" name="card">
       <article v-for="movie in searchMovie" :key="movie.id" class="card">
         <div class="image">
@@ -45,19 +55,25 @@ export default {
       movies: null,
       error: null,
       isActive: false,
-      search: ''
+      search: '',
+      filter: ''
     }
   },
   computed: {
     isAdmin() {
       return auth.isAdmin()
     },
+    filter: function(){
+      return this.filter;
+    },
     searchMovie: function(){
-      if (this.movies !=null){
-        return this.movies.filter((movie) => {
-          return movie.titulo.toLowerCase().match(this.search.toLowerCase());
-        });
-      }
+      return this.movies.filter((movie) => movie.titulo.toLowerCase().match(this.filter.toLowerCase()));
+    },
+    filterViewed: function(){
+      return this.movies.filter((movie) => movie.estado == 'Vista')
+    },
+    filterPending: function(){
+      return this.movies.filter((movie) => movie.estado == 'Pendiente')
     }
   },
   created() {
@@ -72,6 +88,26 @@ export default {
     isLoaded: function(){
       this.isActive = true;
     }
-  }
+  },
 }
 </script>
+
+<style scoped lang="scss">
+
+.controls{
+  display: flex; 
+}
+
+.nav{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  white-space: nowrap;
+  margin: 0 1rem;
+  padding: 2rem 0.5rem 1rem;
+  border-bottom: 1px solid #c5d0d1;
+}
+
+
+
+</style>
