@@ -17,7 +17,7 @@
       </b-button-group>
 
       <form class="form-inline my-2 my-lg-0">
-        <input class="form-control mr-sm-2" type="text" v-model="filter" placeholder="Search movies">
+        <input class="form-control mr-sm-2" type="text" v-model="searh" placeholder="Search movies">
         <button class="btn btn-secondary my-2 my-sm-0" type="submit">
         <font-awesome-icon icon="search"/> </button>
       </form>
@@ -67,13 +67,10 @@ export default {
       return this.filter;
     },
     searchMovie: function(){
-      return this.movies.filter((movie) => movie.titulo.toLowerCase().match(this.filter.toLowerCase()));
+      return this.movies.filter((movie) => movie.titulo.toLowerCase().match(this.search.toLowerCase()));
     },
-    filterViewed: function(){
-      return this.movies.filter((movie) => movie.estado == 'Vista')
-    },
-    filterPending: function(){
-      return this.movies.filter((movie) => movie.estado == 'Pendiente')
+    filterViewedPending: function(){
+      return this.movies.filter((movie) => movie.estado.toLowerCase().match(this.filter.toLowerCase()));
     }
   },
   created() {
