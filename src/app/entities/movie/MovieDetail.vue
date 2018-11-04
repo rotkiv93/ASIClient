@@ -11,18 +11,26 @@
           v-if="isAdmin"
           variant="primary"
           @click="eliminateMovie()">Eliminate</b-btn>
-      <div class="movie">
-        <b-card class="movie"
-          img-src="https://source.unsplash.com/random/300x300"
-          img-alt="***"
-          img-top
-          :title="movie.titulo"
-          :sub-title="movie.fecha_estreno | moment('LL')">
-          <div> {{ movie.body }} </div>
-          <b-btn class="button" size=lg @click="back()">
-           <font-awesome-icon icon="arrow-left"/> </b-btn>
-        </b-card>
-      </div>
+      <div>
+      <div class="container">
+        <div class="card flex-row flex-wrap">
+          <div class="card header">
+            <img class="movie-image" src="https://source.unsplash.com/random/300x300" alt="***" />
+          </div>
+          <div class="card-block px-2">
+            <h1 class="card-title"> {{ movie.titulo }} ( {{movie.ano_salida}} ) </h1>
+            <h4 class="subtitle">
+              <p class="subtitle-tag"> {{  movie.fecha_estreno | moment('LL') }} | </p>
+              <p class="subtitle-tag"> {{ movie.duracion }} | </p>
+              <p class="subtitle-tag"> {{ movie.genero.nombre }} |</p>
+              <p class="subtitle-tag"> {{ movie.productora }} | </p> 
+              <p class="subtitle-tag"> {{ movie.pais }} </p>
+            </h4>
+            <p class="description"> {{ movie.sinopsis }}</p>
+            <b-btn class="button" size=lg @click="back()">
+             <font-awesome-icon icon="arrow-left"/> </b-btn>
+          </div>
+        </div>
       </div>
     </div>
   </LoadingPage>
@@ -90,6 +98,38 @@ export default {
 </script>
 
 <style scoped lang="scss">
+
+  $text: #777;
+
+  .card{
+    background: #2B2A34;
+  }
+
+  .movie-image{
+  }
+
+  .card-title{
+    font-size: 45px;
+    font-weight: 600;
+    color: white;
+  }
+
+  .subtitle{
+    font-size: 15px;
+    font-weight: 600;
+    color: red;
+  }
+
+  .subtitle-tag{
+    display: inline;
+  }
+
+  .description{
+    font-size: 15px;
+    margin-bottom: 24px;
+    max-width: 450px;
+    color: white;
+  }
 
   .button{
     position: absolute;
