@@ -12,6 +12,7 @@ const store = {
   logout,
   getToken,
   isAdmin,
+  getLogin,
   authenticate
 }
 
@@ -61,6 +62,9 @@ function isAdmin() {
   return store.user.authority == 'ADMIN'
 }
 
+function getLogin(){
+  return store.user.login
+}
 /*function isUser() {
   return store.user.authority == 'USER'
 }*/

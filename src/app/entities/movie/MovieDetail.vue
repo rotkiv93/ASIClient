@@ -25,15 +25,19 @@
               <p class="subtitle-tag"> {{ movie.genero.nombre }} |</p>
               <p class="subtitle-tag"> {{ movie.productora }} | </p> 
               <p class="subtitle-tag"> {{ movie.pais }} </p>
+              
             </h4>
             <p class="description"> {{ movie.sinopsis }}</p>
+            <p class="description"> {{ movieUser.estado }} </p>
+            
 
             <b-btn class="button" size=lg @click="back()">
              <font-awesome-icon icon="arrow-left"/> 
             </b-btn>
 
-            <b-btn class="viewed-button" @click="">
+            <b-btn class="viewed-button" @click="markAsSeen()">
               Viewed <font-awesome-icon icon="plus-square"/> 
+
             </a>
           </div>
         </div>
@@ -53,7 +57,7 @@ export default {
     return {
       loading: false,
       movie: null,
-      movieuser: null,
+      movieUser: {},
       error: null,
       selected: null,
       puntuation: [{ value: null, text: 'Rate this movie' },
@@ -79,19 +83,36 @@ export default {
   },
   created() {
     this.fetchData()
+    this.fetchMovieUser()
   },
   methods: {
     fetchData() {
-      this.error = this.movie = null
+      this.error = this.movie = this.movieUser = null
       this.loading = true
 
       HTTP.get(`movies/${this.$route.params.id}`)
       .then(response => this.movie = response.data)
       .catch(err => this.error = err.message)
       .finally(() => this.loading = false)
+      },
+    fetchMovieUser(){
+       HTTP.get(`movieusers`, {params:{movieID: this.$route.params.id, userLogin: auth.getLogin()}})
+      .then(response => this.movieUser = response.data)
+      .catch(err => this.error = err.message)
     },
     back() {
       this.$router.go(-1)
+    },
+    markAsSeen(){
+      if (this.movieUser.estado == "Pendiente"){
+        this.movieUser.estado = "Vista"
+      }
+      else{
+        this.movieUser.estado = "Pendiente"
+      }
+
+      HTTP.put(`movieusers/${this.movieUser.id}`, this.movieUser)
+      .catch(err => this.error = err.message)
     },
     eliminateMovie(){
       HTTP.delete(`movies/${this.$route.params.id}`, {params: { id: this.movie.id }})
