@@ -27,8 +27,14 @@
               <p class="subtitle-tag"> {{ movie.pais }} </p>
             </h4>
             <p class="description"> {{ movie.sinopsis }}</p>
+
             <b-btn class="button" size=lg @click="back()">
-             <font-awesome-icon icon="arrow-left"/> </b-btn>
+             <font-awesome-icon icon="arrow-left"/> 
+            </b-btn>
+
+            <b-btn class="viewed-button" @click="">
+              Viewed <font-awesome-icon icon="plus-square"/> 
+            </a>
           </div>
         </div>
       </div>
@@ -129,6 +135,13 @@ export default {
     margin-bottom: 24px;
     max-width: 450px;
     color: white;
+  }
+
+  .viewed-button{
+    padding-left: 10px;
+    padding-top: 2px;
+    background-color: Transparent;
+    border: none;
   }
 
   .button{

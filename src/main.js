@@ -11,7 +11,7 @@ import VueMoment from 'vue-moment'
 Vue.use(VueMoment, moment)
 
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faSearch, faMinusSquare, faArrowLeft } from '@fortawesome/free-solid-svg-icons'
+import { faSearch, faMinusSquare, faArrowLeft, faPlusSquare } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import Notifications from 'vue-notification'
 import ToggleButton from 'vue-js-toggle-button'
@@ -21,6 +21,7 @@ Vue.use(Notifications)
 library.add(faSearch)
 library.add(faMinusSquare)
 library.add(faArrowLeft)
+library.add(faPlusSquare)
 Vue.use(ToggleButton)
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 
