@@ -20,7 +20,7 @@
           <div class="card-block px-2">
             <h1 class="card-title"> {{ movie.titulo }} ( {{movie.ano_salida}} ) </h1>
             <h4 class="subtitle">
-              <p class="subtitle-tag"> {{  movie.fecha_estreno | moment('LL') }} | </p>
+              <p class="subtitle-tag"> {{ movie.fecha_estreno | moment('LL') }} | </p>
               <p class="subtitle-tag"> {{ movie.duracion }} | </p>
               <p class="subtitle-tag"> {{ movie.genero.nombre }} |</p>
               <p class="subtitle-tag"> {{ movie.productora }} | </p> 
@@ -29,30 +29,37 @@
             </h4>
             <p class="description"> {{ movie.sinopsis }}</p>
 
+            <div v-if="movieUser">
+
+            <b-button-group v-model="movieUser.estado" @change="updateMovieUser()">
+              <b-button :class="[{ 'hide': movieUser.estado == 'Pendiente' }]" @click="addToViewed()">
+                <span :class="[{ 'hide': movieUser.estado != 'Vista' }]"> Add to </span>
+                <span :class="[{ 'hide': movieUser.estado == 'Vista' }]"> Remove from </span>
+                Viewed <font-awesome-icon icon="plus-square"/> 
+              </b-button>
+
+              <b-button :class="[{ 'hide': movieUser.estado == 'Vista' }]" @click="addToPending()">
+                <span :class="[{ 'hide': movieUser.estado != 'Pendiente' }]"> Add to </span>
+                <span :class="[{ 'hide': movieUser.estado == 'Pendiente' }]"> Remove from </span>
+                Pending <font-awesome-icon icon="plus-square"/> 
+              </b-button>
+            </b-button-group>
+
+              <star-rating v-if="movieUser.estado == 'Vista'" v-model="movieUser.valoracion"
+                @rating-selected ="updateMovieUser()"
+                :star-size="25"
+                v-bind:show-rating="false"
+                :padding= 1.5>
+              </star-rating>
+
+            </div>
             <div>
-              <select v-if="movieUser" v-model="movieUser.estado" @change="updateMovieUser()">
-                 <option v-for="option in estado" v-bind:value="option.value">
-                {{ option.text }}
-                </option>
-              </select>
-
-              <star-rating v-if='movieUser' v-model="movieUser.valoracion"
-               @rating-selected ="updateMovieUser()"
-               star-size=25
-               v-bind:show-rating="false"
-               padding= 1.5>
-               </star-rating>
-
-              <b-btn v-if="!movieUser"
-              variant="success"
-              @click="post()">Empieza a votar!</b-btn>
+              <b-btn v-if="!movieUser" variant="success" @click="post()"> Empieza a votar! </b-btn>
 
               <b-btn class="button" size=lg @click="back()">
-               <font-awesome-icon icon="arrow-left"/> 
+                <font-awesome-icon icon="arrow-left"/> 
               </b-btn>
             </div>
-            
-            </a>
           </div>
         </div>
       </div>
@@ -75,24 +82,25 @@ export default {
       selected: null,
       movie: {},
       user:{},
-      puntuation: [{ value: null, text: 'Rate this movie' },
-                  { value: 1, text: '1' },
-                  { value: 2, text: '2' },
-                  { value: 3, text: '3' },
-                  { value: 4, text: '4' },
-                  { value: 5, text: '5' },
-                  { value: 6, text: '6' },
-                  { value: 7, text: '7' },
-                  { value: 8, text: '8' },
-                  { value: 9, text: '9' },
-                  { value: 10, text: '10' }],
-      estado: [{value: 'Vista', text: 'Vista'},
-              {value: 'Pendiente', text: 'Pendiente'}]
     }
   },
   computed: {
     isAdmin() {
       return auth.isAdmin()
+    },
+    addToViewed() {
+      if (this.movieUser.estado == 'Vista') {
+        return this.movieUser.estado =  '';
+      }
+      else
+        return this.movieUser.estado = 'Vista';
+    },
+    addToPending() {
+      if (this.movieUser.estado == 'Pendiente'){
+        return this.movieUser.estado = '';
+      }
+      else
+        return this.movieUser.estado = 'Pendiente';
     }
   },
   watch: {
@@ -126,7 +134,7 @@ export default {
       this.$router.go(-1)
     },
     updateMovieUser(){
-      if(this.movieUser != null){
+      if(this.movieUser != null && this.movieUser.estado != ''){
         HTTP.put(`movieusers/${this.movieUser.id}`, this.movieUser)
         .then(response => console.log(response))
         .catch(err => this.error = err.message)
@@ -207,6 +215,18 @@ export default {
     background-color: Transparent;
     border: none;
   }
+
+  .hide{
+    display: none;
+  }
+
+  /* .viewed-shadow {
+    box-shadow: 0 0 50px 15px rgba(251, 255, 15, 0.25);
+  }
+
+  .pending-shadow {
+    box-shadow: 0 0 50px 15px rgba(251, 255, 15, 0.25);
+  } */
 
   .button{
     position: absolute;

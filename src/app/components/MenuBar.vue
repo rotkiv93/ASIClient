@@ -12,17 +12,19 @@
             <b-nav-item :to="{ name: 'MovieList' }" exact>Movies</b-nav-item>
           </li>
 
-          <li class="nav-item">
-          <b-nav-item :to="{ name: 'DirectorList' }" exact>Directors</b-nav-item>
-          </li>
+          <template v-if="isAdmin">
+            <li class="nav-item">
+            <b-nav-item :to="{ name: 'DirectorList' }" exact>Directors</b-nav-item>
+            </li>
 
-          <li class="nav-item">
-          <b-nav-item :to="{ name: 'ActorList' }" exact>Actors</b-nav-item>
-          </li>
+            <li class="nav-item">
+            <b-nav-item :to="{ name: 'ActorList' }" exact>Actors</b-nav-item>
+            </li>
 
-          <li class="nav-item">
-          <b-nav-item :to="{ name: 'GenreList' }" exact>Genres</b-nav-item>
-          </li>
+            <li class="nav-item">
+            <b-nav-item :to="{ name: 'GenreList' }" exact>Genres</b-nav-item>
+            </li>
+          </template>
 
         </ul>
 
@@ -56,6 +58,9 @@ export default {
     },
     loggedUser() {
       return auth.user.logged ? `${auth.user.login} (${auth.user.authority})` : 'User'
+    },
+    isAdmin() {
+      return auth.isAdmin()
     }
   },
   methods: {
