@@ -156,8 +156,8 @@ export default {
           this.$router.replace({ name: 'Login'})
         }
     },
-    imagen(){
-            theMovieDb.search.getMovie({"query":encodeURI(this.movie.titulo)}, this.successCB, this.errorCB)
+    imagen(titulo){
+            theMovieDb.search.getMovie({"query":encodeURI(titulo)}, this.successCB, this.errorCB)
     },
     getUsuario(){
         if(auth.getLogin() != ''){
@@ -168,6 +168,7 @@ export default {
     getPelicula(){
         HTTP.get(`movies/${this.$route.params.id}`)
         .then(response => this.movie = response.data)
+        .then(response => this.imagen(response.titulo))
     },
     eliminateMovie(){
       HTTP.delete(`movies/${this.$route.params.id}`, {params: { id: this.movie.id }})
