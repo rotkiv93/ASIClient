@@ -28,15 +28,27 @@
               
             </h4>
             <p class="description"> {{ movie.sinopsis }}</p>
-            <p class="description"> {{ movieUser.estado }} </p>
-            
+
+
+            <select v-if="movieUser" v-model="movieUser.estado" @change="updateMovieUser()">
+               <option v-for="option in estado" v-bind:value="option.value">
+              {{ option.text }}
+              </option>
+            </select>
+
+            <select v-if='movieUser' v-model="movieUser.valoracion" @change="updateMovieUser()">
+               <option v-for="option in puntuation" v-bind:value="option.value">
+              {{ option.text }}
+              </option>
+            </select>
+
+            <b-btn v-if="!movieUser"
+            variant="success"
+            @click="post()">Empieza a votar!</b-btn>
 
             <b-btn class="button" size=lg @click="back()">
              <font-awesome-icon icon="arrow-left"/> 
             </b-btn>
-
-            <b-btn class="viewed-button" @click="markAsSeen()">
-              Viewed <font-awesome-icon icon="plus-square"/> 
 
             </a>
           </div>
@@ -56,10 +68,11 @@ export default {
   data() {
     return {
       loading: false,
-      movie: null,
       movieUser: {},
       error: null,
       selected: null,
+      movie: {},
+      user:{},
       puntuation: [{ value: null, text: 'Rate this movie' },
                   { value: 1, text: '1' },
                   { value: 2, text: '2' },
@@ -70,7 +83,10 @@ export default {
                   { value: 7, text: '7' },
                   { value: 8, text: '8' },
                   { value: 9, text: '9' },
-                  { value: 10, text: '10' }  ]
+                  { value: 10, text: '10' }],
+      estado: [{value: null , text: 'Elige una opción'},
+              {value: 'Vista', text: 'Vista'},
+              {value: 'Pendiente', text: 'Pendiente'}]
     }
   },
   computed: {
@@ -84,6 +100,8 @@ export default {
   created() {
     this.fetchData()
     this.fetchMovieUser()
+    this.getUsuario()
+    this.getPelicula()
   },
   methods: {
     fetchData() {
@@ -99,20 +117,36 @@ export default {
        HTTP.get(`movieusers`, {params:{movieID: this.$route.params.id, userLogin: auth.getLogin()}})
       .then(response => this.movieUser = response.data)
       .catch(err => this.error = err.message)
+      if(this.movieUser) this.movieUser = {};
     },
     back() {
       this.$router.go(-1)
     },
-    markAsSeen(){
-      if (this.movieUser.estado == "Pendiente"){
-        this.movieUser.estado = "Vista"
+    updateMovieUser(){
+      if(this.movieUser != null){
+        HTTP.put(`movieusers/${this.movieUser.id}`, this.movieUser)
+        .then(response => console.log(response))
+        .catch(err => this.error = err.message)
       }
-      else{
-        this.movieUser.estado = "Pendiente"
-      }
+    },
+    post(){
+        this.movieUser = {}
+        this.movieUser.usuario = this.user
+        this.movieUser.pelicula = this.movie
+        this.movieUser.estado = 'Vista'
+        
+        HTTP.post(`movieusers`, this.movieUser)
+        .then(response => this.movieUser = response.data)
+        .catch(err => this.error = err.message)
 
-      HTTP.put(`movieusers/${this.movieUser.id}`, this.movieUser)
-      .catch(err => this.error = err.message)
+      },
+    getUsuario(){
+        HTTP.get(`users`, {params: {login: auth.getLogin()}})
+        .then(response => this.user = response.data)
+    },
+    getPelicula(){
+        HTTP.get(`movies/${this.$route.params.id}`)
+        .then(response => this.movie = response.data)
     },
     eliminateMovie(){
       HTTP.delete(`movies/${this.$route.params.id}`, {params: { id: this.movie.id }})
