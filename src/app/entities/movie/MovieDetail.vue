@@ -98,16 +98,15 @@ export default {
     '$route': 'fetchData'
   },
   created() {
-    this.fetchData()
-    this.fetchMovieUser()
-    this.getUsuario()
-    this.getPelicula()
-
     theMovieDb.common.api_key = "31cde0355b497e2024b6dcd18cc0347d";
     theMovieDb.common.base_uri = "https://api.themoviedb.org/3/";
     theMovieDb.common.images_uri = "https://image.tmdb.org/t/p/";
     theMovieDb.common.timeout = 2000;
 
+    this.getPelicula()
+    this.fetchData()
+    this.fetchMovieUser()
+    this.getUsuario()
     //theMovieDb.movies.getImages({"id": 550}, this.successCB, this.errorCB)
   },
   methods: {
@@ -144,23 +143,22 @@ export default {
       }
     },
     post(){
-        if(auth.getLogin() != ''){
-          this.movieUser = {}
-          this.movieUser.usuario = this.user
-          this.movieUser.pelicula = this.movie
-          this.movieUser.estado = 'Vista'
+      if(auth.getLogin() != ''){
+        this.movieUser = {}
+        this.movieUser.usuario = this.user
+        this.movieUser.pelicula = this.movie
+        this.movieUser.estado = 'Vista'
 
-          HTTP.post(`movieusers`, this.movieUser)
-          .then(response => this.movieUser = response.data)
-          .catch(err => this.error = err.message)
+        HTTP.post(`movieusers`, this.movieUser)
+        .then(response => this.movieUser = response.data)
+        .catch(err => this.error = err.message)
         } else{
-            this.$router.replace({ name: 'Login'})
+          this.$router.replace({ name: 'Login'})
         }
-
-      },
-      imagen(){
+    },
+    imagen(){
             theMovieDb.search.getMovie({"query":encodeURI(this.movie.titulo)}, this.successCB, this.errorCB)
-      },
+    },
     getUsuario(){
         if(auth.getLogin() != ''){
           HTTP.get(`users`, {params: {login: auth.getLogin()}})
