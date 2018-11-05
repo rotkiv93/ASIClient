@@ -11,11 +11,11 @@
           v-if="isAdmin"
           variant="primary"
           @click="eliminateMovie()">Eliminate</b-btn>
-      <div>
+
       <div class="container">
         <div class="card flex-row flex-wrap">
           <div class="card header">
-            <img class="movie-image" src="https://source.unsplash.com/random/300x300" alt="***" />
+            <b-img class="movie-image" thumbnail v-bind:src="ruta" alt="https://source.unsplash.com/random/300x300" />
           </div>
           <div class="card-block px-2">
             <h1 class="card-title"> {{ movie.titulo }} ( {{movie.ano_salida}} ) </h1>
@@ -30,31 +30,27 @@
             <p class="description"> {{ movie.sinopsis }}</p>
 
             <div v-if="movieUser">
+              <div>
+                <select v-if="movieUser" v-model="movieUser.estado" @change="updateMovieUser()">
+                   <option v-for="option in estado" v-bind:value="option.value">
+                  {{ option.text }}
+                  </option>
+                </select>
 
-            <b-button-group v-model="movieUser.estado" @change="updateMovieUser()">
-              <b-button :class="[{ 'hide': movieUser.estado == 'Pendiente' }]" @click="addToViewed()">
-                <span :class="[{ 'hide': movieUser.estado != 'Vista' }]"> Add to </span>
-                <span :class="[{ 'hide': movieUser.estado == 'Vista' }]"> Remove from </span>
-                Viewed <font-awesome-icon icon="plus-square"/> 
-              </b-button>
-
-              <b-button :class="[{ 'hide': movieUser.estado == 'Vista' }]" @click="addToPending()">
-                <span :class="[{ 'hide': movieUser.estado != 'Pendiente' }]"> Add to </span>
-                <span :class="[{ 'hide': movieUser.estado == 'Pendiente' }]"> Remove from </span>
-                Pending <font-awesome-icon icon="plus-square"/> 
-              </b-button>
-            </b-button-group>
-
-              <star-rating v-if="movieUser.estado == 'Vista'" v-model="movieUser.valoracion"
-                @rating-selected ="updateMovieUser()"
-                :star-size="25"
-                v-bind:show-rating="false"
-                :padding= 1.5>
-              </star-rating>
-
+                <star-rating v-if='movieUser' v-model="movieUser.valoracion"
+                 @rating-selected ="updateMovieUser()"
+                 v-bind:star-size=25
+                 v-bind:show-rating="false"
+                 v-bind:padding= 1.5>
+                 </star-rating>
+              </div>
             </div>
             <div>
               <b-btn v-if="!movieUser" variant="success" @click="post()"> Empieza a votar! </b-btn>
+
+               <b-btn
+              variant="success"
+              @click="imagen">pon imagen!</b-btn>
 
               <b-btn class="button" size=lg @click="back()">
                 <font-awesome-icon icon="arrow-left"/> 
@@ -71,6 +67,7 @@
 import { HTTP } from '../../common/http-common'
 import LoadingPage from '../../components/LoadingPage'
 import auth from '../../common/auth'
+import theMovieDb from 'themoviedb-javascript-library'
 
 export default {
   components: { LoadingPage },
@@ -81,26 +78,20 @@ export default {
       error: null,
       selected: null,
       movie: {},
+      ruta: null,
       user:{},
+      estado: [{value: 'Vista', text: 'Vista'},
+              {value: 'Pendiente', text: 'Pendiente'}],
+      
+      api_key: "31cde0355b497e2024b6dcd18cc0347d",
+      base_uri: "http://api.themoviedb.org/3/",
+      images_uri: "http://image.tmdb.org/t/p/",
+      timeout: 2000
     }
   },
   computed: {
     isAdmin() {
       return auth.isAdmin()
-    },
-    addToViewed() {
-      if (this.movieUser.estado == 'Vista') {
-        return this.movieUser.estado =  '';
-      }
-      else
-        return this.movieUser.estado = 'Vista';
-    },
-    addToPending() {
-      if (this.movieUser.estado == 'Pendiente'){
-        return this.movieUser.estado = '';
-      }
-      else
-        return this.movieUser.estado = 'Pendiente';
     }
   },
   watch: {
@@ -111,6 +102,13 @@ export default {
     this.fetchMovieUser()
     this.getUsuario()
     this.getPelicula()
+
+    theMovieDb.common.api_key = "31cde0355b497e2024b6dcd18cc0347d";
+    theMovieDb.common.base_uri = "https://api.themoviedb.org/3/";
+    theMovieDb.common.images_uri = "https://image.tmdb.org/t/p/";
+    theMovieDb.common.timeout = 2000;
+
+    //theMovieDb.movies.getImages({"id": 550}, this.successCB, this.errorCB)
   },
   methods: {
     fetchData() {
@@ -136,8 +134,13 @@ export default {
     updateMovieUser(){
       if(this.movieUser != null && this.movieUser.estado != ''){
         HTTP.put(`movieusers/${this.movieUser.id}`, this.movieUser)
-        .then(response => console.log(response))
         .catch(err => this.error = err.message)
+      } else {
+        if (this.movieUser.estado != ''){
+          //aqui hacer un delete
+          console.log("de momento no hacer nada");
+          this.movieUser.estado = 'Vista'
+        }
       }
     },
     post(){
@@ -155,6 +158,9 @@ export default {
         }
 
       },
+      imagen(){
+            theMovieDb.search.getMovie({"query":encodeURI(this.movie.titulo)}, this.successCB, this.errorCB)
+      },
     getUsuario(){
         if(auth.getLogin() != ''){
           HTTP.get(`users`, {params: {login: auth.getLogin()}})
@@ -171,6 +177,14 @@ export default {
           this.$router.replace({ name: 'MovieList', params: { id: response.data }}))
        .catch(err => this.error = err.message)
     },
+     successCB: function (data) {
+      var json = JSON.parse(data);
+      console.log("Success callback: https://image.tmdb.org/t/p/w500/" + json.results[0].poster_path);
+      this.ruta = " https://image.tmdb.org/t/p/w300/" + json.results[0].backdrop_path;
+    },  
+      errorCB: function (data) {
+      console.log("Error callback: " + data);
+    }
   }
 }
 </script>
