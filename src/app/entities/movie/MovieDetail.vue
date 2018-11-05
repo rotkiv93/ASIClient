@@ -29,27 +29,28 @@
             </h4>
             <p class="description"> {{ movie.sinopsis }}</p>
 
+            <div>
+              <select v-if="movieUser" v-model="movieUser.estado" @change="updateMovieUser()">
+                 <option v-for="option in estado" v-bind:value="option.value">
+                {{ option.text }}
+                </option>
+              </select>
 
-            <select v-if="movieUser" v-model="movieUser.estado" @change="updateMovieUser()">
-               <option v-for="option in estado" v-bind:value="option.value">
-              {{ option.text }}
-              </option>
-            </select>
+              <select v-if='movieUser' v-model="movieUser.valoracion" @change="updateMovieUser()">
+                 <option v-for="option in puntuation" v-bind:value="option.value">
+                {{ option.text }}
+                </option>
+              </select>
 
-            <select v-if='movieUser' v-model="movieUser.valoracion" @change="updateMovieUser()">
-               <option v-for="option in puntuation" v-bind:value="option.value">
-              {{ option.text }}
-              </option>
-            </select>
+              <b-btn v-if="!movieUser"
+              variant="success"
+              @click="post()">Empieza a votar!</b-btn>
 
-            <b-btn v-if="!movieUser"
-            variant="success"
-            @click="post()">Empieza a votar!</b-btn>
-
-            <b-btn class="button" size=lg @click="back()">
-             <font-awesome-icon icon="arrow-left"/> 
-            </b-btn>
-
+              <b-btn class="button" size=lg @click="back()">
+               <font-awesome-icon icon="arrow-left"/> 
+              </b-btn>
+            </div>
+            
             </a>
           </div>
         </div>
@@ -84,8 +85,7 @@ export default {
                   { value: 8, text: '8' },
                   { value: 9, text: '9' },
                   { value: 10, text: '10' }],
-      estado: [{value: null , text: 'Elige una opción'},
-              {value: 'Vista', text: 'Vista'},
+      estado: [{value: 'Vista', text: 'Vista'},
               {value: 'Pendiente', text: 'Pendiente'}]
     }
   },
