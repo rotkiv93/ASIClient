@@ -39,6 +39,7 @@
               <star-rating v-if='movieUser' v-model="movieUser.valoracion"
                @rating-selected ="updateMovieUser()"
                star-size=25
+               v-bind:show-rating="false"
                padding= 1.5>
                </star-rating>
 
