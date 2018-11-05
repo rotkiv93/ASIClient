@@ -48,10 +48,6 @@
             <div>
               <b-btn v-if="!movieUser" variant="success" @click="post()"> Empieza a votar! </b-btn>
 
-               <b-btn
-              variant="success"
-              @click="imagen">pon imagen!</b-btn>
-
               <b-btn class="button" size=lg @click="back()">
                 <font-awesome-icon icon="arrow-left"/> 
               </b-btn>
