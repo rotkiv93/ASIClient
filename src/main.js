@@ -15,6 +15,7 @@ import { faSearch, faMinusSquare, faArrowLeft, faPlusSquare } from '@fortawesome
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import Notifications from 'vue-notification'
 import ToggleButton from 'vue-js-toggle-button'
+import StarRating from 'vue-star-rating'
 
 
 Vue.use(Notifications)
@@ -24,6 +25,7 @@ library.add(faArrowLeft)
 library.add(faPlusSquare)
 Vue.use(ToggleButton)
 Vue.component('font-awesome-icon', FontAwesomeIcon)
+Vue.component('star-rating', StarRating);
 
 import App from './app/App'
 import router from './app/AppRouter'

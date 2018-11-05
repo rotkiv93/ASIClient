@@ -36,11 +36,11 @@
                 </option>
               </select>
 
-              <select v-if='movieUser' v-model="movieUser.valoracion" @change="updateMovieUser()">
-                 <option v-for="option in puntuation" v-bind:value="option.value">
-                {{ option.text }}
-                </option>
-              </select>
+              <star-rating v-if='movieUser' v-model="movieUser.valoracion"
+               @rating-selected ="updateMovieUser()"
+               star-size=25
+               padding= 1.5>
+               </star-rating>
 
               <b-btn v-if="!movieUser"
               variant="success"
