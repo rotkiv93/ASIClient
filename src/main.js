@@ -25,7 +25,7 @@ library.add(faArrowLeft)
 library.add(faPlusSquare)
 Vue.use(ToggleButton)
 Vue.component('font-awesome-icon', FontAwesomeIcon)
-Vue.component('star-rating', StarRating);
+Vue.component('star-rating', StarRating)
 
 import App from './app/App'
 import router from './app/AppRouter'
