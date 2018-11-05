@@ -114,9 +114,11 @@ export default {
       .finally(() => this.loading = false)
       },
     fetchMovieUser(){
-       HTTP.get(`movieusers`, {params:{movieID: this.$route.params.id, userLogin: auth.getLogin()}})
-      .then(response => this.movieUser = response.data)
-      .catch(err => this.error = err.message)
+       if(auth.getLogin() != ''){
+         HTTP.get(`movieusers`, {params:{movieID: this.$route.params.id, userLogin: auth.getLogin()}})
+        .then(response => this.movieUser = response.data)
+        .catch(err => this.error = err.message)
+      }
       if(this.movieUser) this.movieUser = {};
     },
     back() {
@@ -130,19 +132,25 @@ export default {
       }
     },
     post(){
-        this.movieUser = {}
-        this.movieUser.usuario = this.user
-        this.movieUser.pelicula = this.movie
-        this.movieUser.estado = 'Vista'
-        
-        HTTP.post(`movieusers`, this.movieUser)
-        .then(response => this.movieUser = response.data)
-        .catch(err => this.error = err.message)
+        if(auth.getLogin() != ''){
+          this.movieUser = {}
+          this.movieUser.usuario = this.user
+          this.movieUser.pelicula = this.movie
+          this.movieUser.estado = 'Vista'
+
+          HTTP.post(`movieusers`, this.movieUser)
+          .then(response => this.movieUser = response.data)
+          .catch(err => this.error = err.message)
+        } else{
+            this.$router.replace({ name: 'Login'})
+        }
 
       },
     getUsuario(){
-        HTTP.get(`users`, {params: {login: auth.getLogin()}})
-        .then(response => this.user = response.data)
+        if(auth.getLogin() != ''){
+          HTTP.get(`users`, {params: {login: auth.getLogin()}})
+          .then(response => this.user = response.data)
+        }
     },
     getPelicula(){
         HTTP.get(`movies/${this.$route.params.id}`)
