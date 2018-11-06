@@ -15,7 +15,7 @@
       <div class="container">
         <div class="card flex-row flex-wrap">
           <div class="card header">
-            <b-img class="movie-image" thumbnail v-bind:src="ruta" alt="***" />
+            <b-img class="movie-image" thumbnail v-bind:src="movie.ruta" alt="***" />
           </div>
           <div class="card-block px-2">
             <h1 class="card-title"> {{ movie.titulo }} ({{movie.ano_salida}}) </h1>
