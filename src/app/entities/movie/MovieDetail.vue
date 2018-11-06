@@ -128,8 +128,10 @@ export default {
       } else {
         if (this.movieUser.estado == null){
           HTTP.delete(`movieusers/${this.movieUser.id}`, {params: { id: this.movieUser.id }})
+          .then(response =>
+              this.$router.replace({ name: 'MovieList'}))
           .catch(err => this.error = err.message);
-          this.movieUser= {}
+          
         }
       }
     },
