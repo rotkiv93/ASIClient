@@ -2,14 +2,15 @@
   <LoadingPage
     :loading="loading"
     :error="error">
-
-    <div class="margenes">
+    <nav class="nav">
       <div class="float-right" >
         <b-btn
           :to="{ name: 'DirectorCreate' }"
-          variant="outline-primary">New</b-btn>
+          variant="outline-success">New</b-btn>
       </div>
-
+    </nav>
+    <div class="margenes">
+      
       <div
         v-for="director in directors"
         :key="director.id">
@@ -17,7 +18,7 @@
          <h5>  
           <b-btn
            :to= "{ name: 'DirectorUpdate', params:{id : director.id}}"
-           variant = "outline-primary">Edit</b-btn>
+           variant = "outline-success">Edit</b-btn>
           <router-link :to="{ name: 'DirectorDetail', params: { id: director.id } }">
           {{director.nombre}} {{director.apellido1}} {{director.apellido2}}
           </router-link>

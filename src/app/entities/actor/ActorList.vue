@@ -2,14 +2,14 @@
   <LoadingPage
     :loading="loading"
     :error="error">
-
-    <div class="margenes">
-      <div class="float-right" >
+    <nav class="nav">
+       <div class="float-right" >
         <b-btn
           :to="{ name: 'ActorCreate' }"
           variant="outline-success">New</b-btn>
       </div>
-
+    </nav>
+    <div class="margenes">    
       <div
         v-for="actor in actors"
         :key="actor.id">

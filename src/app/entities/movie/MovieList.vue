@@ -97,14 +97,6 @@ export default {
   display: flex; 
 }
 
-.nav{
-  display: flex;
-  justify-content: space-between;
-  white-space: nowrap;
-  margin: 0 1rem;
-  padding: 2rem 0.5rem 1rem;
-  border-bottom: 1px solid #c5d0d1;
-}
 
 .buttons{
 }

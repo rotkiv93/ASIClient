@@ -27,6 +27,7 @@ body {
 
 .margenes {
 	margin: 2% 15%;
+	background: $card;
 }
 
 .form-group{
@@ -49,6 +50,16 @@ body {
 	float: left;
   	width: 45%;
  }
+
+ .nav{
+  display: flex;
+  justify-content: space-between;
+  white-space: nowrap;
+  margin: 0 1rem;
+  padding: 2rem 0.5rem 1rem;
+  border-bottom: 1px solid #c5d0d1;
+}
+
 
 #app main {
     display: grid;
