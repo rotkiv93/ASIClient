@@ -31,7 +31,6 @@
           </router-link>
           <p class="release"> {{ movie.fecha_estreno | moment('LL') }} </p>
         </div>
-
       </article>
     </transition-group>
       <b-btn variant="success" @click="loadImages()"> Empieza a votar! </b-btn>
