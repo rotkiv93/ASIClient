@@ -62,7 +62,6 @@
 import { HTTP } from '../../common/http-common'
 import LoadingPage from '../../components/LoadingPage'
 import auth from '../../common/auth'
-import theMovieDb from 'themoviedb-javascript-library'
 
 export default {
   components: { LoadingPage },
@@ -89,11 +88,6 @@ export default {
     '$route': 'fetchData'
   },
   created() {
-    theMovieDb.common.api_key = "31cde0355b497e2024b6dcd18cc0347d";
-    theMovieDb.common.base_uri = "https://api.themoviedb.org/3/";
-    theMovieDb.common.images_uri = "https://image.tmdb.org/t/p/";
-    theMovieDb.common.timeout = 4000;
-
     this.getPelicula()
     this.fetchData()
     this.fetchMovieUser()
@@ -149,9 +143,6 @@ export default {
           this.$router.replace({ name: 'Login'})
         }
     },
-    imagen(titulo){
-        theMovieDb.search.getMovie({"query":encodeURI(titulo)}, this.successCB, this.errorCB)
-    },
     getUsuario(){
         if(auth.getLogin() != ''){
           HTTP.get(`users`, {params: {login: auth.getLogin()}})
@@ -161,7 +152,6 @@ export default {
     getPelicula(){
         HTTP.get(`movies/${this.$route.params.id}`)
         .then(response => this.movie = response.data)
-        .then(response => this.imagen(response.titulo)) 
     },
     eliminateMovie(){
       HTTP.delete(`movies/${this.$route.params.id}`, {params: { id: this.movie.id }})
@@ -173,14 +163,6 @@ export default {
       if (this.movieUser.estado == 'Vista'){
         return true
       } else return null
-    },
-     successCB: function (data) {
-      var json = JSON.parse(data);
-      console.log("Success callback: https://image.tmdb.org/t/p/w500/" + json.results[0].poster_path);
-      this.ruta = " https://image.tmdb.org/t/p/w300/" + json.results[0].poster_path;
-    },  
-      errorCB: function (data) {
-      console.log("Error callback: " + data);
     }
   }
 }
