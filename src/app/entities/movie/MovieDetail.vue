@@ -24,7 +24,7 @@
               <p class="subtitle-tag"> {{ movie.duracion }} min | </p>
               <p class="subtitle-tag"> {{ movie.productora }} | </p> 
               <p class="subtitle-tag"> {{ movie.pais }} </p>
-              
+          
             </h4>
             <p class="description"> {{ movie.sinopsis }}</p>
 
@@ -78,11 +78,6 @@ export default {
       estado: [{value: null, text: 'Marcar Como'},
               {value: 'Vista', text: 'Vista'},
               {value: 'Pendiente', text: 'Pendiente'}],
-      
-      api_key: "31cde0355b497e2024b6dcd18cc0347d",
-      base_uri: "http://api.themoviedb.org/3/",
-      images_uri: "http://image.tmdb.org/t/p/",
-      timeout: 2000
     }
   },
   computed: {
@@ -103,7 +98,7 @@ export default {
     this.fetchData()
     this.fetchMovieUser()
     this.getUsuario()
-    //theMovieDb.movies.getImages({"id": 550}, this.successCB, this.errorCB)
+
   },
   methods: {
     fetchData() {
@@ -153,7 +148,7 @@ export default {
         }
     },
     imagen(titulo){
-            theMovieDb.search.getMovie({"query":encodeURI(titulo)}, this.successCB, this.errorCB)
+        theMovieDb.search.getMovie({"query":encodeURI(titulo)}, this.successCB, this.errorCB)
     },
     getUsuario(){
         if(auth.getLogin() != ''){
@@ -164,7 +159,7 @@ export default {
     getPelicula(){
         HTTP.get(`movies/${this.$route.params.id}`)
         .then(response => this.movie = response.data)
-        .then(response => this.imagen(response.titulo))
+        .then(response => this.imagen(response.titulo)) 
     },
     eliminateMovie(){
       HTTP.delete(`movies/${this.$route.params.id}`, {params: { id: this.movie.id }})
