@@ -12,7 +12,7 @@
 
       <form class="form-inline my-2 my-lg-0">
         <input class="form-control mr-sm-2" type="text" v-model="search" placeholder="Search movies">
-        <button class="btn btn-secondary my-2 my-sm-0" type="submit">
+        <button class="btn btn-secondary my-2 my-sm-0" type="submit" disabled>
         <font-awesome-icon icon="search"/> </button>
       </form>
     </nav>
