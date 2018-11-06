@@ -23,7 +23,7 @@
     <transition-group tag="main" name="card">
       <article v-for="movie in searchMovie" :key="movie.id" class="card">
         <div class="image">
-          <img src="https://source.unsplash.com/random/300x300" v-on:load="isLoaded()" v-bind:class="{ active: isActive }">
+          <img v-bind:src="movie.ruta" v-on:load="isLoaded()" v-bind:class="{ active: isActive }">
         </div>
         <div class="description">
           <router-link :to="{ name: 'MovieDetail', params: { id: movie.id } }">
@@ -87,6 +87,7 @@ export default {
 
     HTTP.get('movies')
     .then(response => this.movies = response.data)
+    .then(response => console.log(response))
     .catch(err => this.error = err.response.data)
     .finally(() => this.loading = false)
   },
@@ -99,11 +100,12 @@ export default {
       for (var key in this.movies){
         theMovieDb.search.getMovie({"query":encodeURI(this.movies[key].titulo)}, this.successCB, this.errorCB)
       }
-      //console.log(this.rutas)
-      //for (var key1 in this.rutas){
+      console.log(this.rutas)
+      for (var key1 in this.movies){
         //console.log(this.rutas[key1])
+        this.movies[key1].ruta = this.rutas[0];
         //var a = theMovieDb.search.getMovie({"query":encodeURI(this.movies[key].titulo)}, this.successCB, this.errorCB)
-      //}
+      } console.log(this.movies)
     },
     successCB: function (data) {
       var json = JSON.parse(data);

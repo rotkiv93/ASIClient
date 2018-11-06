@@ -75,7 +75,7 @@ export default {
       movie: {},
       ruta: null,
       user:{},
-      estado: [{value: null, text: 'Marcar Como'},
+      estado: [{value: null, text: 'Cancelar'},
               {value: 'Vista', text: 'Vista'},
               {value: 'Pendiente', text: 'Pendiente'}],
     }
