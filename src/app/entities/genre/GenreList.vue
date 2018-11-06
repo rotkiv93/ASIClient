@@ -2,25 +2,27 @@
   <LoadingPage
     :loading="loading"
     :error="error">
-
+    <nav class="nav">
+      <div class="float-right">
+        <b-btn
+          v-b-toggle.collapseNew
+          variant ="outline-success">New</b-btn>
+      </div>
+    </nav>
     <div class="margenes">
-      <b-btn
-           v-b-toggle.collapseNew
-           variant = "outline-success">New</b-btn>
-           <b-collapse id="collapseNew" class="mt-2">
-            <b-card>
-                Introduce new genre:
-                <b-form-input
-                  id="nombre"
-                  v-model="genre.nombre"
-                  type="text"
-                  required/>
-                <b-btn
-                  variant="success"
-                  @click="save()">Submit</b-btn>
-                </b-card>
-      </b-collapse>
-      <h3>List of genres:</h3>
+      <b-collapse id="collapseNew" class="mt-2">
+          <b-card>
+            Introduce new genre:
+            <b-form-input
+              id="nombre"
+              v-model="genre.nombre"
+              type="text"
+              required/>
+            <b-btn
+              variant="success"
+              @click="post()">Submit</b-btn>
+          </b-card>
+        </b-collapse>
       <div
         v-for="genre in sortedGenres"
         :key="genre.id"> 
@@ -28,7 +30,7 @@
           <b-btn
            v-b-toggle="genre.nombre"
            variant = "outline-success">Edit</b-btn>
-            {{genre.nombre}} 
+            {{genre.nombre}}
            <b-collapse :id="genre.nombre" class="mt-2">
             <b-card>
                 Introduce new name:
@@ -39,9 +41,10 @@
                   required/>
                 <b-btn
                   variant="success"
-                  @click="save()">Submit</b-btn>
+                  @click="save(genre)">Submit</b-btn>
                 </b-card>
           </b-collapse>
+
          </h5>
       </div>
     </div>
@@ -77,18 +80,18 @@ export default {
     .finally(() => this.loading = false)
   },
   methods:{
-    save(){
-      if (this.$route.params.id) {
-        HTTP.put(`genres/${this.$route.params.id}`, this.genre)
+    save(genre){
+        console.log(genre)
+        HTTP.put(`genre/${genre.id}`, {params:{genreID: this.genre.id}}, this.genre)
+        /*.then(response =>
+          this.$router.replace({ name: 'GenreList', params: { id: response.data.id }}))*/
+        .catch(err => this.error = err.message)
+    },
+    post(){
+        HTTP.post('genre', this.genre)
         .then(response =>
           this.$router.replace({ name: 'GenreList', params: { id: response.data.id }}))
         .catch(err => this.error = err.message)
-      } else {
-        HTTP.post('actors', this.genre)
-        .then(response =>
-          this.$router.replace({ name: 'GenreList', params: { id: response.data.id }}))
-        .catch(err => this.error = err.message)
-      }
     }
   }
 }

@@ -33,7 +33,6 @@
         </div>
       </article>
     </transition-group>
-      <b-btn variant="success" @click="loadImages()"> Empieza a votar! </b-btn>
   </LoadingPage>
 </template>
  
@@ -41,7 +40,6 @@
 import { HTTP } from '../../common/http-common'
 import LoadingPage from '../../components/LoadingPage'
 import auth from '../../common/auth'
-import theMovieDb from 'themoviedb-javascript-library'
 
 export default {
   components: { LoadingPage },
@@ -79,14 +77,8 @@ export default {
   created() {
     this.loading = true
 
-    theMovieDb.common.api_key = "31cde0355b497e2024b6dcd18cc0347d";
-    theMovieDb.common.base_uri = "https://api.themoviedb.org/3/";
-    theMovieDb.common.images_uri = "https://image.tmdb.org/t/p/";
-    theMovieDb.common.timeout = 4000;
-
     HTTP.get('movies')
     .then(response => this.movies = response.data)
-    .then(response => console.log(response))
     .catch(err => this.error = err.response.data)
     .finally(() => this.loading = false)
   },
@@ -94,27 +86,6 @@ export default {
     isLoaded: function(){
       this.isActive = true;
     },
-    loadImages(){
-      this.rutas = []
-      for (var key in this.movies){
-        theMovieDb.search.getMovie({"query":encodeURI(this.movies[key].titulo)}, this.successCB, this.errorCB)
-      }
-      console.log(this.rutas)
-      for (var key1 in this.movies){
-        //console.log(this.rutas[key1])
-        this.movies[key1].ruta = this.rutas[0];
-        //var a = theMovieDb.search.getMovie({"query":encodeURI(this.movies[key].titulo)}, this.successCB, this.errorCB)
-      } console.log(this.movies)
-    },
-    successCB: function (data) {
-      var json = JSON.parse(data);
-      this.rutas.push("https://image.tmdb.org/t/p/w300/" + json.results[0].poster_path)
-      //console.log("Success callback: https://image.tmdb.org/t/p/w300/" + json.results[0].poster_path);
-      //return (" https://image.tmdb.org/t/p/w300/" + json.results[0].poster_path);
-    },  
-    errorCB: function (data) {
-      console.log("Error callback: " + data);
-    }
   }
 }
 </script>
@@ -125,14 +96,6 @@ export default {
   display: flex; 
 }
 
-.nav{
-  display: flex;
-  justify-content: space-between;
-  white-space: nowrap;
-  margin: 0 1rem;
-  padding: 2rem 0.5rem 1rem;
-  border-bottom: 1px solid #c5d0d1;
-}
 
 .buttons{
 }

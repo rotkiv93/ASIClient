@@ -135,6 +135,19 @@
             placeholder="Introduce sinopsis"/>
         </b-form-group>
 
+        <b-form-group
+          label="Ruta de imagen:"
+          label-for="ruta">
+          <b-form-textarea
+            id="ruta"
+            v-model="movie.ruta"
+            required
+            placeholder="Introduce ruta de imagen"/>
+        </b-form-group>
+
+        <b-btn variant="success" style="float right;"
+          @click="getImageTitle()">Buscar imagen</b-btn>
+
       </b-form>
     </div>
   </LoadingPage>
@@ -145,6 +158,7 @@ import { HTTP } from '../../common/http-common'
 import LoadingPage from '../../components/LoadingPage'
 import auth from '../../common/auth'
 import Multiselect from 'vue-multiselect'
+import theMovieDb from 'themoviedb-javascript-library'
 
 export default {
   components: { LoadingPage,  Multiselect},
@@ -177,6 +191,12 @@ export default {
     }
   },
   created() {
+
+    theMovieDb.common.api_key = "31cde0355b497e2024b6dcd18cc0347d";
+    theMovieDb.common.base_uri = "https://api.themoviedb.org/3/";
+    theMovieDb.common.images_uri = "https://image.tmdb.org/t/p/";
+    theMovieDb.common.timeout = 4000;
+
     this.getUsers()
     this.getDirectors()
     this.getActors()
@@ -231,6 +251,16 @@ export default {
     },
     back() {
       this.$router.go(-1)
+    },
+    getImageTitle(){
+        theMovieDb.search.getMovie({"query":encodeURI(this.movie.titulo)}, this.successCB, this.errorCB)
+    },
+    successCB: function (data) {
+      var json = JSON.parse(data);
+      this.movie.ruta = "https://image.tmdb.org/t/p/w300/" + json.results[0].poster_path;
+    },  
+      errorCB: function (data) {
+      console.log("Error callback: " + data);
     }
   }
 }
