@@ -15,17 +15,16 @@
       <div class="container">
         <div class="card flex-row flex-wrap">
           <div class="card header">
-            <b-img class="movie-image" thumbnail v-bind:src="ruta" alt="https://source.unsplash.com/random/300x300" />
+            <b-img class="movie-image" thumbnail v-bind:src="ruta" alt="***" />
           </div>
           <div class="card-block px-2">
-            <h1 class="card-title"> {{ movie.titulo }} ( {{movie.ano_salida}} ) </h1>
+            <h1 class="card-title"> {{ movie.titulo }} ({{movie.ano_salida}}) </h1>
             <h4 class="subtitle">
-              <p class="subtitle-tag"> {{ movie.fecha_estreno | moment('LL') }} | </p>
-              <p class="subtitle-tag"> {{ movie.duracion }} | </p>
               <p class="subtitle-tag"> {{ movie.genero.nombre }} |</p>
+              <p class="subtitle-tag"> {{ movie.duracion }} min | </p>
               <p class="subtitle-tag"> {{ movie.productora }} | </p> 
               <p class="subtitle-tag"> {{ movie.pais }} </p>
-              
+          
             </h4>
             <p class="description"> {{ movie.sinopsis }}</p>
 
@@ -37,7 +36,7 @@
                   </option>
                 </select>
 
-                <star-rating v-if='movieUser' v-model="movieUser.valoracion"
+                <star-rating v-if='oculta()' v-model="movieUser.valoracion"
                  @rating-selected ="updateMovieUser()"
                  v-bind:star-size=25
                  v-bind:show-rating="false"
@@ -76,13 +75,9 @@ export default {
       movie: {},
       ruta: null,
       user:{},
-      estado: [{value: 'Vista', text: 'Vista'},
+      estado: [{value: null, text: 'Marcar Como'},
+              {value: 'Vista', text: 'Vista'},
               {value: 'Pendiente', text: 'Pendiente'}],
-      
-      api_key: "31cde0355b497e2024b6dcd18cc0347d",
-      base_uri: "http://api.themoviedb.org/3/",
-      images_uri: "http://image.tmdb.org/t/p/",
-      timeout: 2000
     }
   },
   computed: {
@@ -97,13 +92,13 @@ export default {
     theMovieDb.common.api_key = "31cde0355b497e2024b6dcd18cc0347d";
     theMovieDb.common.base_uri = "https://api.themoviedb.org/3/";
     theMovieDb.common.images_uri = "https://image.tmdb.org/t/p/";
-    theMovieDb.common.timeout = 2000;
+    theMovieDb.common.timeout = 4000;
 
     this.getPelicula()
     this.fetchData()
     this.fetchMovieUser()
     this.getUsuario()
-    //theMovieDb.movies.getImages({"id": 550}, this.successCB, this.errorCB)
+
   },
   methods: {
     fetchData() {
@@ -127,14 +122,14 @@ export default {
       this.$router.go(-1)
     },
     updateMovieUser(){
-      if(this.movieUser != null && this.movieUser.estado != ''){
+      if(this.movieUser != null && this.movieUser.estado != null){
         HTTP.put(`movieusers/${this.movieUser.id}`, this.movieUser)
-        .catch(err => this.error = err.message)
+        .catch(err => this.error = err.message);
       } else {
-        if (this.movieUser.estado != ''){
-          //aqui hacer un delete
-          console.log("de momento no hacer nada");
-          this.movieUser.estado = 'Vista'
+        if (this.movieUser.estado == null){
+          HTTP.delete(`movieusers/${this.movieUser.id}`, {params: { id: this.movieUser.id }})
+          .catch(err => this.error = err.message);
+          this.movieUser= {}
         }
       }
     },
@@ -153,7 +148,7 @@ export default {
         }
     },
     imagen(titulo){
-            theMovieDb.search.getMovie({"query":encodeURI(titulo)}, this.successCB, this.errorCB)
+        theMovieDb.search.getMovie({"query":encodeURI(titulo)}, this.successCB, this.errorCB)
     },
     getUsuario(){
         if(auth.getLogin() != ''){
@@ -164,7 +159,7 @@ export default {
     getPelicula(){
         HTTP.get(`movies/${this.$route.params.id}`)
         .then(response => this.movie = response.data)
-        .then(response => this.imagen(response.titulo))
+        .then(response => this.imagen(response.titulo)) 
     },
     eliminateMovie(){
       HTTP.delete(`movies/${this.$route.params.id}`, {params: { id: this.movie.id }})
@@ -172,10 +167,15 @@ export default {
           this.$router.replace({ name: 'MovieList', params: { id: response.data }}))
        .catch(err => this.error = err.message)
     },
+    oculta(){
+      if (this.movieUser.estado == 'Vista'){
+        return true
+      } else return null
+    },
      successCB: function (data) {
       var json = JSON.parse(data);
       console.log("Success callback: https://image.tmdb.org/t/p/w500/" + json.results[0].poster_path);
-      this.ruta = " https://image.tmdb.org/t/p/w300/" + json.results[0].backdrop_path;
+      this.ruta = " https://image.tmdb.org/t/p/w300/" + json.results[0].poster_path;
     },  
       errorCB: function (data) {
       console.log("Error callback: " + data);
