@@ -42,9 +42,9 @@
                 <b-btn style="margin-top:1%"
                   variant="success"
                   @click="save(genre)">Save</b-btn>
-                <b-btn style="float:right; margin-top:1%"
+                <!--<b-btn style="float:right; margin-top:1%"
                   variant="danger"
-                  @click="deleteGenre(genre)">Delete</b-btn>
+                  @click="deleteGenre(genre)">Delete</b-btn>-->
                 </b-card>
           </b-collapse>
 
