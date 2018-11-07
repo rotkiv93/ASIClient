@@ -18,7 +18,7 @@
               v-model="genre.nombre"
               type="text"
               required/>
-            <b-btn
+            <b-btn v-b-toggle.collapseNew
               variant="success"
               @click="post()">Submit</b-btn>
           </b-card>
@@ -40,9 +40,9 @@
                   v-model="genre.nombre"
                   type="text"
                   required/>
-                <b-btn style="margin-top:1%"
+                <b-btn v-b-toggle=genre.id.toString() style="margin-top:1%"
                   variant="success"
-                  @click="save(genre)">Save</b-btn>
+                  @click="saveg(genre)">Save</b-btn>
                 <!--<b-btn style="float:right; margin-top:1%"
                   variant="danger"
                   @click="deleteGenre(genre)">Delete</b-btn>-->
@@ -84,9 +84,9 @@ export default {
     .finally(() => this.loading = false)
   },
   methods:{
-    save(genre){
+    saveg(genre){
       HTTP.put(`genre/${genre.id}`, genre)
-      .then(this.actualizaGeneros())
+      .then(response => this.actualizaGeneros())
       .catch(err => this.error = err.message)
     },
     post(){
@@ -102,7 +102,6 @@ export default {
     actualizaGeneros(){
       HTTP.get('genre')
       .then(response => this.genres = response.data)
-      .then(this.genres.sort())
       .catch(err => this.error = err.response.data)
     }
   }
