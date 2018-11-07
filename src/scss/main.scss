@@ -28,6 +28,24 @@ body {
 .margenes {
 	margin: 2% 15%;
 	background: $card;
+  padding: 3% 3% 3% 3%;
+}
+
+.listas {
+  padding-bottom: 1%;
+}
+
+.listas2 {
+  padding-top: 1%;
+  color: white;
+}
+
+.router{
+  color: #BDC6BC;
+}
+
+.router:hover{
+  color: white;
 }
 
 .form-group{

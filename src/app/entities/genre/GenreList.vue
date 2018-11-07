@@ -25,7 +25,8 @@
         </b-collapse>
       <div
         v-for="genre in sortedGenres"
-        :key="genre.id"> 
+        :key="genre.id"
+        class="listas2"> 
          <h5>
           <b-btn
            v-b-toggle=genre.id.toString()

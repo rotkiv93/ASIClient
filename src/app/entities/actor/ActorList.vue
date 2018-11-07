@@ -12,12 +12,13 @@
     <div class="margenes">    
       <div
         v-for="actor in actors"
-        :key="actor.id">
+        :key="actor.id"
+        class="listas">
          <h5>  
           <b-btn
            :to= "{ name: 'ActorUpdate', params:{id : actor.id}}"
            variant = "outline-warning">Edit</b-btn>
-           <router-link :to="{ name: 'ActorDetail', params: { id: actor.id } }">
+           <router-link class="router" :to="{ name: 'ActorDetail', params: { id: actor.id } }">
             {{actor.nombre}} {{actor.apellido1}} {{actor.apellido2}}
            </router-link>
          </h5>
