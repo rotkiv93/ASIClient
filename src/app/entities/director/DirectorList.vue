@@ -13,13 +13,13 @@
       
       <div
         v-for="director in directors"
-        :key="director.id">
-         
+        :key="director.id"
+        class="listas">
          <h5>  
           <b-btn
            :to= "{ name: 'DirectorUpdate', params:{id : director.id}}"
            variant = "outline-warning">Edit</b-btn>
-          <router-link :to="{ name: 'DirectorDetail', params: { id: director.id } }">
+          <router-link class="router" :to="{ name: 'DirectorDetail', params: { id: director.id } }">
           {{director.nombre}} {{director.apellido1}} {{director.apellido2}}
           </router-link>
          </h5>
