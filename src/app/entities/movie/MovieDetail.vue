@@ -28,7 +28,7 @@
                     </option>
                   </select>
                   
-                  <h5 style="margin-top:10%;">Rate: </h5>
+                  <h5  v-if="oculta()" style="margin-top:10%;">Rate: </h5>
                   <star-rating v-if='oculta()' v-model="movieUser.valoracion"
                    @rating-selected ="updateMovieUser()"
                    v-bind:star-size=22
