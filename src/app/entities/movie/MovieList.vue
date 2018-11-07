@@ -22,16 +22,14 @@
 
     <transition-group  tag="main" name="card">
       <article v-for="movie in searchMovie" :key="movie.id" class="card">
-        <div v-show="!movie.oculta || isAdmin">
-          <div class="image">
-            <img v-bind:src="movie.ruta" v-on:load="isLoaded()" v-bind:class="{ active: isActive }">
-          </div>
-          <div class="description">
-            <router-link :to="{ name: 'MovieDetail', params: { id: movie.id } }">
-              <h3 class="titulo"> {{ movie.titulo }} </h3> 
-            </router-link>
-            <p class="release"> {{ movie.fecha_estreno | moment('LL') }} </p>
-          </div>
+        <div class="image">
+          <img v-bind:src="movie.ruta" v-on:load="isLoaded()" v-bind:class="{ active: isActive }">
+        </div>
+        <div class="description">
+          <router-link :to="{ name: 'MovieDetail', params: { id: movie.id } }">
+            <h3 class="titulo"> {{ movie.titulo }} </h3> 
+          </router-link>
+          <p class="release"> {{ movie.fecha_estreno | moment('LL') }} </p>
         </div>
       </article>
     </transition-group>
