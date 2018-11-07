@@ -21,7 +21,7 @@
         <div>
           <div class="mov-user" style="width:15%; float:right;">
                 <div v-if="movieUser" style="margin-top:2%; margin-bottom:2%;">
-                     <h5>Mark as: </h5>
+                     <h5>Add to: </h5>
                   <select v-if="movieUser" v-model="movieUser.estado" @change="updateMovieUser()">
                      <option v-for="option in estado" v-bind:value="option.value">
                     {{ option.text }}

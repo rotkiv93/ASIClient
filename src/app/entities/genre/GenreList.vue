@@ -73,6 +73,12 @@ export default {
   computed:{
     sortedGenres(){
       return this.genres.sort()
+    },
+    actualizaGeneros(){
+      HTTP.get('genre')
+      .then(response => this.genres = response.data)
+      .then(this.genres.sort())
+      .catch(err => this.error = err.response.data)
     }
   },
   created() {
@@ -98,12 +104,6 @@ export default {
       HTTP.delete(`genre/${genre.id}`, {params: { id: genre.id }})
       .then(response => this.actualizaGeneros())
       .catch(err => this.error = err.message)
-    },
-    actualizaGeneros(){
-      HTTP.get('genre')
-      .then(response => this.genres = response.data)
-      .then(this.genres.sort())
-      .catch(err => this.error = err.response.data)
     }
   }
 }
