@@ -18,7 +18,7 @@
               v-model="genre.nombre"
               type="text"
               required/>
-            <b-btn v-b-toggle.collapseNew
+            <b-btn style="margin-top:1%;" v-b-toggle.collapseNew
               variant="success"
               @click="post()">Submit</b-btn>
           </b-card>
