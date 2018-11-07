@@ -2,52 +2,53 @@
   <LoadingPage
     :loading="loading"
     :error="error">
+    <div class="margenes">
+      <div class="float-right">
+        <b-btn
+          variant="primary"
+          @click="back()">Back</b-btn>
+        <b-btn
+          variant="primary"
+          @click="save()">Submit</b-btn>
+      </div>
 
-    <div class="float-right">
-      <b-btn
-        variant="primary"
-        @click="back()">Back</b-btn>
-      <b-btn
-        variant="primary"
-        @click="save()">Submit</b-btn>
+      <b-form
+        v-if="actor"
+        class="app-form"
+        @submit="save">
+
+        <b-form-group
+          label="Nombre:"
+          label-for="nombre">
+          <b-form-input
+            id="nombre"
+            v-model="actor.nombre"
+            type="text"
+            required
+            placeholder="Introduce nombre"/>
+        </b-form-group>
+
+         <b-form-group
+          label="Primer apellido:"
+          label-for="apellido1">
+          <b-form-input
+            id="apellido1"
+            v-model="actor.apellido1"
+            required
+            placeholder="Introduce primer apellido "/>
+        </b-form-group>
+
+        <b-form-group
+          label="Segundo apellido:"
+          label-for="apellido2">
+          <b-form-input
+            id="apellido2"
+            v-model="actor.apellido2"
+            required
+            placeholder="Introduce segundo apellido "/>
+        </b-form-group>
+      </b-form>
     </div>
-
-    <b-form
-      v-if="actor"
-      class="app-form"
-      @submit="save">
-
-      <b-form-group
-        label="Nombre:"
-        label-for="nombre">
-        <b-form-input
-          id="nombre"
-          v-model="actor.nombre"
-          type="text"
-          required
-          placeholder="Introduce nombre"/>
-      </b-form-group>
-
-       <b-form-group
-        label="Primer apellido:"
-        label-for="apellido1">
-        <b-form-input
-          id="apellido1"
-          v-model="actor.apellido1"
-          required
-          placeholder="Introduce primer apellido "/>
-      </b-form-group>
-
-      <b-form-group
-        label="Segundo apellido:"
-        label-for="apellido2">
-        <b-form-input
-          id="apellido2"
-          v-model="actor.apellido2"
-          required
-          placeholder="Introduce segundo apellido "/>
-      </b-form-group>
-    </b-form>
   </LoadingPage>
 </template>
 
