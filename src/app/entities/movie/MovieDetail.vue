@@ -9,11 +9,11 @@
         <b-btn
           v-if="isAdmin"
           :to="{ name: 'MovieUpdate', params: { id: movie.id }}"
-          variant="outline-success">Edit</b-btn>
+          variant="outline-warning">Edit</b-btn>
         <b-btn style="margin-left:2%;"
           v-if="isAdmin"
           variant="outline-danger"
-          @click="eliminateMovie()">Eliminate</b-btn>
+          @click="eliminateMovie()">Remove</b-btn>
         </div>
       </nav>
 

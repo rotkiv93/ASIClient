@@ -29,7 +29,7 @@
          <h5>
           <b-btn
            v-b-toggle=genre.id.toString()
-           variant = "outline-success">Edit</b-btn>
+           variant = "outline-warning">Edit</b-btn>
             {{genre.nombre}}
            <b-collapse :id=genre.id.toString() class="mt-2">
             <b-card>

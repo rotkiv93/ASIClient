@@ -6,11 +6,11 @@
       <div v-if="director">
         <div class="float-right">
           <b-btn
-            variant="primary"
+            variant="outline-primary"
             @click="back()">Back</b-btn>
           <b-btn
             :to="{ name: 'DirectorUpdate', params: { id: director.id }}"
-            variant="primary">Edit</b-btn>
+            variant="outline-warning">Edit</b-btn>
         </div>
         <h5>Nombre: {{ director.nombre }}</h5>
         <h5>Primer Apellido: {{ director.apellido1 }}</h5>

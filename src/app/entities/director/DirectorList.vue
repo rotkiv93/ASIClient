@@ -18,7 +18,7 @@
          <h5>  
           <b-btn
            :to= "{ name: 'DirectorUpdate', params:{id : director.id}}"
-           variant = "outline-success">Edit</b-btn>
+           variant = "outline-warning">Edit</b-btn>
           <router-link :to="{ name: 'DirectorDetail', params: { id: director.id } }">
           {{director.nombre}} {{director.apellido1}} {{director.apellido2}}
           </router-link>
