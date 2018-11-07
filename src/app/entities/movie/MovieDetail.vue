@@ -19,15 +19,16 @@
 
       <div style="width:80%; margin:0 auto;">
         <div>
-          <div class="mov-user" style="width:20%; float:right;">
+          <div class="mov-user" style="width:15%; float:right;">
                 <div v-if="movieUser" style="margin-top:2%; margin-bottom:2%;">
-                     <label>Marcar como: </label>
+                     <h5>Mark as: </h5>
                   <select v-if="movieUser" v-model="movieUser.estado" @change="updateMovieUser()">
                      <option v-for="option in estado" v-bind:value="option.value">
                     {{ option.text }}
                     </option>
                   </select>
-
+                  
+                  <h5 style="margin-top:10%;">Rate: </h5>
                   <star-rating v-if='oculta()' v-model="movieUser.valoracion"
                    @rating-selected ="updateMovieUser()"
                    v-bind:star-size=22
@@ -40,7 +41,7 @@
                 </div>
                 <b-btn v-if="!movieUser" variant="outline-success" @click="post()"> Empieza a votar! </b-btn>
           </div>
-          <div class="container" style="width:100%; float:left">
+          <div class="container" style="width:85%; float:left">
             <div class="card flex-row flex-wrap">
               <div class="card header">
                 <b-img class="movie-image" thumbnail v-bind:src="movie.ruta" alt="***" />
@@ -244,7 +245,7 @@ export default {
   }
 
   div.mov-user{ 
-   background-color:#2B2A34;
+
   }
 
 </style>
