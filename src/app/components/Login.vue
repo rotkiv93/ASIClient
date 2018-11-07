@@ -65,7 +65,7 @@ export default {
         password: this.password
       })
       .then(response => {
-        this.$router.go(-1)
+         this.$router.replace({ name: 'MovieList'})
       })
       .catch(err => {
         this.error = err.response.data.message
