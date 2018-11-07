@@ -2,51 +2,62 @@
   <LoadingPage
     :loading="loading"
     :error="error">
+
     <div v-if="movie">
+      <nav v-if="isAdmin" class="nav" style="margin-bottom:1%">
+       <div v-if="isAdmin" class="float-right">
         <b-btn
           v-if="isAdmin"
           :to="{ name: 'MovieUpdate', params: { id: movie.id }}"
-          variant="primary">Edit</b-btn>
-        <b-btn
+          variant="outline-success">Edit</b-btn>
+        <b-btn style="margin-left:2%;"
           v-if="isAdmin"
-          variant="primary"
+          variant="outline-danger"
           @click="eliminateMovie()">Eliminate</b-btn>
+        </div>
+      </nav>
 
-      <div class="container">
-        <div class="card flex-row flex-wrap">
-          <div class="card header">
-            <b-img class="movie-image" thumbnail v-bind:src="movie.ruta" alt="***" />
+      <div style="width:80%; margin:0 auto;">
+        <div>
+          <div class="mov-user" style="width:20%; float:right;">
+                <div v-if="movieUser" style="margin-top:2%; margin-bottom:2%;">
+                     <label>Marcar como: </label>
+                  <select v-if="movieUser" v-model="movieUser.estado" @change="updateMovieUser()">
+                     <option v-for="option in estado" v-bind:value="option.value">
+                    {{ option.text }}
+                    </option>
+                  </select>
+
+                  <star-rating v-if='oculta()' v-model="movieUser.valoracion"
+                   @rating-selected ="updateMovieUser()"
+                   v-bind:star-size=22
+                   v-bind:max-rating=10
+                   v-bind:glow=1.5
+                   
+                   v-bind:show-rating="false"
+                   v-bind:padding= 1.5>
+                   </star-rating>
+                </div>
+                <b-btn v-if="!movieUser" variant="outline-success" @click="post()"> Empieza a votar! </b-btn>
           </div>
-          <div class="card-block px-2">
-            <h1 class="card-title"> {{ movie.titulo }} ({{movie.ano_salida}}) </h1>
-            <h4 class="subtitle">
-              <p class="subtitle-tag"> {{ movie.genero.nombre }} |</p>
-              <p class="subtitle-tag"> {{ movie.duracion }} min | </p>
-              <p class="subtitle-tag"> {{ movie.productora }} | </p> 
-              <p class="subtitle-tag"> {{ movie.pais }} </p>
-          
-            </h4>
-            <p class="description"> {{ movie.sinopsis }}</p>
-
-            <div v-if="movieUser">
-              <div>
-                <select v-if="movieUser" v-model="movieUser.estado" @change="updateMovieUser()">
-                   <option v-for="option in estado" v-bind:value="option.value">
-                  {{ option.text }}
-                  </option>
-                </select>
-
-                <star-rating v-if='oculta()' v-model="movieUser.valoracion"
-                 @rating-selected ="updateMovieUser()"
-                 v-bind:star-size=25
-                 v-bind:show-rating="false"
-                 v-bind:padding= 1.5>
-                 </star-rating>
+          <div class="container" style="width:100%; float:left">
+            <div class="card flex-row flex-wrap">
+              <div class="card header">
+                <b-img class="movie-image" thumbnail v-bind:src="movie.ruta" alt="***" />
               </div>
-            </div>
+              <div class="card-block px-2">
+                <h1 class="card-title"> {{ movie.titulo }} ({{movie.ano_salida}}) </h1>
+                <h4 class="subtitle">
+                  <p class="subtitle-tag"> {{ movie.genero.nombre }} |</p>
+                  <p class="subtitle-tag"> {{ movie.duracion }} min | </p>
+                  <p class="subtitle-tag"> {{ movie.productora }} | </p> 
+                  <p class="subtitle-tag"> {{ movie.pais }} </p>
+              
+                </h4>
+                <p class="description"> {{ movie.sinopsis }}</p>
+              </div>
+            
             <div>
-              <b-btn v-if="!movieUser" variant="success" @click="post()"> Empieza a votar! </b-btn>
-
               <b-btn class="button" size=lg @click="back()">
                 <font-awesome-icon icon="arrow-left"/> 
               </b-btn>
@@ -55,7 +66,8 @@
         </div>
       </div>
     </div>
-  </LoadingPage>
+  </div>
+</LoadingPage>
 </template>
 
 <script>
@@ -229,6 +241,10 @@ export default {
     background-color: Transparent;
     border: none;
     cursor:pointer;
+  }
+
+  div.mov-user{ 
+   background-color:#2B2A34;
   }
 
 </style>

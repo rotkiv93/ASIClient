@@ -28,10 +28,10 @@
         :key="genre.id"> 
          <h5>
           <b-btn
-           v-b-toggle="genre.nombre"
+           v-b-toggle=genre.id.toString()
            variant = "outline-success">Edit</b-btn>
             {{genre.nombre}}
-           <b-collapse :id="genre.nombre" class="mt-2">
+           <b-collapse :id=genre.id.toString() class="mt-2">
             <b-card>
                 Introduce new name:
                 <b-form-input
@@ -39,9 +39,12 @@
                   v-model="genre.nombre"
                   type="text"
                   required/>
-                <b-btn
+                <b-btn style="margin-top:1%"
                   variant="success"
-                  @click="save(genre)">Submit</b-btn>
+                  @click="save(genre)">Save</b-btn>
+                <b-btn style="float:right; margin-top:1%"
+                  variant="danger"
+                  @click="deleteGenre(genre)">Delete</b-btn>
                 </b-card>
           </b-collapse>
 
@@ -81,17 +84,25 @@ export default {
   },
   methods:{
     save(genre){
-        console.log(genre)
-        HTTP.put(`genre/${genre.id}`, {params:{genreID: this.genre.id}}, this.genre)
-        /*.then(response =>
-          this.$router.replace({ name: 'GenreList', params: { id: response.data.id }}))*/
-        .catch(err => this.error = err.message)
+      HTTP.put(`genre/${genre.id}`, genre)
+      .then(this.actualizaGeneros())
+      .catch(err => this.error = err.message)
     },
     post(){
         HTTP.post('genre', this.genre)
-        .then(response =>
-          this.$router.replace({ name: 'GenreList', params: { id: response.data.id }}))
+        .then(response => this.actualizaGeneros())
         .catch(err => this.error = err.message)
+    },
+    deleteGenre(genre){
+      HTTP.delete(`genre/${genre.id}`, {params: { id: genre.id }})
+      .then(response => this.actualizaGeneros())
+      .catch(err => this.error = err.message)
+    },
+    actualizaGeneros(){
+      HTTP.get('genre')
+      .then(response => this.genres = response.data)
+      .then(this.genres.sort())
+      .catch(err => this.error = err.response.data)
     }
   }
 }

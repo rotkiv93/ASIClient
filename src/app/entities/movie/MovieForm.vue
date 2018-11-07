@@ -4,10 +4,10 @@
     :error="error">
     <div class="margenes">
         <b-btn style="float left;"
-          variant="success"
+          variant="secondary"
           @click="back()">Back</b-btn>
         <b-btn style="float left;"
-          variant="success"
+          variant="outline-success"
           @click="save()">Submit</b-btn>
 
       <div class="float-right">
@@ -257,7 +257,7 @@ export default {
     },
     successCB: function (data) {
       var json = JSON.parse(data);
-      this.movie.ruta = "https://image.tmdb.org/t/p/w300/" + json.results[0].poster_path;
+      this.movie.ruta = "https://image.tmdb.org/t/p/w300" + json.results[0].poster_path;
     },  
       errorCB: function (data) {
       console.log("Error callback: " + data);

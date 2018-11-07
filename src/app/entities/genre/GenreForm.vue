@@ -57,19 +57,20 @@ export default {
     }
   },
   methods: {
-    save() {
-      if (this.$route.params.id) {
-        HTTP.put(`genres/${this.$route.params.id}`, this.genre)
+    save(genre) {
+        HTTP.put(`genres/${genre.id}`,  {params: { id: genre.id }}, genre)
         .then(response =>
           this.$router.replace({ name: 'GenreList', params: { id: response.data.id }}))
         .catch(err => this.error = err.message)
-      } else {
+    },
+    post(genre){ 
         HTTP.post('genres', this.genre)
         .then(response =>
           this.$router.replace({ name: 'GenreList', params: { id: response.data.id }}))
         .catch(err => this.error = err.message)
-      }
-    },
+    }
+  }
+},
     back() {
       this.$router.go(-1)
     }
