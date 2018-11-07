@@ -28,16 +28,21 @@
               name="password"
               required>
           </div>
-          <button
+          <!-- <button
             type="submit"
-            class="btn btn-primary">Log In</button>
+            class="btn btn-primary">Log In</button> -->
+
+          <b-btn
+          type="submit"
+          variant="outline-success">Log in</b-btn>
         </div>
         <div class="reg_mar">
           <h2>Why register?</h2>
             <ul style="list-style-type:disc; margin-top:6%; font-size:130%">
-              <li>Diario de tus películas y series vistas</li>
-              <li>Una red social de cine con tus amigos</li>
-              <li>Poco mas que decir</li>
+              <li>Keep your movie ratings</li>
+              <li>Create your own movie lists</li>
+              <li>Join a future social worldwide network</li>
+              <li>Get stocks on our future slug farm</li>
             </ul>
               <b-btn
               :to= "{ name: 'Register'}"

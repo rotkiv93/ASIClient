@@ -12,7 +12,7 @@
     <div class="margenes">
       <b-collapse id="collapseNew" class="mt-2">
           <b-card>
-            Introduce new genre:
+            <h5 class="h51">Introduce new genre:</h5>
             <b-form-input
               id="nombre"
               v-model="genre.nombre"
@@ -34,7 +34,7 @@
             {{genre.nombre}}
            <b-collapse :id=genre.id.toString() class="mt-2">
             <b-card>
-                Introduce new name:
+                <h5 class="h51">Introduce new name:</h5>
                 <b-form-input
                   id="nombre"
                   v-model="genre.nombre"

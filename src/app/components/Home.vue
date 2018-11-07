@@ -1,5 +1,5 @@
 <template>
-	<h2>Bienvenido a Ficaffinity</h2>
+	<h2>Welcome to Ficaffinity</h2>
 </template>
 
 <script>
