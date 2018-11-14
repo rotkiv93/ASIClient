@@ -34,19 +34,20 @@
             {{genre.nombre}}
            <b-collapse :id=genre.id.toString() class="mt-2">
             <b-card>
-                <h5 class="h51">Introduce new name:</h5>
-                <b-form-input
-                  id="nombre"
-                  v-model="genre.nombre"
-                  type="text"
-                  required/>
-                <b-btn v-b-toggle=genre.id.toString() style="margin-top:1%"
-                  variant="success"
-                  @click="saveg(genre)">Save</b-btn>
-                <!--<b-btn style="float:right; margin-top:1%"
-                  variant="danger"
-                  @click="deleteGenre(genre)">Delete</b-btn>-->
-                </b-card>
+              <h5 class="h51">Introduce new name:</h5>
+              <b-form-input
+                id="nombre"
+                v-model="genre.nombre"
+                type="text"
+                required/>
+              <b-btn v-b-toggle=genre.id.toString() style="margin-top:1%"
+                variant="success"
+                @click="saveg(genre)">Save</b-btn>
+              <b-btn 
+                style="margin-top:1%; margin-left:83%"
+                variant="danger"
+                @click="deleteGenre(genre)">Remove</b-btn>
+            </b-card>
           </b-collapse>
 
          </h5>

@@ -17,6 +17,9 @@
         class="listas">
          <h5>  
           <b-btn
+           @click="eliminateDirector(director)" 
+           variant = "outline-danger">Remove</b-btn>
+          <b-btn
            :to= "{ name: 'DirectorUpdate', params:{id : director.id}}"
            variant = "outline-warning">Edit</b-btn>
           <router-link class="router" :to="{ name: 'DirectorDetail', params: { id: director.id } }">
@@ -40,16 +43,28 @@ export default {
     return {
       loading: false,
       directors: null,
+      director: {},
       error: null
     }
   },
   created() {
     this.loading = true
-
     HTTP.get('directors')
     .then(response => this.directors = response.data)
     .catch(err => this.error = err.response.data)
     .finally(() => this.loading = false)
+  },
+  methods: {
+    eliminateDirector(director){
+      HTTP.delete(`directors/${director.id}`, {params: { id: director.id }})
+      .then(response => this.actualizaDirectores())
+      .catch(err => this.error = err.message)
+    },
+    actualizaDirectores(){
+      HTTP.get('directors')
+      .then(response => this.directors = response.data)
+      .catch(err => this.error = err.response.data)
+    }
   }
 }
 </script>
