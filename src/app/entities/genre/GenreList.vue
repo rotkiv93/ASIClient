@@ -60,6 +60,7 @@
 import { HTTP } from '../../common/http-common'
 import LoadingPage from '../../components/LoadingPage'
 import auth from '../../common/auth'
+import Vue from 'vue'
 
 export default {
   components: { LoadingPage },
@@ -98,7 +99,10 @@ export default {
     deleteGenre(genre){
       HTTP.delete(`genre/${genre.id}`, {params: { id: genre.id }})
       .then(response => this.actualizaGeneros())
-      .catch(err => this.error = err.message)
+      .catch(err => this.error = Vue.notify({
+                  text: 'This genre cannot be removed',
+                  type: 'error'
+                  }))
     },
     actualizaGeneros(){
       HTTP.get('genre')

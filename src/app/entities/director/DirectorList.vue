@@ -36,6 +36,7 @@
 import { HTTP } from '../../common/http-common'
 import LoadingPage from '../../components/LoadingPage'
 import auth from '../../common/auth'
+import Vue from 'vue'
 
 export default {
   components: { LoadingPage },
@@ -58,7 +59,10 @@ export default {
     eliminateDirector(director){
       HTTP.delete(`directors/${director.id}`, {params: { id: director.id }})
       .then(response => this.actualizaDirectores())
-      .catch(err => this.error = err.message)
+      .catch(err => this.error = Vue.notify({
+                  text: 'This director cannot be removed',
+                  type: 'error'
+                  }))
     },
     actualizaDirectores(){
       HTTP.get('directors')
