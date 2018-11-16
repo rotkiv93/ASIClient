@@ -145,8 +145,25 @@
             placeholder="Introduce ruta de imagen"/>
         </b-form-group>
 
-        <b-btn variant="success" style="float right;"
-          @click="getImageTitle()">Buscar imagen</b-btn>
+        <b-btn @click="getImageTitle()" v-b-toggle="'collapse2'" class="m-1">Find Movies</b-btn>
+        <b-collapse id="collapse2">
+          <b-card>
+            <transition-group  tag="main" name="card">
+            <article v-for="movie in searchMovies" :key="movie.id" class="card">
+              <div class="image">
+                <img v-bind:src= "movie.poster_path" v-on:load="isLoaded()" v-bind:class="{ active: isActive }">
+              </div>
+              <div class="description" style="float:right;">
+                <h3 class="titulo">  {{movie.original_title}} </h3> 
+                <p class="release">  {{movie.release_date}} </p>
+              </div>
+               <toggle-button v-model="movie.seleccionada"/>
+            </article>
+            </transition-group>
+          </b-card>
+           <b-btn @click="addSelectedMovies()" v-b-toggle="'collapse2'" class="m-1">Add peliculas</b-btn>
+        </b-collapse>
+
 
       </b-form>
     </div>
@@ -165,7 +182,9 @@ export default {
   data() {
     return {
       movie: {},
+      movieSearch: [],
       error: null,
+      isActive: false,
       loading: false,
       allGenres: [],
       allActors: [],
@@ -181,6 +200,9 @@ export default {
         }
       })
     },
+    searchMovies(){
+    return this.movieSearch;
+    },
     directors(){
       return this.allDirectors.map(director => {
         return {
@@ -194,7 +216,7 @@ export default {
 
     theMovieDb.common.api_key = "31cde0355b497e2024b6dcd18cc0347d";
     theMovieDb.common.base_uri = "https://api.themoviedb.org/3/";
-    theMovieDb.common.images_uri = "https://image.tmdb.org/t/p/";
+    //theMovieDb.common.images_uri = "https://image.tmdb.org/t/p/";
     theMovieDb.common.timeout = 4000;
 
     this.getUsers()
@@ -220,6 +242,9 @@ export default {
       } else {
         return `${actor.nombre}`;
       }
+    },
+    isLoaded: function(){
+      this.isActive = true;
     },
     getUsers() {
       HTTP.get('genre')
@@ -257,10 +282,30 @@ export default {
     },
     successCB: function (data) {
       var json = JSON.parse(data);
+      var aux = json.results;
+
+      aux.forEach(function (movie){
+        //theMovieDb.movies.getById({"id": movie.id}, function(response){
+          //var json = JSON.parse(response);
+          movie.poster_path = "https://image.tmdb.org/t/p/w300" + movie.poster_path 
+          movie.seleccionada = false
+          //movie = json
+          //console.log(movie)
+        })
+      this.movieSearch = aux;
       this.movie.ruta = "https://image.tmdb.org/t/p/w300" + json.results[0].poster_path;
     },  
       errorCB: function (data) {
       console.log("Error callback: " + data);
+    },
+    addSelectedMovies(){
+      //console.log(this.movieSearch)
+      this.movieSearch.forEach(function (movie){
+        if (movie.seleccionada == true){
+          console.log(movie)
+          //metodo para subir la movie a la bd (hacer un post)
+        }
+      }) 
     }
   }
 }
@@ -269,5 +314,7 @@ export default {
 <style lang="sass" src="vue-multiselect/dist/vue-multiselect.min.css"></style>
 <style lang="scss">
 
-
+article { 
+    display: block;
+}
 </style>
