@@ -36,161 +36,158 @@
         
     
         <nav class="nav" style="margin-bottom:1%"></nav>
-        <div>
+
             <h3>Selected Movies</h3>
            <transition-group  tag="main" name="card">
-            <article v-for="movie in selectedMovies" :key="movie.id" class="card">
+            <article v-for="(movie,key) in selectedMovies" :key="movie.id" class="card">
                 <div class="image">
                 <img v-bind:src= "movie.poster_path" v-on:load="isLoaded()" v-bind:class="{ active: isActive }">
                 </div>
                 <div class="description" style="float:right;">
-                <h3 class="titulo">  {{movie.original_title}} </h3> 
-                <p class="release">  {{movie.release_date}} </p>
+                <h3 class="titulo">  {{movie.titulo}} </h3> 
+                <p class="release">  {{movie.ano_salida}} </p>
 
-
-
-                //https://vuejs.org/v2/examples/modal.html
-                <b-btn
-                    v-b-toggle=movie.id.toString()
-                    variant = "outline-warning">Edit</b-btn>
-                <b-collapse :id=movie.id.toString() class="mt-2">
-                    <b-card>
+                <div>
+                  <b-button-group style="margin-top:5%;">
+                  <b-btn v-b-modal="movie.titulo"  variant="outline-warning">Edit</b-btn>       
+                  <b-btn @click="deleteMovie(key)" variant="outline-danger"> Delete </b-btn>
+                  </b-button-group>
+                    <b-modal v-bind:id="movie.titulo" v-bind:title="movie.titulo">
+                      <b-card>
                         <b-form class="app-form">
-                            <b-form-group
-                            label="Titulo:"
-                            label-for="title">
-                            <b-form-input
-                                id="titulo"
-                                v-model="movie.titulo"
-                                type="text"
-                                required
-                                placeholder="Introduce titulo"/>
-                            </b-form-group>
+                          <b-form-group
+                          label="Titulo:"
+                          label-for="title">
+                          <b-form-input
+                              id="titulo"
+                              v-model="movie.titulo"
+                              type="text"
+                              required
+                              placeholder="Introduce titulo"/>
+                          </b-form-group>
 
-                            <b-form-group class="form-group"
-                            label="Pais:"
-                            label-for="pais">
-                            <b-form-input
-                                id="pais"
-                                v-model="movie.pais"
-                                required
-                                placeholder="Introduce pais "/>
-                            </b-form-group>
+                          <b-form-group class="form-group"
+                          label="Pais:"
+                          label-for="pais">
+                          <b-form-input
+                              id="pais"
+                              v-model="movie.pais"
+                              required
+                              placeholder="Introduce pais "/>
+                          </b-form-group>
 
-                            <b-form-group
-                            label="Productora:"
-                            label-for="productora">
-                            <b-form-input
-                                id="productora"
-                                v-model="movie.productora"
-                                required
-                                placeholder="Introduce productora "/>
-                            </b-form-group>
+                          <b-form-group
+                          label="Productora:"
+                          label-for="productora">
+                          <b-form-input
+                              id="productora"
+                              v-model="movie.productora"
+                              required
+                              placeholder="Introduce productora "/>
+                          </b-form-group>
 
-                            <b-form-group
-                            label="Duracion:"
-                            label-for="duracion">
-                            <b-form-input
-                                id="duracion"
-                                v-model="movie.duracion"
-                                required
-                                placeholder="Introduce duracion "/>
-                            </b-form-group>
+                          <b-form-group
+                          label="Duracion:"
+                          label-for="duracion">
+                          <b-form-input
+                              id="duracion"
+                              v-model="movie.duracion"
+                              required
+                              placeholder="Introduce duracion "/>
+                          </b-form-group>
 
-                            <b-form-group
-                            label="Director:"
-                            label-for="director">
-                            <b-form-select
-                                id="director"
-                                :options="directors"
-                                v-model="movie.director"
-                                required/>
-                            </b-form-group>
+                          <b-form-group
+                          label="Director:"
+                          label-for="director">
+                          <b-form-select
+                              id="director"
+                              :options="directors"
+                              v-model="movie.director"
+                              required/>
+                          </b-form-group>
 
-                            <b-form-group
-                            label = "Actores:"
-                            label-for="actores">
-                            <multiselect
-                                class =multiselect_actores 
-                                v-model="movie.actores" 
-                                :options="allActors" 
-                                :multiple="true" 
-                                :close-on-select="false" 
-                                :clear-on-select="false" 
-                                :preserve-search="true"
-                                :custom-label="customLabel"
-                                :show-labels="false"
-                                placeholder="Pick some actors" 
-                                label="nombre"
-                                track-by="nombre"
-                                :preselect-first="false">
-                            </multiselect>
-                            <link rel="stylesheet" href="https://unpkg.com/vue-multiselect@2.1.0/dist/vue-multiselect.min.css">
-                            </b-form-group>
+                          <b-form-group
+                          label = "Actores:"
+                          label-for="actores">
+                          <multiselect
+                              class =multiselect_actores 
+                              v-model="movie.actores" 
+                              :options="allActors" 
+                              :multiple="true" 
+                              :close-on-select="false" 
+                              :clear-on-select="false" 
+                              :preserve-search="true"
+                              :custom-label="customLabel"
+                              :show-labels="false"
+                              placeholder="Pick some actors" 
+                              label="nombre"
+                              track-by="nombre"
+                              :preselect-first="false">
+                          </multiselect>
+                          <link rel="stylesheet" href="https://unpkg.com/vue-multiselect@2.1.0/dist/vue-multiselect.min.css">
+                          </b-form-group>
 
-                            <b-form-group
-                            label="Genero:"
-                            label-for="genero">
-                            <b-form-select
-                                id="genero"
-                                :options="genres"
-                                v-model="movie.genero"
-                                required/>
-                            </b-form-group>
+                          <b-form-group
+                          label="Genero:"
+                          label-for="genero">
+                          <b-form-select
+                              id="genero"
+                              :options="genres"
+                              v-model="movie.genero"
+                              required/>
+                          </b-form-group>
 
-                            <b-form-group
-                            label="Año salida:"
-                            label-for="ano_salida">
-                            <b-form-input
-                                id="ano_salida"
-                                v-model="movie.ano_salida"
-                                required
-                                placeholder="Introduce año salida "/>
-                            </b-form-group>
+                          <b-form-group
+                          label="Año salida:"
+                          label-for="ano_salida">
+                          <b-form-input
+                              id="ano_salida"
+                              v-model="movie.ano_salida"
+                              required
+                              placeholder="Introduce año salida "/>
+                          </b-form-group>
 
-                            <b-form-group
-                            label="Fecha Estreno::"
-                            label-for="fecha_estreno">
-                            <b-form-input
-                                id="fecha_estreno"
-                                v-model="movie.fecha_estreno"
-                                type="date"
-                                required
-                                placeholder="Introduce fecha estreno "/>
-                            </b-form-group>
+                          <b-form-group
+                          label="Fecha Estreno::"
+                          label-for="fecha_estreno">
+                          <b-form-input
+                              id="fecha_estreno"
+                              v-model="movie.fecha_estreno"
+                              type="date"
+                              required
+                              placeholder="Introduce fecha estreno "/>
+                          </b-form-group>
 
-                            <b-form-group
-                            label="Sinopsis:"
-                            label-for="sinopsis">
-                            <b-form-textarea
-                                id="sinopsis"
-                                v-model="movie.sinopsis"
-                                :rows="3"
-                                :max-rows="6"
-                                required
-                                placeholder="Introduce sinopsis"/>
-                            </b-form-group>
+                          <b-form-group
+                          label="Sinopsis:"
+                          label-for="sinopsis">
+                          <b-form-textarea
+                              id="sinopsis"
+                              v-model="movie.overview"
+                              :rows="3"
+                              :max-rows="6"
+                              required
+                              placeholder="Introduce sinopsis"/>
+                          </b-form-group>
 
-                            <b-form-group
-                            label="Ruta de imagen:"
-                            label-for="ruta">
-                            <b-form-textarea
-                                id="ruta"
-                                v-model="movie.ruta"
-                                required
-                                placeholder="Introduce ruta de imagen"/>
-                            </b-form-group>          
+                          <b-form-group
+                          label="Ruta de imagen:"
+                          label-for="ruta">
+                          <b-form-textarea
+                              id="ruta"
+                              v-model="movie.ruta"
+                              required
+                              placeholder="Introduce ruta de imagen"/>
+                          </b-form-group>          
                         </b-form>
-                    </b-card>
-                </b-collapse>
-                <b-btn @click="deleteMovie(movie)"> Delete </b-btn>
-            </div>
+                      </b-card>
+                  </b-modal>
+              </div>
         </article>
     </transition-group>
     </div>
 
          
-    </div>
   </LoadingPage>
 </template>
 
@@ -313,11 +310,16 @@ export default {
       errorCB: function (data) {
       console.log("Error callback: " + data);
     },
+    deleteMovie(key){
+       this.moviesSelected.splice(key, 1);
+    },
     addSelectedMovies(){
       //console.log(this.movieSearch)
       for(let i = 0, len = this.movieSearch.length; i< len; i++){
         if (this.movieSearch[i].seleccionada == true){
           console.log(this.movieSearch[i])
+          this.movieSearch[i].titulo = this.movieSearch[i].title
+          this.movieSearch[i].fecha_estreno = this.movieSearch[i].release_date
           this.moviesSelected.push(this.movieSearch[i])
       }
     } 
