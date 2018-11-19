@@ -6,8 +6,9 @@
     <nav class="nav">
       <b-button-group class="buttons" v-if="isLogged">
         <b-button v-if="isAdmin" :to="{ name: 'MovieCreate' }"> New </b-button>
-        <b-button v-on:click="filter = ''" :class="{ active: filter == '' }"> Viewed </b-button>
-        <b-button v-on:click="filter = ''" :class="{ active: filter == '' }"> Pending </b-button>
+        <b-button @click="getAll()"> All </b-button>
+        <b-button @click="getVistas()"> Viewed </b-button>
+        <b-button @click="getPendientes()"> Pending </b-button>
       </b-button-group>
 
       <form class="form-inline my-2 my-lg-0">
@@ -86,6 +87,24 @@ export default {
     isLoaded: function(){
       this.isActive = true;
     },
+    getAll(){
+      HTTP.get('movies')
+    .then(response => this.movies = response.data)
+    .catch(err => this.error = err.response.data)
+    .finally(() => this.loading = false)
+    },
+    getVistas(){
+      HTTP.get('movies', {params: {tipoBusqueda : "Vista"}})
+      .then(response => this.movies = response.data)
+      .catch(err => this.error = err.response.data)
+      .finally(() => this.loading = false)
+    },
+    getPendientes(){
+      HTTP.get('movies', {params: {tipoBusqueda : "Pendiente"}})
+      .then(response => this.movies = response.data)
+      .catch(err => this.error = err.response.data)
+      .finally(() => this.loading = false)
+    }
   }
 }
 </script>
