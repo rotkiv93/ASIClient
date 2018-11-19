@@ -24,6 +24,10 @@
             <li class="nav-item">
             <b-nav-item :to="{ name: 'GenreList' }" exact>Genres</b-nav-item>
             </li>
+
+            <li class="nav-item">
+            <b-nav-item :to="{ name: 'MovieImporter' }" exact>Importer</b-nav-item>
+            </li>
           </template>
 
         </ul>
@@ -40,7 +44,7 @@
             <b-dropdown-item @click="logout()"> Logout </b-dropdown-item>
           </template>
         </b-dropdown>
-      </b-navbar-nav>
+
     </div>
   </nav>
 </template>
@@ -51,7 +55,7 @@ import auth from '../common/auth'
 export default {
   computed: {
     entitiesActive: function () {
-      return [ 'MovieCreate', 'MovieList', 'DirectorList', 'ActorList'].indexOf(this.$route.name) != -1
+      return [ 'MovieCreate', 'MovieList', 'DirectorList', 'ActorList' , 'MovieImporter'].indexOf(this.$route.name) != -1
     },
      isLogged() {
       return auth.user.logged
