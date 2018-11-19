@@ -297,15 +297,6 @@ export default {
     },  
       errorCB: function (data) {
       console.log("Error callback: " + data);
-    },
-    addSelectedMovies(){
-      //console.log(this.movieSearch)
-      this.movieSearch.forEach(function (movie){
-        if (movie.seleccionada == true){
-          console.log(movie)
-          //metodo para subir la movie a la bd (hacer un post)
-        }
-      }) 
     }
   }
 }

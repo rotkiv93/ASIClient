@@ -3,10 +3,15 @@
     :loading="loading"
     :error="error">
     <div class="margenes">
-        <b-btn style="float:right;"
-          variant="secondary"
-          @click="back()">Back</b-btn>
-      
+        
+        <b-button-group style="float:right;">
+          <b-btn
+            variant="primary"
+            @click="upload()">Upload</b-btn>
+          <b-btn 
+            variant="outline-secondary"
+            @click="back()">Back</b-btn>
+        </b-button-group>
 
         <div>
             <form class="form-inline my-2 my-lg-0">
@@ -17,6 +22,7 @@
         </div>
         
         <b-collapse id="collapse2">
+            <b-btn  @click="addSelectedMovies()" v-b-toggle="'collapse2'">Add Selected Movies</b-btn>
             <b-card>
             <transition-group  tag="main" name="card">
             <article v-for="movie in searchMovies" :key="movie.id" class="card">
@@ -31,14 +37,13 @@
             </article>
             </transition-group>
             </b-card>
-             <b-btn @click="addSelectedMovies()" v-b-toggle="'collapse2'" class="m-1">Add Selected Movies</b-btn>
+             <b-btn style="margin-top:2%" @click="addSelectedMovies()" v-b-toggle="'collapse2'" >Add Selected Movies</b-btn>
         </b-collapse>
         
     
         <nav class="nav" style="margin-bottom:1%"></nav>
-
             <h3>Selected Movies</h3>
-           <transition-group  tag="main" name="card">
+           <transition-group tag="main" name="card">
             <article v-for="(movie,key) in selectedMovies" :key="movie.id" class="card">
                 <div class="image">
                 <img v-bind:src= "movie.poster_path" v-on:load="isLoaded()" v-bind:class="{ active: isActive }">
@@ -52,9 +57,8 @@
                   <b-btn v-b-modal="movie.titulo"  variant="outline-warning">Edit</b-btn>       
                   <b-btn @click="deleteMovie(key)" variant="outline-danger"> Delete </b-btn>
                   </b-button-group>
-                    <b-modal v-bind:id="movie.titulo" v-bind:title="movie.titulo">
-                      <b-card>
-                        <b-form class="app-form">
+                    <b-modal size="lg" v-bind:id="movie.titulo" v-bind:title="movie.titulo">
+                        <b-form>
                           <b-form-group
                           label="Titulo:"
                           label-for="title">
@@ -180,7 +184,6 @@
                               placeholder="Introduce ruta de imagen"/>
                           </b-form-group>          
                         </b-form>
-                      </b-card>
                   </b-modal>
               </div>
         </article>
@@ -320,9 +323,18 @@ export default {
           console.log(this.movieSearch[i])
           this.movieSearch[i].titulo = this.movieSearch[i].title
           this.movieSearch[i].fecha_estreno = this.movieSearch[i].release_date
+          this.movieSearch[i].sinopsis = this.movieSearch[i].overview.substring(0,250)
+          this.movieSearch[i].ruta = this.movieSearch[i].poster_path
           this.moviesSelected.push(this.movieSearch[i])
-      }
-    } 
+        }
+      } 
+    },
+    upload(){
+       for(let i = 0, len = this.moviesSelected.length; i< len; i++){
+        HTTP.post('movies', this.moviesSelected[i])
+        .then(response => this.moviesSelected.splice(i,1))
+        .catch(err => this.error = err.message)
+       }
     }
   }
 }
