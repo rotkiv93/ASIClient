@@ -175,14 +175,10 @@
                           </b-form-group>
 
                           <b-form-group
-                          label="Ruta de imagen:"
-                          label-for="ruta">
-                          <b-form-textarea
-                              id="ruta"
-                              v-model="movie.ruta"
-                              required
-                              placeholder="Introduce ruta de imagen"/>
-                          </b-form-group>          
+                            label ="Ocultar">
+                            <toggle-button v-model="movie.oculta"/>
+                          </b-form-group>
+
                         </b-form>
                   </b-modal>
               </div>
@@ -328,6 +324,7 @@ export default {
             this.movieSearch[i].ano_salida = parseInt(this.movieSearch[i].release_date.substring(0, 4)),
             this.movieSearch[i].poster_path = "https://image.tmdb.org/t/p/w300" + this.movieSearch[i].poster_path,
             this.movieSearch[i].seleccionada = true,
+            this.movieSearch[i].oculta = false,
             this.movieSearch[i].productora = (this.movieSearch[i].production_companies.length != 0) ? this.movieSearch[i].production_companies[0].name : null,
             this.movieSearch[i].pais =  (this.movieSearch[i].production_countries.length != 0) ? this.movieSearch[i].production_countries[0].name : null,
             this.movieSearch[i].ruta = this.movieSearch[i].poster_path;

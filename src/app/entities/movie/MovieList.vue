@@ -11,6 +11,14 @@
         <b-button @click="getPendientes()"> Pending </b-button>
       </b-button-group>
 
+
+      <vue-csv-downloader v-if="movies"
+        :data="movies"
+        :fields="fields"
+      > <b-button> Download CSV</b-button>
+      </vue-csv-downloader>
+
+
       <form class="form-inline my-2 my-lg-0">
         <input class="form-control mr-sm-2" type="text" v-model="search" placeholder="Search movies">
         <button class="btn btn-secondary my-2 my-sm-0" type="submit" disabled>
@@ -41,9 +49,10 @@
 import { HTTP } from '../../common/http-common'
 import LoadingPage from '../../components/LoadingPage'
 import auth from '../../common/auth'
+import VueCsvDownloader from 'vue-csv-downloader'
 
 export default {
-  components: { LoadingPage },
+  components: { LoadingPage, VueCsvDownloader },
   data() {
     return {
       loading: false,
@@ -53,7 +62,8 @@ export default {
       rutas: [],
       isActive: false,
       search: '',
-      userFilter: ''
+      userFilter: '',
+      fields: [],
     }
   },
   computed: {
@@ -79,7 +89,10 @@ export default {
     this.loading = true
 
     HTTP.get('movies')
-    .then(response => this.movies = response.data)
+    .then(response => {
+        this.movies = response.data,
+        this.fields = (response.data.length !=0) ? Object.keys(response.data[0]) : null
+        })
     .catch(err => this.error = err.response.data)
     .finally(() => this.loading = false)
   },
@@ -113,10 +126,6 @@ export default {
 
 .controls{
   display: flex; 
-}
-
-
-.buttons{
 }
 
 

@@ -38,6 +38,7 @@
     "node-sass": "4.9.3",
     "parcel-bundler": "1.9.7",
     "parcel-plugin-eslint": "1.0.4",
+    "vue-csv-downloader": "^1.0.3",
     "vue-template-compiler": "2.5.17"
   },
   "scripts": {
