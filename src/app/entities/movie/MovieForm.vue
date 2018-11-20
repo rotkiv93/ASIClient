@@ -216,7 +216,7 @@ export default {
 
     theMovieDb.common.api_key = "31cde0355b497e2024b6dcd18cc0347d";
     theMovieDb.common.base_uri = "https://api.themoviedb.org/3/";
-    //theMovieDb.common.images_uri = "https://image.tmdb.org/t/p/";
+    theMovieDb.common.images_uri = "https://image.tmdb.org/t/p/";
     theMovieDb.common.timeout = 4000;
 
     this.getUsers()
@@ -285,12 +285,8 @@ export default {
       var aux = json.results;
 
       aux.forEach(function (movie){
-        //theMovieDb.movies.getById({"id": movie.id}, function(response){
-          //var json = JSON.parse(response);
           movie.poster_path = "https://image.tmdb.org/t/p/w300" + movie.poster_path 
           movie.seleccionada = false
-          //movie = json
-          //console.log(movie)
         })
       this.movieSearch = aux;
       this.movie.ruta = "https://image.tmdb.org/t/p/w300" + json.results[0].poster_path;
