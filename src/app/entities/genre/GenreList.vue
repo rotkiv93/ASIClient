@@ -28,6 +28,9 @@
         :key="genre.id"
         class="listas2"> 
          <h5>
+          <b-btn 
+            variant="outline-danger"
+            @click="deleteGenre(genre)">Remove</b-btn>
           <b-btn
            v-b-toggle=genre.id.toString()
            variant = "outline-warning">Edit</b-btn>
@@ -43,10 +46,6 @@
               <b-btn v-b-toggle=genre.id.toString() style="margin-top:1%"
                 variant="success"
                 @click="saveg(genre)">Save</b-btn>
-              <b-btn 
-                style="margin-top:1%; margin-left:83%"
-                variant="danger"
-                @click="deleteGenre(genre)">Remove</b-btn>
             </b-card>
           </b-collapse>
 
@@ -89,12 +88,18 @@ export default {
     saveg(genre){
       HTTP.put(`genre/${genre.id}`, genre)
       .then(response => this.actualizaGeneros())
-      .catch(err => this.error = err.message)
+      .catch(err => this.error = Vue.notify({
+                  text: 'Gender already exists or is empty',
+                  type: 'error'
+                  }))
     },
     post(){
         HTTP.post('genre', this.genre)
         .then(response => this.actualizaGeneros())
-        .catch(err => this.error = err.message)
+        .catch(err => this.error = Vue.notify({
+                  text: 'Gender already exists or is empty',
+                  type: 'error'
+                  }))
     },
     deleteGenre(genre){
       HTTP.delete(`genre/${genre.id}`, {params: { id: genre.id }})
