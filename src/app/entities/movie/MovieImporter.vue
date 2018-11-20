@@ -54,10 +54,10 @@
 
                 <div>
                   <b-button-group style="margin-top:5%;">
-                  <b-btn v-b-modal="movie.titulo"  variant="outline-warning">Edit</b-btn>       
+                  <b-btn v-b-modal=movie.id.toString()  variant="outline-warning">Edit</b-btn>       
                   <b-btn @click="deleteMovie(key)" variant="outline-danger"> Delete </b-btn>
                   </b-button-group>
-                    <b-modal size="lg" v-bind:id="movie.titulo" v-bind:title="movie.titulo">
+                    <b-modal size="lg" v-bind:id=movie.id.toString() v-bind:title="movie.titulo">
                         <b-form>
                           <b-form-group
                           label="Titulo:"
@@ -200,6 +200,8 @@ import LoadingPage from '../../components/LoadingPage'
 import auth from '../../common/auth'
 import Multiselect from 'vue-multiselect'
 import theMovieDb from 'themoviedb-javascript-library'
+import Vue from 'vue'
+
 
 export default {
   components: { LoadingPage,  Multiselect},
@@ -244,7 +246,7 @@ export default {
 
     theMovieDb.common.api_key = "31cde0355b497e2024b6dcd18cc0347d";
     theMovieDb.common.base_uri = "https://api.themoviedb.org/3/";
-    //theMovieDb.common.images_uri = "https://image.tmdb.org/t/p/";
+    theMovieDb.common.images_uri = "https://image.tmdb.org/t/p/";
     theMovieDb.common.timeout = 4000;
 
     this.getUsers()
@@ -300,12 +302,8 @@ export default {
       var aux = json.results;
 
       aux.forEach(function (movie){
-        //theMovieDb.movies.getById({"id": movie.id}, function(response){
-          //var json = JSON.parse(response);
           movie.poster_path = "https://image.tmdb.org/t/p/w300" + movie.poster_path 
           movie.seleccionada = false
-          //movie = json
-          //console.log(movie)
         })
       this.movieSearch = aux;
       this.movie.ruta = "https://image.tmdb.org/t/p/w300" + json.results[0].poster_path;
@@ -314,26 +312,40 @@ export default {
       console.log("Error callback: " + data);
     },
     deleteMovie(key){
-       this.moviesSelected.splice(key, 1);
+      this.moviesSelected[key].seleccionada = false;
+      this.moviesSelected.splice(key, 1);
     },
     addSelectedMovies(){
-      //console.log(this.movieSearch)
       for(let i = 0, len = this.movieSearch.length; i< len; i++){
         if (this.movieSearch[i].seleccionada == true){
-          console.log(this.movieSearch[i])
-          this.movieSearch[i].titulo = this.movieSearch[i].title
-          this.movieSearch[i].fecha_estreno = this.movieSearch[i].release_date
-          this.movieSearch[i].sinopsis = this.movieSearch[i].overview.substring(0,250)
-          this.movieSearch[i].ruta = this.movieSearch[i].poster_path
-          this.moviesSelected.push(this.movieSearch[i])
+          theMovieDb.movies.getById({"id":this.movieSearch[i].id}, response => {
+            this.movieSearch[i] = (JSON.parse(response)),
+            this.movieSearch[i].titulo = this.movieSearch[i].title,
+            this.movieSearch[i].fecha_estreno = this.movieSearch[i].release_date,
+            this.movieSearch[i].sinopsis = this.movieSearch[i].overview.substring(0,250),
+            this.movieSearch[i].ruta = this.movieSearch[i].poster_path,
+            this.movieSearch[i].duracion = this.movieSearch[i].runtime,
+            this.movieSearch[i].ano_salida = parseInt(this.movieSearch[i].release_date.substring(0, 4)),
+            this.movieSearch[i].poster_path = "https://image.tmdb.org/t/p/w300" + this.movieSearch[i].poster_path,
+            this.movieSearch[i].seleccionada = true,
+            this.movieSearch[i].productora = (this.movieSearch[i].production_companies.length != 0) ? this.movieSearch[i].production_companies[0].name : null,
+            this.movieSearch[i].pais =  (this.movieSearch[i].production_countries.length != 0) ? this.movieSearch[i].production_countries[0].name : null,
+            this.movieSearch[i].ruta = this.movieSearch[i].poster_path;
+            this.moviesSelected.push(this.movieSearch[i])
+          }, this.errorCB)
+
+          
         }
       } 
     },
     upload(){
        for(let i = 0, len = this.moviesSelected.length; i< len; i++){
-        HTTP.post('movies', this.moviesSelected[i])
-        .then(response => this.moviesSelected.splice(i,1))
-        .catch(err => this.error = err.message)
+          HTTP.post('movies', this.moviesSelected[i])
+          .then(response => this.moviesSelected.splice(i,1))
+          .catch(err => this.error = Vue.notify({
+                    text: 'A movie cannot be uploaded',
+                    type: 'error'
+                    }))
        }
     }
   }
