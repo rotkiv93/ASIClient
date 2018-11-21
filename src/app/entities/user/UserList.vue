@@ -5,14 +5,15 @@
     <nav class="nav">
     </nav>
 
-    <div class="margenes">  
+    <div v-if="users" class="margenes">  
       <div
         v-for="user in users"
         :key="user.id"
         class="listas">
          <h5>
-          {{user.login}} {{user.viewed}}
+          User: {{user.login}} Numero de peliculas vistas: {{user.count}}
          </h5>
+
       </div>
     </div>
     
@@ -40,22 +41,23 @@ export default {
     this.loading = true
     HTTP.get('users')
     .then(response => {
-      this.users = response.data
-      
-    })
-    .catch(err => this.error = err.response.data)
-    .finally(() => this.loading = false)
-
-
-    HTTP.get('movieusers', {params: {userLogin: 'josete'}})
-    .then(response => {
-      this.movies = response.data,
-      console.log(response.data)
+      this.users = response.data,
+      this.countMovies()
     })
     .catch(err => this.error = err.response.data)
     .finally(() => this.loading = false)
   },
   methods: {
+    countMovies(){
+      for(let i = 0, len = this.users.length; i< len; i++){
+        this.users[i].count = 0;
+        for(let j = 0, len1 = this.users[i].peliculas.length; j< len; j++){
+          if (this.users[i].peliculas[j].estado = "Vista"){
+            this.users[i].count ++;
+          }
+        }
+      }
+    }
   }
 }
 </script>

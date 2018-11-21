@@ -2,8 +2,8 @@
   <div>
     <div
       v-if="loading"
-      class="loading">
-      Loading...
+      class="spinner">
+      <Stretch></Stretch>
     </div>
 
     <div
@@ -20,8 +20,11 @@
 </template>
 
 <script>
-
+import {Stretch} from 'vue-loading-spinner' 
 export default {
+  components: {
+      Stretch
+    },
   name: 'LoadingPage',
   props: {
     loading: {

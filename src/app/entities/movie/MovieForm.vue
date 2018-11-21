@@ -267,7 +267,7 @@ export default {
     },
     attemptUpload() {
       if (this.image){
-      FormDataPost('http://localhost:8001/user/picture', this.image)
+      FormDataPost('http://localhost:8080/movies/pictures', this.image)
         .then(response=>{
           if (response.data.success){
             this.image = '';
