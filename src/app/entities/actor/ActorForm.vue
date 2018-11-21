@@ -55,6 +55,7 @@
 <script>
 import { HTTP } from '../../common/http-common'
 import LoadingPage from '../../components/LoadingPage'
+import Vue from 'vue'
 
 export default {
   components: { LoadingPage },
@@ -82,13 +83,25 @@ export default {
       if (this.$route.params.id) {
         HTTP.put(`actors/${this.$route.params.id}`, this.actor)
         .then(response =>
-          this.$router.replace({ name: 'ActorList', params: { id: response.data.id }}))
-        .catch(err => this.error = err.message)
+          {this.$router.replace({ name: 'ActorList', params: { id: response.data.id }}), Vue.notify({
+                  text: 'Actor successfully updated',
+                  type: 'success'
+                  })} )
+        .catch(err => this.error = Vue.notify({
+                  text: 'One or more fields are wrong',
+                  type: 'error'
+                  }))
       } else {
         HTTP.post('actors', this.actor)
         .then(response =>
-          this.$router.replace({ name: 'ActorList', params: { id: response.data.id }}))
-        .catch(err => this.error = err.message)
+          {this.$router.replace({ name: 'ActorList', params: { id: response.data.id }}), Vue.notify({
+                  text: 'Actor successfully updated',
+                  type: 'success'
+                  })} )
+        .catch(err => this.error = Vue.notify({
+                  text: 'One or more fields are wrong',
+                  type: 'error'
+                  }))
       }
     },
     back() {

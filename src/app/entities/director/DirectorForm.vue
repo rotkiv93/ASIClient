@@ -49,6 +49,7 @@
 <script>
 import { HTTP } from '../../common/http-common'
 import LoadingPage from '../../components/LoadingPage'
+import Vue from 'vue'
 
 export default {
   components: { LoadingPage },
@@ -77,12 +78,18 @@ export default {
           HTTP.put(`directors/${this.$route.params.id}`, this.director)
           .then(response =>
             this.$router.replace({ name: 'DirectorList', params: { id: response.data.id }}))
-          .catch(err => this.error = err.message)
+          .catch(err => this.error = Vue.notify({
+                  text: 'One or more fields are wrong',
+                  type: 'error'
+                  }))
         } else {
           HTTP.post('directors', this.director)
           .then(response =>
             this.$router.replace({ name: 'DirectorList', params: { id: response.data.id }}))
-          .catch(err => this.error = err.message)
+          .catch(err => this.error = Vue.notify({
+                  text: 'One or more fields are wrong',
+                  type: 'error'
+                  }))
         }
     },
     back() {

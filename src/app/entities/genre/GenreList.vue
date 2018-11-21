@@ -68,7 +68,8 @@ export default {
       loading: false,
       genres: [],
       genre: {},
-      error: null
+      error: null,
+      success: null
     }
   },
   computed:{
@@ -87,11 +88,14 @@ export default {
   methods:{
     saveg(genre){
       HTTP.put(`genre/${genre.id}`, genre)
-      .then(response => this.actualizaGeneros())
+      .then(response => this.success = Vue.notify({
+                  text: 'Gender successfully modified',
+                  type: 'success'
+                  }), this.actualizaGeneros())
       .catch(err => this.error = Vue.notify({
                   text: 'Gender already exists or is empty',
                   type: 'error'
-                  }))
+                  }), this.actualizaGeneros())
     },
     post(){
         HTTP.post('genre', this.genre)
