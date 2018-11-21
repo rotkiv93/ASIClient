@@ -3,28 +3,15 @@
     :loading="loading"
     :error="error">
     <nav class="nav">
-      <div class="float-right" >
-        <b-btn
-          :to="{ name: 'DirectorCreate' }"
-          variant="outline-success">New</b-btn>
-      </div>
     </nav>
-    <div class="margenes">
-      
+
+    <div class="margenes">  
       <div
-        v-for="director in directors"
-        :key="director.id"
+        v-for="user in users"
+        :key="user.id"
         class="listas">
-         <h5>  
-          <b-btn
-           @click="eliminateDirector(director)" 
-           variant = "outline-danger">Remove</b-btn>
-          <b-btn
-           :to= "{ name: 'DirectorUpdate', params:{id : director.id}}"
-           variant = "outline-warning">Edit</b-btn>
-          <router-link class="router" :to="{ name: 'DirectorDetail', params: { id: director.id } }">
-          {{director.login}} {{director.apellido1}} {{director.apellido2}}
-          </router-link>
+         <h5>
+          {{user.login}} {{user.viewed}}
          </h5>
       </div>
     </div>
@@ -43,33 +30,32 @@ export default {
   data() {
     return {
       loading: false,
-      directors: null,
-      director: {},
-      error: null
+      users: null,
+      user: {},
+      error: null,
+      movies: null,
     }
   },
   created() {
     this.loading = true
     HTTP.get('users')
-    .then(response => this.directors = response.data)
-    .then(response => console.log(response))
+    .then(response => {
+      this.users = response.data
+      
+    })
+    .catch(err => this.error = err.response.data)
+    .finally(() => this.loading = false)
+
+
+    HTTP.get('movieusers', {params: {userLogin: 'josete'}})
+    .then(response => {
+      this.movies = response.data,
+      console.log(response.data)
+    })
     .catch(err => this.error = err.response.data)
     .finally(() => this.loading = false)
   },
   methods: {
-    eliminateDirector(director){
-      HTTP.delete(`directors/${director.id}`, {params: { id: director.id }})
-      .then(response => this.actualizaDirectores())
-      .catch(err => this.error = Vue.notify({
-                  text: 'This director cannot be removed',
-                  type: 'error'
-                  }))
-    },
-    actualizaDirectores(){
-      HTTP.get('directors')
-      .then(response => this.directors = response.data)
-      .catch(err => this.error = err.response.data)
-    }
   }
 }
 </script>

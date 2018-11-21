@@ -119,7 +119,7 @@ export default {
       },
     fetchMovieUser(){
        if(auth.getLogin() != ''){
-         HTTP.get(`movieusers`, {params:{movieID: this.$route.params.id, userLogin: auth.getLogin()}})
+         HTTP.get(`movieusers/${this.$route.params.id}/${auth.getLogin()}`)
         .then(response => this.movieUser = response.data)
         .catch(err => this.error = err.message)
       }
@@ -158,7 +158,7 @@ export default {
     },
     getUsuario(){
         if(auth.getLogin() != ''){
-          HTTP.get(`users`, {params: {login: auth.getLogin()}})
+          HTTP.get(`users/${auth.getLogin()}`)
           .then(response => this.user = response.data)
         }
     },

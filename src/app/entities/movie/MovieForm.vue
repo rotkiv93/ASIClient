@@ -164,6 +164,23 @@
            <b-btn @click="addSelectedMovies()" v-b-toggle="'collapse2'" class="m-1">Add peliculas</b-btn>
         </b-collapse>
 
+        <picture-input
+          ref="pictureInput"
+          @change="onChanged"
+          @remove="onRemoved"
+          :width="300"
+          :removable="true"
+          remove-button-class="ui red button"
+          :height="300"
+          accept="image/jpeg, image/png, image/gif"
+          button-class="ui button primary"
+          :custom-strings="{
+          upload: '<h1>Upload it!</h1>',
+          drag: 'Drag and drop your image here'}">
+        </picture-input>
+        <button @click="attemptUpload" v-bind:class="{ disabled: !image }">
+          Upload
+        </button>
 
       </b-form>
     </div>
@@ -176,14 +193,17 @@ import LoadingPage from '../../components/LoadingPage'
 import auth from '../../common/auth'
 import Multiselect from 'vue-multiselect'
 import theMovieDb from 'themoviedb-javascript-library'
+import PictureInput from 'vue-picture-input'
+import FormDataPost from '../../common/upload'
 
 export default {
-  components: { LoadingPage,  Multiselect},
+  components: { LoadingPage,  Multiselect,  PictureInput},
   data() {
     return {
       movie: {},
       movieSearch: [],
       error: null,
+      image: null,
       isActive: false,
       loading: false,
       allGenres: [],
@@ -234,6 +254,31 @@ export default {
     }
   },
   methods: {
+    onChanged() {
+      console.log("New picture loaded");
+      if (this.$refs.pictureInput.file) {
+        this.image = this.$refs.pictureInput.file;
+      } else {
+        console.log("Old browser. No support for Filereader API");
+      }
+    },
+    onRemoved() {
+      this.image = '';
+    },
+    attemptUpload() {
+      if (this.image){
+      FormDataPost('http://localhost:8001/user/picture', this.image)
+        .then(response=>{
+          if (response.data.success){
+            this.image = '';
+            console.log("Image uploaded successfully ✨");
+          }
+        })
+        .catch(err=>{
+          console.error(err);
+        });
+      }
+    },
     customLabel(actor){
       if (actor.apellido2 != null){
         return `${actor.nombre} ${actor.apellido1} ${actor.apellido2}`;
