@@ -82,6 +82,12 @@ body {
   border-bottom: 1px solid #c5d0d1;
 }
 
+.spinner{
+    position: fixed;
+    left: 50%;
+    top: 50%;
+}
+
 
 #app main {
     display: grid;
