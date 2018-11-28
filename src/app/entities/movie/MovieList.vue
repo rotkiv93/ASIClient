@@ -58,7 +58,9 @@
               | {{ movie.genero.nombre }} 
               | {{ movie.productora}} 
               | {{ movie.duracion }} min. </p>
-            <p>{{ movie.sinopsis }} </p>
+            <label style="color:white">Cast:</label>
+            <span v-for="actor in movie.actores" :key="actor.id"> {{ actor.nombre }} {{actor.apellido1}} {{actor.apellido2}} |</span>
+            <p><label style="color:white">Synopsis: </label> {{ movie.sinopsis }} </p>
           </div>
       </div>
     </div>
