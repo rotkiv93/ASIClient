@@ -12,6 +12,9 @@
         <h5>Nombre: {{ user.login }}</h5>
         <h5>Email: {{ user.email }}</h5>
         <h5>Fecha Alta: {{ user.fecha_alta }}</h5>
+        <h5>Peliculas vistas: {{ user.num_vistas }}</h5>
+        <h5>Peliculas pendientes: {{ user.num_pendientes }}</h5>
+        <h5>Peliculas Votadas: {{ user.num_valoradas }}</h5>
         <hr>
         <!-- <div class="actor">{{ actor.body }}</div> -->
       </div>

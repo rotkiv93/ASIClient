@@ -12,6 +12,12 @@
             <b-nav-item :to="{ name: 'MovieList' }" exact>Movies</b-nav-item>
           </li>
 
+          <template v-if="isLogged">
+            <li class="nav-item">
+            <b-nav-item :to="{ name: 'UserList' }" exact>Users</b-nav-item>
+          </li>
+          </template>
+
           <template v-if="isAdmin">
             <li class="nav-item">
             <b-nav-item :to="{ name: 'DirectorList' }" exact>Directors</b-nav-item>
@@ -23,10 +29,6 @@
 
             <li class="nav-item">
             <b-nav-item :to="{ name: 'GenreList' }" exact>Genres</b-nav-item>
-            </li>
-
-            <li class="nav-item">
-            <b-nav-item :to="{ name: 'UserList' }" exact>Users</b-nav-item>
             </li>
 
             <li class="nav-item">
@@ -44,7 +46,7 @@
             <b-dropdown-item :to="{ name: 'Login' }" exact> Login </b-dropdown-item>
           </template>
           <template v-if="isLogged">
-            <b-dropdown-item href="#"> Profile </b-dropdown-item>
+            <b-dropdown-item :to="{ name: 'UserDetail', params: { id: loginUser } }" exact> Profile </b-dropdown-item>
             <b-dropdown-item @click="logout()"> Logout </b-dropdown-item>
           </template>
         </b-dropdown>
@@ -66,6 +68,9 @@ export default {
     },
     loggedUser() {
       return auth.user.logged ? `${auth.user.login} (${auth.user.authority})` : 'User'
+    },
+    loginUser(){
+      return `${auth.user.login}`
     },
     isAdmin() {
       return auth.isAdmin()

@@ -12,6 +12,7 @@ const store = {
   logout,
   getToken,
   isAdmin,
+  isUser,
   getLogin,
   authenticate
 }
@@ -65,8 +66,8 @@ function isAdmin() {
 function getLogin(){
   return store.user.login
 }
-/*function isUser() {
+function isUser() {
   return store.user.authority == 'USER'
-}*/
+}
 
 export default store
