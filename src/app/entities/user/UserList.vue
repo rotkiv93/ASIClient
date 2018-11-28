@@ -11,7 +11,10 @@
         :key="user.id"
         class="listas">
          <h5>
-          User: {{user.login}} Numero de peliculas vistas: {{user.count}}
+          <router-link class="router" :to="{ name: 'UserDetail', params: { id: user.login } }">
+           User: {{user.login}} Numero de peliculas vistas: {{user.num_vistas}}
+           </router-link>
+          
          </h5>
 
       </div>
@@ -41,23 +44,10 @@ export default {
     this.loading = true
     HTTP.get('users')
     .then(response => {
-      this.users = response.data,
-      this.countMovies()
+      this.users = response.data
     })
     .catch(err => this.error = err.response.data)
     .finally(() => this.loading = false)
   },
-  methods: {
-    countMovies(){
-      for(let i = 0, len = this.users.length; i< len; i++){
-        this.users[i].count = 0;
-        for(let j = 0, len1 = this.users[i].peliculas.length; j< len; j++){
-          if (this.users[i].peliculas[j].estado = "Vista"){
-            this.users[i].count ++;
-          }
-        }
-      }
-    }
-  }
 }
 </script>

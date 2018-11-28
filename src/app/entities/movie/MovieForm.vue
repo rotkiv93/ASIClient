@@ -8,7 +8,7 @@
           @click="back()">Back</b-btn>
         <b-btn style="float left;"
           variant="outline-success"
-          @click="save()">Submit</b-btn>
+          @click="checkForm()">Submit</b-btn>
 
       <div class="float-right">
           <p style="margin:1%;">Ocultar</p>
@@ -18,7 +18,14 @@
       <b-form
         v-if="movie"
         class="app-form"
-        @submit="save">
+        @submit="checkForm">
+
+        <p v-if="errors.length">
+          <b>Please, fix the following error(s):</b>
+          <ul>
+            <li v-for="error in errors"> {{ error }} </li>
+          </ul>
+        </p>
 
         <b-form-group
           label="Titulo:"
@@ -27,7 +34,6 @@
             id="titulo"
             v-model="movie.titulo"
             type="text"
-            required
             placeholder="Introduce titulo"/>
         </b-form-group>
 
@@ -37,7 +43,6 @@
           <b-form-input
             id="pais"
             v-model="movie.pais"
-            required
             placeholder="Introduce pais "/>
         </b-form-group>
 
@@ -47,7 +52,6 @@
           <b-form-input
             id="productora"
             v-model="movie.productora"
-            required
             placeholder="Introduce productora "/>
         </b-form-group>
 
@@ -57,7 +61,6 @@
           <b-form-input
             id="duracion"
             v-model="movie.duracion"
-            required
             placeholder="Introduce duracion "/>
         </b-form-group>
 
@@ -67,8 +70,7 @@
           <b-form-select
             id="director"
             :options="directors"
-            v-model="movie.director"
-            required/>
+            v-model="movie.director" />
         </b-form-group>
 
         <b-form-group
@@ -98,8 +100,7 @@
           <b-form-select
             id="genero"
             :options="genres"
-            v-model="movie.genero"
-            required/>
+            v-model="movie.genero" />
         </b-form-group>
 
          <b-form-group
@@ -108,7 +109,6 @@
           <b-form-input
             id="ano_salida"
             v-model="movie.ano_salida"
-            required
             placeholder="Introduce año salida "/>
         </b-form-group>
 
@@ -119,7 +119,6 @@
             id="fecha_estreno"
             v-model="movie.fecha_estreno"
             type="date"
-            required
             placeholder="Introduce fecha estreno "/>
         </b-form-group>
 
@@ -131,7 +130,6 @@
             v-model="movie.sinopsis"
             :rows="3"
             :max-rows="6"
-            required
             placeholder="Introduce sinopsis"/>
         </b-form-group>
 
@@ -141,7 +139,6 @@
           <b-form-textarea
             id="ruta"
             v-model="movie.ruta"
-            required
             placeholder="Introduce ruta de imagen"/>
         </b-form-group>
 
@@ -202,6 +199,7 @@ export default {
     return {
       movie: {},
       movieSearch: [],
+      errors: [],
       error: null,
       image: null,
       isActive: false,
@@ -338,6 +336,39 @@ export default {
     },  
       errorCB: function (data) {
       console.log("Error callback: " + data);
+    },
+    checkForm: function() {
+      this.errors = [];
+
+      if(!this.movie.titulo){
+        this.errors.push("Title required");
+      }
+      if (!this.movie.sinopsis){
+        this.errors.push("Synopsis required");
+      }
+      if (!this.movie.director){
+        this.errors.push("Director required");      
+      }
+      if (!this.movie.genero){
+        this.errors.push("Genre required");       
+      }
+      if (!this.movie.duracion){
+        this.errors.push("Duration required");       
+      }
+      if (!this.movie.pais){
+        this.errors.push("Country required");        
+      }
+      if (!this.movie.productora){
+        this.errors.push("Producer required");        
+      }
+      if (!this.movie.ano_salida){
+        this.errors.push("Release year required");        
+      }
+
+      if (!this.errors.length) {
+        save();
+      }
+
     }
   }
 }
