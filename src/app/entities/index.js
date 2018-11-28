@@ -10,5 +10,6 @@ import ActorForm from './actor/ActorForm'
 import ActorDetail from './actor/ActorDetail'
 import GenreList from './genre/GenreList'
 import UserList from './user/UserList'
+import UserDetail from './user/UserDetail'
 
-export { MovieDetail, MovieForm, MovieList, DirectorList, DirectorForm, DirectorDetail, ActorList, ActorForm, ActorDetail, GenreList, MovieImporter, UserList}
+export { MovieDetail, MovieForm, MovieList, DirectorList, DirectorForm, DirectorDetail, ActorList, ActorForm, ActorDetail, GenreList, MovieImporter, UserList, UserDetail}
