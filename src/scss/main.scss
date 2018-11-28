@@ -88,6 +88,27 @@ body {
     top: 50%;
 }
 
+.listDetail{
+    margin-left: 10%;
+    margin-right: 10%;
+    margin-top: 5%;
+}
+
+.detMovie{
+    margin-top: 2%;
+    background: $card;
+    padding: 2% 2% 2% 2%;
+}
+.tituloDet{
+    &:after {
+        content: '';
+        display: block;
+        width: 100%;
+        height: 2px;
+        margin-bottom: 4px;
+        background: $spotify-green;
+    }
+}
 
 #app main {
     display: grid;

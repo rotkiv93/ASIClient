@@ -17,7 +17,11 @@
         :fields="fields"
       > <b-button> Download CSV</b-button>
       </vue-csv-downloader>
-
+      
+      <div>
+        <label style="margin-top:10%; color: white">Toggle detail view</label>
+        <toggle-button v-model="toggled"/>
+      </div>
 
       <form class="form-inline my-2 my-lg-0">
         <input class="form-control mr-sm-2" type="text" v-model="search" placeholder="Search movies">
@@ -26,22 +30,39 @@
       </form>
     </nav>
 
-    <menu>
-    </menu>
+    <div v-if = "toggled == false">
+      <transition-group  tag="main" name="card">
+        <article v-for="movie in searchMovie" :key="movie.id" class="card">
+          <div class="image">
+            <img v-bind:src="movie.ruta" v-on:load="isLoaded()" v-bind:class="{ active: isActive }">
+          </div>
+          <div class="description">
+            <router-link :to="{ name: 'MovieDetail', params: { id: movie.id } }">
+              <h3 class="titulo"> {{ movie.titulo }} </h3> 
+            </router-link>
+            <p class="release"> {{ movie.fecha_estreno | moment('LL') }} </p>
+          </div>
+        </article>
+      </transition-group>
+    </div>
 
-    <transition-group  tag="main" name="card">
-      <article v-for="movie in searchMovie" :key="movie.id" class="card">
-        <div class="image">
-          <img v-bind:src="movie.ruta" v-on:load="isLoaded()" v-bind:class="{ active: isActive }">
-        </div>
+    <div v-if="toggled === true" class = "listDetail">
+      <div class="detMovie" v-for="movie in searchMovie" :key="movie.id">
         <div class="description">
-          <router-link :to="{ name: 'MovieDetail', params: { id: movie.id } }">
-            <h3 class="titulo"> {{ movie.titulo }} </h3> 
-          </router-link>
-          <p class="release"> {{ movie.fecha_estreno | moment('LL') }} </p>
-        </div>
-      </article>
-    </transition-group>
+            <router-link class="router" :to="{ name: 'MovieDetail', params: { id: movie.id } }">
+              <h3 class="tituloDet"> {{ movie.titulo }} </h3> 
+            </router-link>
+            <p >{{ movie.director.nombre }} {{ movie.director.apellido1 }} 
+              | {{ movie.pais }}
+              | {{ movie.fecha_estreno | moment('LL') }} 
+              | {{ movie.genero.nombre }} 
+              | {{ movie.productora}} 
+              | {{ movie.duracion }} min. </p>
+            <p>{{ movie.sinopsis }} </p>
+          </div>
+      </div>
+    </div>
+
   </LoadingPage>
 </template>
  
@@ -64,6 +85,7 @@ export default {
       search: '',
       userFilter: '',
       fields: [],
+      toggled: false
     }
   },
   computed: {
