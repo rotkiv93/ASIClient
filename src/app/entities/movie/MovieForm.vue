@@ -366,7 +366,7 @@ export default {
       }
 
       if (!this.errors.length) {
-        save();
+        this.save();
       }
 
     }

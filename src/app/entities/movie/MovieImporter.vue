@@ -248,16 +248,8 @@ export default {
     this.getUsers()
     this.getDirectors()
     this.getActors()
-    if (this.$route.params.id) {
-      this.loading = true
-
-      HTTP.get(`movies/${this.$route.params.id}`)
-      .then(response => this.movie = response.data)
-      .catch(err => this.error = err.message)
-      .finally(() => this.loading = false)
-    } else {
-      this.movie = {}
-    }
+   
+    this.movie = {}
   },
   methods: {
     customLabel(actor){
