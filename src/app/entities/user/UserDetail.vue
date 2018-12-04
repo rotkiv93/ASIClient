@@ -80,13 +80,10 @@ export default {
     updateUser(){
       console.log(this.user.notificaciones)
         HTTP.put(`users/${this.$route.params.id}`, this.user)
-        .then(response => console.log(response.data))
         .catch(err => this.error = err.message)
     },
     removeNotif(){
-      console.log(this.user.notificaciones)
       HTTP.put(`users/${this.$route.params.id}`, this.user)
-        .then(response => console.log(response.data))
         .catch(err => this.error = err.message)
     },
     back() {
