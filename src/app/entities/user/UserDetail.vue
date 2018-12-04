@@ -17,7 +17,21 @@
         <h5>Peliculas Votadas: {{ user.num_valoradas }}</h5>
         
         <div v-if="user.login == userLogin">
-          <h5>HACER AQUI LA SELECCION DE NOTIFICACIONES</h5>
+           <multiselect
+            class =multiselect_notif
+            v-model="user.notificaciones" 
+            :options="opciones" 
+            :multiple="false" 
+            :close-on-select="true" 
+            :clear-on-select="true" 
+            :preserve-search="true"
+            placeholder="Pick an option"
+            :show-labels="true"
+            :preselect-first="false"
+            @select="updateUser"
+            @remove="removeNotif">
+          </multiselect>
+            <link rel="stylesheet" href="https://unpkg.com/vue-multiselect@2.1.0/dist/vue-multiselect.min.css">
         </div>
         
         <hr>
@@ -31,15 +45,17 @@
 import { HTTP } from '../../common/http-common'
 import LoadingPage from '../../components/LoadingPage'
 import auth from '../../common/auth'
+import Multiselect from 'vue-multiselect'
 
 export default {
-  components: { LoadingPage },
+  components: { LoadingPage, Multiselect },
   data() {
     return {
       loading: false,
       user: null,
       error: null,
-      userLogin: null
+      userLogin: null,
+      opciones: ["Email" ,"SMS"]
     }
   },
   watch: {
@@ -61,6 +77,18 @@ export default {
 
       this.userLogin = `${auth.user.login}`
     },
+    updateUser(){
+      console.log(this.user.notificaciones)
+        HTTP.put(`users/${this.$route.params.id}`, this.user)
+        .then(response => console.log(response.data))
+        .catch(err => this.error = err.message)
+    },
+    removeNotif(){
+      console.log(this.user.notificaciones)
+      HTTP.put(`users/${this.$route.params.id}`, this.user)
+        .then(response => console.log(response.data))
+        .catch(err => this.error = err.message)
+    },
     back() {
       this.$router.go(-1)
     }
@@ -68,6 +96,8 @@ export default {
 }
 </script>
 
+
+<style lang="sass" src="vue-multiselect/dist/vue-multiselect.min.css"></style>
 <style scoped lang="scss">
   .movie {
     white-space: pre;
