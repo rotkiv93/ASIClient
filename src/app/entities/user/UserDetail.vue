@@ -9,16 +9,18 @@
             variant="outline-primary"
             @click="back()">Back</b-btn>
         </div>
-        <h5>Nombre: {{ user.login }}</h5>
-        <h5>Email: {{ user.email }}</h5>
-        <h5>Fecha Alta: {{ user.fecha_alta }}</h5>
-        <h5>Peliculas vistas: {{ user.num_vistas }}</h5>
-        <h5>Peliculas pendientes: {{ user.num_pendientes }}</h5>
-        <h5>Peliculas Votadas: {{ user.num_valoradas }}</h5>
+  
+        <h5 class="listas2">Name: <span class="attribute"> {{ user.login }} </span></h5>
+        <h5 class="listas2">Email:<span class="attribute"> {{ user.email }}</span></h5>
+        <h5 class="listas2">Signup date:<span class="attribute"> {{ user.fecha_alta }}</span></h5>
+        <h5 class="listas2">Viewed movies:<span class="attribute"> {{ user.num_vistas }}</span></h5>
+        <h5 class="listas2">Pending movies:<span class="attribute"> {{ user.num_pendientes }}</span></h5>
+        <h5 class="listas2">Rated movies:<span class="attribute"> {{ user.num_valoradas }}</span></h5>
         
-        <div v-if="user.login == userLogin">
-           <multiselect
-            class =multiselect_notif
+        <div style="margin-right: 50%;margin-top:5%" v-if="user.login == userLogin">
+          <label>Customize your notifications</label> 
+          <multiselect
+            class = multiselect_notif
             v-model="user.notificaciones" 
             :options="opciones" 
             :multiple="false" 
@@ -33,9 +35,6 @@
           </multiselect>
             <link rel="stylesheet" href="https://unpkg.com/vue-multiselect@2.1.0/dist/vue-multiselect.min.css">
         </div>
-        
-        <hr>
-        <!-- <div class="actor">{{ actor.body }}</div> -->
       </div>
     </div>
   </LoadingPage>
