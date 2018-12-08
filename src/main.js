@@ -14,7 +14,7 @@ import Vuelidate from 'vuelidate'
 Vue.use(Vuelidate)
 
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faSearch, faMinusSquare, faArrowLeft, faPlusSquare } from '@fortawesome/free-solid-svg-icons'
+import { faSearch, faMinusSquare, faArrowLeft, faPlusSquare, faTh, faList } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import Notifications from 'vue-notification'
 import ToggleButton from 'vue-js-toggle-button'
@@ -26,6 +26,8 @@ library.add(faSearch)
 library.add(faMinusSquare)
 library.add(faArrowLeft)
 library.add(faPlusSquare)
+library.add(faTh)
+library.add(faList)
 Vue.use(ToggleButton)
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 Vue.component('star-rating', StarRating)

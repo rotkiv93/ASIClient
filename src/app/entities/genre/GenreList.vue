@@ -11,24 +11,28 @@
     </nav>
     <div class="margenes">
       <b-collapse id="collapseNew" class="mt-2">
-          <b-card>
-            <h5 class="h51">Introduce new genre:</h5>
+          <b-form-group
+            label="Intrdoduce new genre:"
+            feedback="Genre name required">
             <b-form-input
               id="nombre"
               v-model="genre.nombre"
+              :state="!$v.genre.nombre.$invalid"
               type="text"
-              required/>
-            <b-btn style="margin-top:1%;" v-b-toggle.collapseNew
-              variant="success"
-              @click="post()">Submit</b-btn>
-          </b-card>
+              placeholder="Genre name"/>
+          </b-form-group>
+          <b-btn style="margin-top:1%;"
+            v-b-toggle.collapseNew
+            variant="success"
+            :disabled="$v.genre.$invalid"
+            @click="post()">Submit</b-btn>
         </b-collapse>
       <div
         v-for="genre in sortedGenres"
         :key="genre.id"
-        class="listas2"> 
+        class="listas2">
          <h5>
-          <b-btn 
+          <b-btn
             variant="outline-danger"
             @click="deleteGenre(genre)">Remove</b-btn>
           <b-btn
@@ -59,7 +63,8 @@
 import { HTTP } from '../../common/http-common'
 import LoadingPage from '../../components/LoadingPage'
 import auth from '../../common/auth'
-import Vue from 'vue'
+import {required} from 'vuelidate/lib/validators'
+
 
 export default {
   components: { LoadingPage },
@@ -117,6 +122,13 @@ export default {
       HTTP.get('genre')
       .then(response => this.genres = response.data)
       .catch(err => this.error = err.response.data)
+    }
+  },
+  validations: {
+    genre: {
+      nombre: {
+        required
+      }
     }
   }
 }

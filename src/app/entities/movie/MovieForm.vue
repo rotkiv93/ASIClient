@@ -12,7 +12,7 @@
           @click="submitForm()">Submit</b-btn>
 
       <div class="float-right">
-          <p style="margin:1%;">Ocultar</p>
+          <p style="margin:1%;">Hide</p>
           <toggle-button v-model="movie.oculta"/>
       </div>
 
@@ -30,41 +30,41 @@
             v-model="movie.titulo"
             :state="!$v.movie.titulo.$invalid"
             type="text"
-            placeholder="Write movie title here"/>
+            placeholder="Title"/>
         </b-form-group>
 
          <b-form-group class="form-group"
           label="Country:"
-          label-for="Country"
+          label-for="country"
           feedback="Country required">
           <b-form-input
             id="pais"
             v-model="movie.pais"
             :state="!$v.movie.pais.$invalid"
-            placeholder="Introduce pais "/>
+            placeholder="Country"/>
         </b-form-group>
 
         <b-form-group
-          label="Productora:"
-          label-for="productora"
+          label="Producer:"
+          label-for="producer"
           feedback="Producer required">
           <b-form-input
             id="productora"
             v-model="movie.productora"
             :state="!$v.movie.productora.$invalid"
-            placeholder="Introduce productora "/>
+            placeholder="Producer"/>
         </b-form-group>
 
          <b-form-group
-          label="Duracion:"
-          label-for="duracion"
-          feedback="Duration required">
+          label="Duration:"
+          label-for="duration"
+          feedback="Duration required, only positive numbers">
           <b-form-input
             id="duracion"
             type="number"
             v-model="movie.duracion"
             :state="!$v.movie.duracion.$invalid"
-            placeholder="Introduce duracion "/>
+            placeholder="Duration"/>
         </b-form-group>
 
         <b-form-group
@@ -100,9 +100,9 @@
         </b-form-group>
 
          <b-form-group
-          label="Genero:"
-          label-for="genero"
-          feedback="You must choose a genre">
+          label="Genre:"
+          label-for="genre"
+          feedback="You must choose a genre from the list">
           <b-form-select
             id="genero"
             :options="genres"
@@ -111,29 +111,29 @@
         </b-form-group>
 
          <b-form-group
-          label="Año salida:"
-          label-for="ano_salida"
-          feedback="Release date required">
+          label="Release year:"
+          label-for="release year"
+          feedback="Release year required, starting from 1900">
           <b-form-input
             id="ano_salida"
             v-model="movie.ano_salida"
             :state="!$v.movie.ano_salida.$invalid"
-            placeholder="Introduce año salida "/>
+            placeholder="Release year"/>
         </b-form-group>
 
          <b-form-group
-          label="Fecha Estreno::"
-          label-for="fecha_estreno">
+          label="Release date::"
+          label-for="release date">
           <b-form-input
             id="fecha_estreno"
             v-model="movie.fecha_estreno"
             type="date"
-            placeholder="Introduce fecha estreno "/>
+            placeholder="Release date"/>
         </b-form-group>
 
         <b-form-group
-          label="Sinopsis:"
-          label-for="sinopsis"
+          label="Synopsis:"
+          label-for="synopsis"
           feedback="Synopsis required">
           <b-form-textarea
             id="sinopsis"
@@ -141,16 +141,16 @@
             :state="!$v.movie.sinopsis.$invalid"
             :rows="3"
             :max-rows="6"
-            placeholder="Introduce sinopsis"/>
+            placeholder="Synopsis"/>
         </b-form-group>
 
         <b-form-group
-          label="Ruta de imagen:"
-          label-for="ruta">
+          label="Image route:"
+          label-for="route">
           <b-form-textarea
             id="ruta"
             v-model="movie.ruta"
-            placeholder="Introduce ruta de imagen"/>
+            placeholder="Image route"/>
         </b-form-group>
 
         <b-btn @click="getImageTitle()" v-b-toggle="'collapse2'" class="m-1">Find Movies</b-btn>
@@ -203,7 +203,7 @@ import Multiselect from 'vue-multiselect'
 import theMovieDb from 'themoviedb-javascript-library'
 import PictureInput from 'vue-picture-input'
 import FormDataPost from '../../common/upload'
-import {required, integer, minValue} from 'vuelidate/lib/validators'
+import {required, numeric, minValue, minLength} from 'vuelidate/lib/validators'
 
 export default {
   components: { LoadingPage,  Multiselect,  PictureInput},
@@ -365,7 +365,7 @@ export default {
       },
       duracion: {
         required,
-        integer
+        numeric
       },
       pais: {
         required
@@ -375,7 +375,9 @@ export default {
       },
       ano_salida: {
         required,
-        integer
+        numeric,
+        minLength: minLength(4),
+        minValue: minValue(1900)
       }
     }
   }

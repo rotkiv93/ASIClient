@@ -9,6 +9,7 @@
           @click="back()">Back</b-btn>
         <b-btn
           variant="primary"
+          :disabled="$v.actor.$invalid"
           @click="save()">Submit</b-btn>
       </div>
 
@@ -18,34 +19,38 @@
         @submit="save">
 
         <b-form-group
-          label="Nombre:"
-          label-for="nombre">
+          label="Name:"
+          label-for="Name"
+          feedback="Name required">
           <b-form-input
             id="nombre"
             v-model="actor.nombre"
             type="text"
+            :state="!$v.actor.nombre.$invalid"
             required
-            placeholder="Introduce nombre"/>
+            placeholder="Introduce name"/>
         </b-form-group>
 
          <b-form-group
-          label="Primer apellido:"
-          label-for="apellido1">
+          label="First last name:"
+          label-for="first last name"
+          feedback="Last name required">
           <b-form-input
             id="apellido1"
             v-model="actor.apellido1"
+            :state="!$v.actor.apellido1.$invalid"
             required
-            placeholder="Introduce primer apellido "/>
+            placeholder="Introduce first last name"/>
         </b-form-group>
 
         <b-form-group
-          label="Segundo apellido:"
-          label-for="apellido2">
+          label="Second last name:"
+          label-for="second last name">
           <b-form-input
             id="apellido2"
             v-model="actor.apellido2"
             required
-            placeholder="Introduce segundo apellido "/>
+            placeholder="Introduce second last name"/>
         </b-form-group>
       </b-form>
     </div>
@@ -55,7 +60,7 @@
 <script>
 import { HTTP } from '../../common/http-common'
 import LoadingPage from '../../components/LoadingPage'
-import Vue from 'vue'
+import {required} from 'vuelidate/lib/validators'
 
 export default {
   components: { LoadingPage },
@@ -106,6 +111,16 @@ export default {
     },
     back() {
       this.$router.go(-1)
+    }
+  },
+  validations: {
+    actor: {
+      nombre: {
+        required
+      },
+      apellido1: {
+        required
+      }
     }
   }
 }

@@ -7,7 +7,9 @@
         <b-btn
           variant="primary"
           @click="back()"> Back </b-btn>
-        <b-btn variant="primary" @click="submitForm()"> Submit </b-btn>
+        <b-btn variant="primary"
+          :disabled="$v.director.$invalid"
+          @click="submitForm()"> Submit </b-btn>
       </div>
 
       <b-form
@@ -15,31 +17,35 @@
         class="app-form">
 
         <b-form-group
-          label="Nombre:"
-          label-for="nombre">
+          label="Name:"
+          label-for="name"
+          feedback="name required">
           <b-form-input
             id="nombre"
             v-model="director.nombre"
+            :state="!$v.director.nombre.$invalid"
             type="text"
-            placeholder="Introduce nombre"/>
+            placeholder="Introduce name"/>
         </b-form-group>
 
          <b-form-group
-          label="Primer apellido:"
-          label-for="apellido1">
+          label="First last name:"
+          label-for="first last name"
+          feedback="last name required">
           <b-form-input
             id="apellido1"
             v-model="director.apellido1"
-            placeholder="Introduce primer apellido "/>
+            :state="!$v.director.apellido1.$invalid"
+            placeholder="Introduce first last name"/>
         </b-form-group>
 
         <b-form-group
-          label="Segundo apellido:"
-          label-for="apellido2">
+          label="Second last name:"
+          label-for="second last name">
           <b-form-input
             id="apellido2"
             v-model="director.apellido2"
-            placeholder="Introduce segundo apellido "/>
+            placeholder="Introduce second last name"/>
         </b-form-group>
       </b-form>
     </div>
@@ -49,7 +55,7 @@
 <script>
 import { HTTP } from '../../common/http-common'
 import LoadingPage from '../../components/LoadingPage'
-import Vue from 'vue'
+import {required} from 'vuelidate/lib/validators'
 
 export default {
   components: { LoadingPage },
@@ -96,6 +102,16 @@ export default {
       this.$router.go(-1)
     }
   },
+  validations: {
+    director: {
+      nombre: {
+        required
+      },
+      apellido1: {
+        required
+      }
+    }
+  }
 }
 </script>
 

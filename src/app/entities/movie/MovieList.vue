@@ -17,10 +17,16 @@
         :fields="fields"
       > <b-button> Download CSV</b-button>
       </vue-csv-downloader>
-      
+
       <div>
-        <label style="margin-top:10%; color: white">Toggle detail view</label>
-        <toggle-button v-model="toggled"/>
+        <b-button-group>
+          <b-button @click="toggled = false">
+            <font-awesome-icon icon="th" size="lg" :style="{ color: 'white'}"/>
+          </b-button>
+          <b-button @click="toggled = true">
+            <font-awesome-icon icon="list" size="lg" :style="{ color: 'white'}"/>
+          </b-button>
+        </b-button-group>
       </div>
 
       <form class="form-inline my-2 my-lg-0">
@@ -38,7 +44,7 @@
           </div>
           <div class="description">
             <router-link :to="{ name: 'MovieDetail', params: { id: movie.id } }">
-              <h3 class="titulo"> {{ movie.titulo }} </h3> 
+              <h3 class="titulo"> {{ movie.titulo }} </h3>
             </router-link>
             <p class="release"> {{ movie.fecha_estreno | moment('LL') }} </p>
           </div>
@@ -50,13 +56,13 @@
       <div class="detMovie" v-for="movie in searchMovie" :key="movie.id">
         <div class="description">
             <router-link class="router" :to="{ name: 'MovieDetail', params: { id: movie.id } }">
-              <h3 class="tituloDet"> {{ movie.titulo }} </h3> 
+              <h3 class="tituloDet"> {{ movie.titulo }} </h3>
             </router-link>
-            <p >{{ movie.director.nombre }} {{ movie.director.apellido1 }} 
+            <p >{{ movie.director.nombre }} {{ movie.director.apellido1 }}
               | {{ movie.pais }}
-              | {{ movie.fecha_estreno | moment('LL') }} 
-              | {{ movie.genero.nombre }} 
-              | {{ movie.productora}} 
+              | {{ movie.fecha_estreno | moment('LL') }}
+              | {{ movie.genero.nombre }}
+              | {{ movie.productora}}
               | {{ movie.duracion }} min. </p>
             <label style="color:white">Cast:</label>
             <span v-for="actor in movie.actores" :key="actor.id"> {{ actor.nombre }} {{actor.apellido1}} {{actor.apellido2}} |</span>
@@ -67,7 +73,7 @@
 
   </LoadingPage>
 </template>
- 
+
 <script>
 import { HTTP } from '../../common/http-common'
 import LoadingPage from '../../components/LoadingPage'
@@ -149,7 +155,7 @@ export default {
 <style scoped lang="scss">
 
 .controls{
-  display: flex; 
+  display: flex;
 }
 
 
