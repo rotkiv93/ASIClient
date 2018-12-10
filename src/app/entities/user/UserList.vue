@@ -3,6 +3,7 @@
     :loading="loading"
     :error="error">
     <nav class="nav">
+      <h3>List of registered users</h3>
     </nav>
 
     <div v-if="users" class="margenes">  

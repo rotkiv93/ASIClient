@@ -59,7 +59,9 @@
 
 <script>
 import { HTTP } from '../common/http-common'
+import Vue from 'vue'
 import { required, email } from 'vuelidate/lib/validators'
+
 
 export default {
   data() {
@@ -75,7 +77,10 @@ export default {
         HTTP.post('users', this.user)
         .then(response =>
           this.$router.replace({ name: 'Login', params: { id: response.data.id }}))
-        .catch(err => this.error = err.message)
+        .catch(err => this.error = Vue.notify({
+                  text: 'User already exists or is empty',
+                  type: 'error'
+                  }))
       },
 
     back() {
