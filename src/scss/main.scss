@@ -114,6 +114,26 @@ body {
     }
 }
 
+//TRANSICIONES
+
+.fade-enter-active, .fade-leave-active {
+    transition: opacity .5s;
+  }
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+    opacity: 10;
+  }
+  .slide-fade-enter-active {
+    transition: all 1s ease;
+  }
+  .slide-fade-leave-active {
+    transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+  }
+  .slide-fade-enter, .slide-fade-leave-to
+  /* .slide-fade-leave-active below version 2.1.8 */ {
+    transform: translateX(10px);
+    opacity: 0;
+  }
+
 #app main {
     display: grid;
     grid-template-columns: repeat(var(--grid-items), minmax(var(--grid-min), 1fr));
@@ -235,15 +255,4 @@ body {
     }
 }
 
-// VUE TRANSITIONS: CARD FADEIN
-.card-enter {
-    opacity: 0;
-}
 
-.card-enter-to {
-    opacity: 1;
-}
-
-.card-enter-active {
-    transition: opacity 0.3s ease-in;
-}

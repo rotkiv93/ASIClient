@@ -44,7 +44,7 @@
           <div class="container" style="width:85%; float:left">
             <div class="card flex-row flex-wrap">
               <div class="card header">
-                <b-img class="movie-image" thumbnail v-bind:src="movie.ruta" alt="***" />
+                <b-img class="movie-image" thumbnail v-bind:src="getImagen()" alt="***" />
               </div>
               <div class="card-block px-2">
                 <h1 class="card-title"> {{ movie.titulo }} ({{movie.ano_salida}}) </h1>
@@ -165,6 +165,9 @@ export default {
     getPelicula(){
         HTTP.get(`movies/${this.$route.params.id}`)
         .then(response => this.movie = response.data)
+    },
+    getImagen(){
+      return "/movies/image/" + this.movie.ruta;
     },
     eliminateMovie(){
       HTTP.delete(`movies/${this.$route.params.id}`, {params: { id: this.movie.id }})

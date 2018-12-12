@@ -64,6 +64,7 @@ import { HTTP } from '../../common/http-common'
 import LoadingPage from '../../components/LoadingPage'
 import auth from '../../common/auth'
 import {required} from 'vuelidate/lib/validators'
+import Vue from 'vue'
 
 
 export default {

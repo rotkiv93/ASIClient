@@ -36,6 +36,8 @@
       </form>
     </nav>
 
+
+    <transition name="fade">
     <div v-if = "toggled == false">
       <transition-group  tag="main" name="card">
         <article v-for="movie in searchMovie" :key="movie.id" class="card">
@@ -51,7 +53,10 @@
         </article>
       </transition-group>
     </div>
+    </transition>
 
+
+    <transition name="slide-fade">
     <div v-if="toggled === true" class = "listDetail">
       <div class="detMovie" v-for="movie in searchMovie" :key="movie.id">
         <div class="description">
@@ -70,7 +75,7 @@
           </div>
       </div>
     </div>
-
+    </transition>
   </LoadingPage>
 </template>
 

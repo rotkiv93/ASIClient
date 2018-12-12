@@ -276,7 +276,7 @@ export default {
     },
     attemptUpload() {
       if (this.image){
-      FormDataPost('http://localhost:8080/movies/pictures', this.image)
+      FormDataPut(`movies/${this.$route.params.id}/image`, this.image)
         .then(response=>{
           if (response.data.success){
             this.image = '';
