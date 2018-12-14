@@ -9,7 +9,7 @@
         <b-btn style="float left;"
           variant="outline-success"
           :disabled="$v.movie.$invalid"
-          @click="submitForm()">Submit</b-btn>
+          @click="submitFile();submitForm()">Submit</b-btn>
 
       <div class="float-right">
           <p style="margin:1%;">Hide</p>
@@ -175,22 +175,16 @@
      
       </b-form>
 
-<template>
-  <div class="container">
-    <div class="large-12 medium-12 small-12 cell">
-      <label>File
-        <input type="file" id="file" ref="file" v-on:change="handleFileUpload()"/>
-      </label>
-      <button v-on:click="submitFile()">Submit</button>
-    </div>
-  </div>
-</template>
+      <div v-if="!file">
+        <input class="inputfile" type="file" id="file" ref="file" @change="onFileChange"/>
+        <label for="file">Choose a file</label>
+      </div>
+      <div v-else>
+        <img :src="loaded" />
+        <b-btn id="botonEliminaImagen" variant="danger" @click="removeImage">Remove image</b-btn>
+      </div>
+      </div>
 
-
-
-
-
-    </div>
   </LoadingPage>
 </template>
 
@@ -212,12 +206,12 @@ export default {
       movie: {},
       movieSearch: [],
       error: null,
-      image: null,
       isActive: false,
       loading: false,
       allGenres: [],
       allActors: [],
       file: '',
+      loaded: '',
       allDirectors: []
     }
   },
@@ -264,25 +258,8 @@ export default {
     }
   },
   methods: {
-    onChanged() {
-      console.log("New picture loaded");
-      if (this.$refs.pictureInput.file) {
-        this.image = this.$refs.pictureInput.file;
-      } else {
-        console.log("Old browser. No support for Filereader API");
-      }
-    },
-    onRemoved() {
-      this.image = '';
-    },
-    attemptUpload() {
-      if (this.image){
-        console.log(this.image);
-      
-//HTTP.post(`movies/${this.$route.params.id}/image`, {params: { "file": this.image}});
-
-     
-      }
+    removeImage: function (e) {
+      this.file = '';
     },
     customLabel(actor){
       if (actor.apellido2 != null){
@@ -345,40 +322,42 @@ export default {
       console.log("Error callback: " + data);
     },
      submitFile(){
-        /*
-                Initialize the form data
-            */
-            let formData = new FormData();
+        let formData = new FormData();
+        formData.append('file', this.file, this.movie.id + ".jpg");
+        this.movie.ruta = this.movie.id + ".jpg";
 
-            /*
-                Add the form data we need to submit
-            */
-            formData.append('file', this.file);
-
-        /*
-          Make the request to the POST /single-file URL
-        */
-            axios.post( 'http://localhost:8080/api/movies/uploadFile',
-                formData,
-                {
-                headers: {
-                    'Content-Type': 'multipart/form-data'
-                }
-              }
-            ).then(function(){
-          console.log('SUCCESS!!');
-        })
+        axios.post( 'http://localhost:8080/api/movies/uploadFile',
+          formData,
+          {
+            headers: {
+              'Content-Type': 'multipart/form-data'
+            }
+          }
+          )
         .catch(function(){
           console.log('FAILURE!!');
         });
       },
+    onFileChange(e) {
+      var files = e.target.files || e.dataTransfer.files;
+      if (!files.length)
+        return;
+      this.createImage(files[0]);
+      this.file = files[0];
+    },
+    createImage(file) {
+      var image = new Image();
+      var reader = new FileReader();
+      var vm = this;
 
-      /*
-        Handles a change on the file upload
-      */
-      handleFileUpload(){
-        this.file = this.$refs.file.files[0];
-      }
+      reader.onload = (e) => {
+        vm.loaded = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    },
+    handleFileUpload(){
+      this.file = this.$refs.file.files[0];
+    }
   },
   validations: {
     movie: {
@@ -422,7 +401,43 @@ article {
     display: block;
 }
 
-.invalidTitle{
-
+img {
+  width: 30%;
+  margin: auto;
+  display: block;
+  margin-bottom: 10px;
 }
+
+#botonEliminaImagen {
+   margin: auto;
+  display: block;
+}
+
+ .inputfile {
+	width: 0.1px;
+	height: 0.1px;
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+	z-index: -1;
+}
+
+
+.inputfile + label {
+    font-size: 1.25em;
+    font-weight: 700;
+    color: white;
+    background-color: black;
+    display: inline-block;
+}
+
+.inputfile:focus + label,
+.inputfile + label:hover {
+    background-color: red;
+}
+
+.inputfile + label {
+	cursor: pointer; /* "hand" cursor */
+}
+
 </style>
