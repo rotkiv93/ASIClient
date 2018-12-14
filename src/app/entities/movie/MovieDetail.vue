@@ -167,7 +167,7 @@ export default {
         .then(response => this.movie = response.data)
     },
     getImagen(){
-      return "/movies/image/" + this.movie.ruta;
+      return "http://localhost:8080/api/movies/image/" + this.movie.ruta;
     },
     eliminateMovie(){
       HTTP.delete(`movies/${this.$route.params.id}`, {params: { id: this.movie.id }})

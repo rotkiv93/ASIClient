@@ -172,25 +172,24 @@
            <b-btn @click="addSelectedMovies()" v-b-toggle="'collapse2'" class="m-1">Add peliculas</b-btn>
         </b-collapse>
 
-        <picture-input
-          ref="pictureInput"
-          @change="onChanged"
-          @remove="onRemoved"
-          :width="300"
-          :removable="true"
-          remove-button-class="ui red button"
-          :height="300"
-          accept="image/jpeg, image/png, image/gif"
-          button-class="ui button primary"
-          :custom-strings="{
-          upload: '<h1>Upload it!</h1>',
-          drag: 'Drag and drop your image here'}">
-        </picture-input>
-        <button @click="attemptUpload" v-bind:class="{ disabled: !image }">
-          Upload
-        </button>
-
+     
       </b-form>
+
+<template>
+  <div class="container">
+    <div class="large-12 medium-12 small-12 cell">
+      <label>File
+        <input type="file" id="file" ref="file" v-on:change="handleFileUpload()"/>
+      </label>
+      <button v-on:click="submitFile()">Submit</button>
+    </div>
+  </div>
+</template>
+
+
+
+
+
     </div>
   </LoadingPage>
 </template>
@@ -204,6 +203,7 @@ import theMovieDb from 'themoviedb-javascript-library'
 import PictureInput from 'vue-picture-input'
 import FormDataPost from '../../common/upload'
 import {required, numeric, minValue, minLength} from 'vuelidate/lib/validators'
+import axios from 'axios'
 
 export default {
   components: { LoadingPage,  Multiselect,  PictureInput},
@@ -217,6 +217,7 @@ export default {
       loading: false,
       allGenres: [],
       allActors: [],
+      file: '',
       allDirectors: []
     }
   },
@@ -276,16 +277,11 @@ export default {
     },
     attemptUpload() {
       if (this.image){
-      FormDataPut(`movies/${this.$route.params.id}/image`, this.image)
-        .then(response=>{
-          if (response.data.success){
-            this.image = '';
-            console.log("Image uploaded successfully ✨");
-          }
-        })
-        .catch(err=>{
-          console.error(err);
-        });
+        console.log(this.image);
+      
+//HTTP.post(`movies/${this.$route.params.id}/image`, {params: { "file": this.image}});
+
+     
       }
     },
     customLabel(actor){
@@ -347,7 +343,42 @@ export default {
     },
       errorCB: function (data) {
       console.log("Error callback: " + data);
-    }
+    },
+     submitFile(){
+        /*
+                Initialize the form data
+            */
+            let formData = new FormData();
+
+            /*
+                Add the form data we need to submit
+            */
+            formData.append('file', this.file);
+
+        /*
+          Make the request to the POST /single-file URL
+        */
+            axios.post( 'http://localhost:8080/api/movies/uploadFile',
+                formData,
+                {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+              }
+            ).then(function(){
+          console.log('SUCCESS!!');
+        })
+        .catch(function(){
+          console.log('FAILURE!!');
+        });
+      },
+
+      /*
+        Handles a change on the file upload
+      */
+      handleFileUpload(){
+        this.file = this.$refs.file.files[0];
+      }
   },
   validations: {
     movie: {

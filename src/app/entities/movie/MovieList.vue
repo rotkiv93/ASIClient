@@ -42,7 +42,7 @@
       <transition-group  tag="main" name="card">
         <article v-for="movie in searchMovie" :key="movie.id" class="card">
           <div class="image">
-            <img v-bind:src="movie.ruta" v-on:load="isLoaded()" v-bind:class="{ active: isActive }">
+            <img v-bind:src="getImagen(movie)" v-on:load="isLoaded()" v-bind:class="{ active: isActive }">
           </div>
           <div class="description">
             <router-link :to="{ name: 'MovieDetail', params: { id: movie.id } }">
@@ -152,6 +152,9 @@ export default {
       .then(response => this.movies = response.data)
       .catch(err => this.error = err.response.data)
       .finally(() => this.loading = false)
+    },
+    getImagen(movie){
+      return "http://localhost:8080/api/movies/image/" + movie.ruta;
     }
   }
 }
