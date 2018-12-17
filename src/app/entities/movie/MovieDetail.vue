@@ -192,9 +192,6 @@ export default {
     background: #2B2A34;
   }
 
-  .movie-image{
-  }
-
   .card-title{
     font-size: 45px;
     font-weight: 600;
@@ -245,10 +242,6 @@ export default {
     background-color: Transparent;
     border: none;
     cursor:pointer;
-  }
-
-  div.mov-user{ 
-
   }
 
 </style>

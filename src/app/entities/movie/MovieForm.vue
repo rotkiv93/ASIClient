@@ -296,8 +296,8 @@ export default {
         .catch(err => this.error = err.message)
       } else {
         HTTP.post('movies', this.movie)
-        .then(response =>
-          this.$router.replace({ name: 'MovieDetail', params: { id: response.data.id }}))
+        .then(response => {
+          this.$router.replace({ name: 'MovieDetail', params: { id: response.data.id }})})
         .catch(err => this.error = err.message)
       }
     },
@@ -322,21 +322,24 @@ export default {
       console.log("Error callback: " + data);
     },
      submitFile(){
-        let formData = new FormData();
-        formData.append('file', this.file, this.movie.id + ".jpg");
-        this.movie.ruta = this.movie.id + ".jpg";
+       if (this.file != ''){
+          let formData = new FormData();
+          formData.append('file', this.file, this.movie.id + ".jpg");
 
-        axios.post( 'http://localhost:8080/api/movies/uploadFile',
-          formData,
-          {
-            headers: {
-              'Content-Type': 'multipart/form-data'
+          this.movie.ruta = this.movie.id + ".jpg";
+
+          axios.post( 'http://localhost:8080/api/movies/uploadFile',
+            formData,
+            {
+              headers: {
+                'Content-Type': 'multipart/form-data'
+              }
             }
-          }
-          )
-        .catch(function(){
-          console.log('FAILURE!!');
-        });
+            )
+          .catch(function(){
+            console.log('FAILURE!!');
+          });
+        }
       },
     onFileChange(e) {
       var files = e.target.files || e.dataTransfer.files;
@@ -424,16 +427,18 @@ img {
 
 
 .inputfile + label {
+    border-radius: 25px;
+    padding: 5px; 
     font-size: 1.25em;
     font-weight: 700;
     color: white;
-    background-color: black;
+    background-color: rgb(10, 133, 37);
     display: inline-block;
 }
 
 .inputfile:focus + label,
 .inputfile + label:hover {
-    background-color: red;
+    background-color: rgb(14, 177, 50);
 }
 
 .inputfile + label {
