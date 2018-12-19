@@ -73,6 +73,7 @@
 
 <script>
 import { HTTP } from '../../common/http-common'
+import { baseURL } from '../../common/http-common'
 import LoadingPage from '../../components/LoadingPage'
 import auth from '../../common/auth'
 
@@ -167,8 +168,7 @@ export default {
         .then(response => this.movie = response.data)
     },
     getImagen(){
-      http.baseURL
-      return "http://localhost:8080/api/movies/image/" + this.movie.ruta;
+      return baseURL + "/movies/image/" + this.movie.ruta;
     },
     eliminateMovie(){
       HTTP.delete(`movies/${this.$route.params.id}`, {params: { id: this.movie.id }})

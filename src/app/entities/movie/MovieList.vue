@@ -11,7 +11,6 @@
         <b-button @click="getPendientes()"> Pending </b-button>
       </b-button-group>
 
-
       <vue-csv-downloader v-if="movies"
         :data="movies"
         :fields="fields"
