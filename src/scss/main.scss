@@ -212,7 +212,14 @@ body {
     }
 }
 
-  .movie {
+.movie-image {
+    position: relative;
+    width: 350px;
+    display: block;
+    background-image: url(http://localhost:8080/api/movies/image/pred.jpg)
+}
+
+.movie {
     display: block;
     margin: auto;
     overflow: auto;

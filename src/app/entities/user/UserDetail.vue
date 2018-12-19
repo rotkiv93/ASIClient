@@ -2,57 +2,75 @@
   <LoadingPage
     :loading="loading"
     :error="error">
+
+    <nav class="nav" v-if ="user">
+      <h1>{{user.login}}'s profile</h1>
+    </nav>
+
     <div class="margenes">
       <div v-if="user">
         <div class="float-right">
           <b-btn
-            variant="outline-primary"
+            variant="primary"
             @click="back()">Back</b-btn>
         </div>
-  
-        <h5 class="listas2">Name: <span class="attribute"> {{ user.login }} </span></h5>
-        <h5 class="listas2">Email:<span class="attribute"> {{ user.email }}</span></h5>
-        <h5 class="listas2">Signup date:<span class="attribute"> {{ user.fecha_alta }}</span></h5>
-        <h5 class="listas2">Viewed movies:<span class="attribute"> {{ user.num_vistas }}</span></h5>
-        <h5 class="listas2">Pending movies:<span class="attribute"> {{ user.num_pendientes }}</span></h5>
-        <h5 class="listas2">Rated movies:<span class="attribute"> {{ user.num_valoradas }}</span></h5>
-        
-        <div style="margin-right: 50%;margin-top:5%" v-if="user.login == userLogin">
-          <label>Customize your notifications</label> 
-          <multiselect
-            class = multiselect_notif
-            v-model="user.notificaciones" 
-            :options="opciones" 
-            :multiple="false" 
-            :close-on-select="true" 
-            :clear-on-select="true" 
-            :preserve-search="true"
-            placeholder="Pick an option"
-            :show-labels="true"
-            :preselect-first="false"
-            @select="updateUser"
-            @remove="removeNotif">
-          </multiselect>
-            <link rel="stylesheet" href="https://unpkg.com/vue-multiselect@2.1.0/dist/vue-multiselect.min.css">
-        </div>
 
-        <div v-if="!file">
-          <input class="inputfile" type="file" id="file" ref="file" @change="onFileChange"/>
-          <label for="file">Choose a file</label>
-        </div>
-        <div v-else>
-          <img :src="loaded" />
-          <b-btn id="botonEliminaImagen" variant="danger" @click="removeImage">Remove image</b-btn>
-          <b-btn id="botonSubeImagen" @click="submitFile">Update image</b-btn>
-        </div>
+        <b-row>
+          <b-col>
 
+            <b-img class="movie-image" thumbnail v-bind:src="getImagen()" fluid alt="Responsive image" />
+            
+          </b-col>
+            
+          <b-col>
+            <h5 class="listas2">Name: <span class="attribute"> {{ user.login }} </span></h5>
+            <h5 class="listas2">Email:<span class="attribute"> {{ user.email }}</span></h5>
+            <h5 class="listas2">Signup date:<span class="attribute"> {{ user.fecha_alta }}</span></h5>
+            <h5 class="listas2">Viewed movies:<span class="attribute"> {{ user.num_vistas }}</span></h5>
+            <h5 class="listas2">Pending movies:<span class="attribute"> {{ user.num_pendientes }}</span></h5>
+            <h5 class="listas2">Rated movies:<span class="attribute"> {{ user.num_valoradas }}</span></h5>
+            
+            <div style="margin-right: 30%;margin-top:5%" v-if="user.login == userLogin">
+              <label>Customize your notifications</label> 
+              <multiselect
+                class = multiselect_notif
+                v-model="user.notificaciones" 
+                :options="opciones" 
+                :multiple="false" 
+                :close-on-select="true" 
+                :clear-on-select="true" 
+                :preserve-search="true"
+                placeholder="Pick an option"
+                :show-labels="true"
+                :preselect-first="false"
+                @select="updateUser"
+                @remove="removeNotif">
+              </multiselect>
+                <link rel="stylesheet" href="https://unpkg.com/vue-multiselect@2.1.0/dist/vue-multiselect.min.css">
+           
+    
+            
+           </div>
+          </b-col>
+        </b-row>
+        <b-row style="margin-left:3%;position:relative">
+          <div v-if="!file">
+              <input class="inputfile" type="file" id="file" ref="file" @change="onFileChange"/>
+              <label for="file">Change profile image</label>
+            </div>
+            <div v-else>
+              <img :src="loaded" />
+              <b-btn id="botonEliminaImagen" variant="danger" @click="removeImage">Remove image</b-btn>
+              <b-btn id="botonSubeImagen" @click="submitFile">Update image</b-btn>
+            </div>
+        </b-row>
       </div>
     </div>
   </LoadingPage>
 </template>
 
 <script>
-import { HTTP } from '../../common/http-common'
+import { HTTP, baseURL } from '../../common/http-common'
 import LoadingPage from '../../components/LoadingPage'
 import auth from '../../common/auth'
 import Multiselect from 'vue-multiselect'
@@ -96,6 +114,9 @@ export default {
     removeNotif(){
       HTTP.put(`users/${this.$route.params.id}`, this.user)
         .catch(err => this.error = err.message)
+    },
+    getImagen(){
+      return baseURL + "/movies/image/" + this.user.login + ".jpg";
     },
     back() {
       this.$router.go(-1)

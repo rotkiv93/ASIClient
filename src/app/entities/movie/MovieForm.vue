@@ -379,13 +379,13 @@ img {
     font-size: 1.25em;
     font-weight: 700;
     color: white;
-    background-color: rgb(10, 133, 37);
+    background-color: rgb(44, 110, 67);
     display: inline-block;
 }
 
 .inputfile:focus + label,
 .inputfile + label:hover {
-    background-color: rgb(14, 177, 50);
+    background-color: rgb(44, 110, 67);
 }
 
 .inputfile + label {
