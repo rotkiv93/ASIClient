@@ -143,36 +143,6 @@
             :max-rows="6"
             placeholder="Synopsis"/>
         </b-form-group>
-
-        <b-form-group
-          label="Image route:"
-          label-for="route">
-          <b-form-textarea
-            id="ruta"
-            v-model="movie.ruta"
-            placeholder="Image route"/>
-        </b-form-group>
-
-        <b-btn @click="getImageTitle()" v-b-toggle="'collapse2'" class="m-1">Find Movies</b-btn>
-        <b-collapse id="collapse2">
-          <b-card>
-            <transition-group  tag="main" name="card">
-            <article v-for="movie in searchMovies" :key="movie.id" class="card">
-              <div class="image">
-                <img v-bind:src= "movie.poster_path" v-on:load="isLoaded()" v-bind:class="{ active: isActive }">
-              </div>
-              <div class="description" style="float:right;">
-                <h3 class="titulo">  {{movie.original_title}} </h3>
-                <p class="release">  {{movie.release_date}} </p>
-              </div>
-               <toggle-button v-model="movie.seleccionada"/>
-            </article>
-            </transition-group>
-          </b-card>
-           <b-btn @click="addSelectedMovies()" v-b-toggle="'collapse2'" class="m-1">Add peliculas</b-btn>
-        </b-collapse>
-
-     
       </b-form>
 
       <div v-if="!file">
@@ -193,7 +163,6 @@ import { HTTP } from '../../common/http-common'
 import LoadingPage from '../../components/LoadingPage'
 import auth from '../../common/auth'
 import Multiselect from 'vue-multiselect'
-import theMovieDb from 'themoviedb-javascript-library'
 import PictureInput from 'vue-picture-input'
 import FormDataPost from '../../common/upload'
 import {required, numeric, minValue, minLength} from 'vuelidate/lib/validators'
@@ -237,12 +206,6 @@ export default {
     }
   },
   created() {
-
-    theMovieDb.common.api_key = "31cde0355b497e2024b6dcd18cc0347d";
-    theMovieDb.common.base_uri = "https://api.themoviedb.org/3/";
-    theMovieDb.common.images_uri = "https://image.tmdb.org/t/p/";
-    theMovieDb.common.timeout = 4000;
-
     this.getUsers()
     this.getDirectors()
     this.getActors()
@@ -304,23 +267,6 @@ export default {
     back() {
       this.$router.go(-1)
     },
-    getImageTitle(){
-        theMovieDb.search.getMovie({"query":encodeURI(this.movie.titulo)}, this.successCB, this.errorCB)
-    },
-    successCB: function (data) {
-      var json = JSON.parse(data);
-      var aux = json.results;
-
-      aux.forEach(function (movie){
-          movie.poster_path = "https://image.tmdb.org/t/p/w300" + movie.poster_path
-          movie.seleccionada = false
-        })
-      this.movieSearch = aux;
-      this.movie.ruta = "https://image.tmdb.org/t/p/w300" + json.results[0].poster_path;
-    },
-      errorCB: function (data) {
-      console.log("Error callback: " + data);
-    },
      submitFile(){
        if (this.file != ''){
           let formData = new FormData();
@@ -328,7 +274,7 @@ export default {
 
           this.movie.ruta = this.movie.id + ".jpg";
 
-          axios.post( 'http://localhost:8080/api/movies/uploadFile',
+          HTTP.post('movies/uploadFile',
             formData,
             {
               headers: {
