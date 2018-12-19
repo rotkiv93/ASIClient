@@ -124,15 +124,28 @@ export default {
 
     HTTP.get('movies')
     .then(response => {
-        this.movies = response.data,
-        this.fields = (response.data.length !=0) ? Object.keys(response.data[0]) : null
+        this.movies = response.data;
+        this.prepareJSON();
+        this.fields = ["titulo","productora", "fecha_estreno", "pais", "duracion", "ano_salida", "sinopsis", "directorasstring", "generoasstring", "actoresasstring", "estado", "valoracion"]
         })
-    .catch(err => this.error = err.response.data)
+    .catch(err => {
+      console.log(err)
+      this.error = err.response.data
+    })
     .finally(() => this.loading = false)
   },
   methods: {
     isLoaded: function(){
       this.isActive = true;
+    },
+    prepareJSON(){
+      this.movies.forEach(movie => {
+        movie.actoresasstring = movie.actores.map( actor => 
+          actor.nombre + " " + actor.apellido1 + " "+ actor.apellido2 ).join(', ');
+        movie.generoasstring = movie.genero.nombre;
+        movie.directorasstring = movie.director.nombre + " " + movie.director.apellido1 + " " + movie.director.apellido2; 
+        }
+      );
     },
     getAll(){
       HTTP.get('movies')
