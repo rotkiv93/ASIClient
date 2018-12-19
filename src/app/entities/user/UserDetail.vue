@@ -35,6 +35,17 @@
           </multiselect>
             <link rel="stylesheet" href="https://unpkg.com/vue-multiselect@2.1.0/dist/vue-multiselect.min.css">
         </div>
+
+        <div v-if="!file">
+          <input class="inputfile" type="file" id="file" ref="file" @change="onFileChange"/>
+          <label for="file">Choose a file</label>
+        </div>
+        <div v-else>
+          <img :src="loaded" />
+          <b-btn id="botonEliminaImagen" variant="danger" @click="removeImage">Remove image</b-btn>
+          <b-btn id="botonSubeImagen" @click="submitFile">Update image</b-btn>
+        </div>
+
       </div>
     </div>
   </LoadingPage>
@@ -54,6 +65,8 @@ export default {
       user: null,
       error: null,
       userLogin: null,
+      file: '',
+      loaded: '',
       opciones: ["Email" ,"SMS"]
     }
   },
@@ -63,7 +76,6 @@ export default {
   created() {
     this.fetchData()
   },
-  
   methods: {
     fetchData() {
       this.error = this.user = null
@@ -87,6 +99,47 @@ export default {
     },
     back() {
       this.$router.go(-1)
+    },
+    submitFile(){
+      if (this.file != ''){
+        let formData = new FormData();
+        formData.append('file', this.file, this.user.login + ".jpg");
+
+        HTTP.post('movies/uploadFile',
+          formData,
+          {
+            headers: {
+              'Content-Type': 'multipart/form-data'
+            }
+          }
+          )
+        .catch(function(){
+          console.log('FAILURE!!');
+        });
+      }
+    },
+    onFileChange(e) {
+      var files = e.target.files || e.dataTransfer.files;
+      if (!files.length)
+        return;
+      this.createImage(files[0]);
+      this.file = files[0];
+    },
+    createImage(file) {
+      var image = new Image();
+      var reader = new FileReader();
+      var vm = this;
+
+      reader.onload = (e) => {
+        vm.loaded = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    },
+    handleFileUpload(){
+      this.file = this.$refs.file.files[0];
+    },
+    removeImage: function (e) {
+      this.file = '';
     }
   }
 }

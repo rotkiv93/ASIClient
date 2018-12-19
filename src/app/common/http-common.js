@@ -2,6 +2,8 @@ import Vue from 'vue'
 import axios from 'axios'
 import auth from './auth'
 
+const baseURL = 'http://localhost:8080/api/';
+
 const HTTP = axios.create({
   baseURL: 'http://localhost:8080/api/'
 })

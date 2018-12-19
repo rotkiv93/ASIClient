@@ -167,6 +167,7 @@ export default {
         .then(response => this.movie = response.data)
     },
     getImagen(){
+      http.baseURL
       return "http://localhost:8080/api/movies/image/" + this.movie.ruta;
     },
     eliminateMovie(){

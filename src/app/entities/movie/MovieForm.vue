@@ -145,14 +145,16 @@
         </b-form-group>
       </b-form>
 
-      <div v-if="!file">
-        <input class="inputfile" type="file" id="file" ref="file" @change="onFileChange"/>
-        <label for="file">Choose a file</label>
-      </div>
-      <div v-else>
-        <img :src="loaded" />
-        <b-btn id="botonEliminaImagen" variant="danger" @click="removeImage">Remove image</b-btn>
-      </div>
+      <div v-if="movie.id">
+        <div v-if="!file">
+          <input class="inputfile" type="file" id="file" ref="file" @change="onFileChange"/>
+          <label for="file">Choose a file</label>
+        </div>
+        <div v-else>
+          <img :src="loaded" />
+          <b-btn id="botonEliminaImagen" variant="danger" @click="removeImage">Remove image</b-btn>
+        </div>
+        </div>
       </div>
 
   </LoadingPage>
@@ -166,7 +168,6 @@ import Multiselect from 'vue-multiselect'
 import PictureInput from 'vue-picture-input'
 import FormDataPost from '../../common/upload'
 import {required, numeric, minValue, minLength} from 'vuelidate/lib/validators'
-import axios from 'axios'
 
 export default {
   components: { LoadingPage,  Multiselect,  PictureInput},
@@ -267,26 +268,26 @@ export default {
     back() {
       this.$router.go(-1)
     },
-     submitFile(){
-       if (this.file != ''){
-          let formData = new FormData();
-          formData.append('file', this.file, this.movie.id + ".jpg");
+    submitFile(){
+      if (this.file != ''){
+        let formData = new FormData();
+        formData.append('file', this.file, this.movie.id + ".jpg");
 
-          this.movie.ruta = this.movie.id + ".jpg";
+        this.movie.ruta = this.movie.id + ".jpg";
 
-          HTTP.post('movies/uploadFile',
-            formData,
-            {
-              headers: {
-                'Content-Type': 'multipart/form-data'
-              }
+        HTTP.post('movies/uploadFile',
+          formData,
+          {
+            headers: {
+              'Content-Type': 'multipart/form-data'
             }
-            )
-          .catch(function(){
-            console.log('FAILURE!!');
-          });
-        }
-      },
+          }
+          )
+        .catch(function(){
+          console.log('FAILURE!!');
+        });
+      }
+    },
     onFileChange(e) {
       var files = e.target.files || e.dataTransfer.files;
       if (!files.length)
