@@ -7,64 +7,56 @@
       <h1>{{user.login}}'s profile</h1>
     </nav>
 
-    <div class="margenes">
-      <div v-if="user">
-        <div class="float-right">
-          <b-btn
-            variant="primary"
-            @click="back()">Back</b-btn>
+    <div v-if="user">
+      <div class="card flex-row flex-wrap">
+
+        <div class="image-container px-4">
+          <img class="user-image" v-bind:src="getImagen()">
+          <div v-if="!file">
+            <input class="inputfile" type="file" id="file" ref="file" @change="onFileChange"/>
+            <label for="file">Change profile image</label>
+          </div>
+          <div v-else>
+            <img class="user-image" v-bind:src="loaded">
+            <b-btn id="botonEliminaImagen" variant="danger" @click="removeImage">Remove image</b-btn>
+            <b-btn id="botonSubeImagen" @click="submitFile">Update image</b-btn>
+          </div>
         </div>
 
-        <b-row>
-          <b-col>
+        <div class="card-block px-4">
 
-            <b-img class="movie-image" thumbnail v-bind:src="getImagen()" fluid alt="Responsive image" />
-            
-          </b-col>
-            
-          <b-col>
-            <h5 class="listas2">Name: <span class="attribute"> {{ user.login }} </span></h5>
-            <h5 class="listas2">Email:<span class="attribute"> {{ user.email }}</span></h5>
-            <h5 class="listas2">Signup date:<span class="attribute"> {{ user.fecha_alta }}</span></h5>
-            <h5 class="listas2">Viewed movies:<span class="attribute"> {{ user.num_vistas }}</span></h5>
-            <h5 class="listas2">Pending movies:<span class="attribute"> {{ user.num_pendientes }}</span></h5>
-            <h5 class="listas2">Rated movies:<span class="attribute"> {{ user.num_valoradas }}</span></h5>
-            
-            <div style="margin-right: 30%;margin-top:5%" v-if="user.login == userLogin">
-              <label>Customize your notifications</label> 
-              <multiselect
-                class = multiselect_notif
-                v-model="user.notificaciones" 
-                :options="opciones" 
-                :multiple="false" 
-                :close-on-select="true" 
-                :clear-on-select="true" 
-                :preserve-search="true"
-                placeholder="Pick an option"
-                :show-labels="true"
-                :preselect-first="false"
-                @select="updateUser"
-                @remove="removeNotif">
-              </multiselect>
-                <link rel="stylesheet" href="https://unpkg.com/vue-multiselect@2.1.0/dist/vue-multiselect.min.css">
-           
-    
-            
-           </div>
-          </b-col>
-        </b-row>
-        <b-row style="margin-left:3%;position:relative">
-          <div v-if="!file">
-              <input class="inputfile" type="file" id="file" ref="file" @change="onFileChange"/>
-              <label for="file">Change profile image</label>
-            </div>
-            <div v-else>
-              <img :src="loaded" />
-              <b-btn id="botonEliminaImagen" variant="danger" @click="removeImage">Remove image</b-btn>
-              <b-btn id="botonSubeImagen" @click="submitFile">Update image</b-btn>
-            </div>
-        </b-row>
-      </div>
+          <h4>Name: <span> {{ user.login }} </span> </h4>
+          <h4>Email: <span> {{ user.email }} </span> </h4>
+          <h4>Signup date: <span> {{ user.fecha_alta }} </span> </h4>
+          <h4>Viewed movies: <span> {{ user.num_vistas }} </span> </h4>
+          <h4>Pending movies: <span> {{ user.num_pendientes }} </span> </h4>
+          <h4>Rated movies: <span> {{ user.num_valoradas }} </span> </h4>
+          
+          <div v-if="user.login == userLogin">
+            <label> Customize your notifications </label> 
+            <multiselect
+              class = multiselect_notif
+              v-model="user.notificaciones" 
+              :options="opciones" 
+              :multiple="false" 
+              :close-on-select="true" 
+              :clear-on-select="true" 
+              :preserve-search="true"
+              placeholder="Pick an option"
+              :show-labels="true"
+              :preselect-first="false"
+              @select="updateUser"
+              @remove="removeNotif">
+            </multiselect>
+              <link rel="stylesheet" href="https://unpkg.com/vue-multiselect@2.1.0/dist/vue-multiselect.min.css">
+          </div>
+        </div> 
+
+      <div>
+        <b-btn class="button" size=lg @click="back()">
+          <font-awesome-icon icon="arrow-left"/> 
+        </b-btn>
+      </div> 
     </div>
   </LoadingPage>
 </template>
@@ -132,12 +124,21 @@ export default {
             headers: {
               'Content-Type': 'multipart/form-data'
             }
-          }
-          )
-        .catch(function(){
-          console.log('FAILURE!!');
-        });
+          })
+          .then(function(response) {
+            if(response.data.status == 'success') {
+              this.updateFile();
+            }
+          })
+          .catch(function(){
+            console.log('FAILURE!!');
+          });
       }
+    },
+    updateFile(){
+      HTTP.get(`image/${this.file}`)
+      .then(response => this.file = response.data)
+      .catch(err => this.error = err.message)
     },
     onFileChange(e) {
       var files = e.target.files || e.dataTransfer.files;
@@ -156,9 +157,6 @@ export default {
       };
       reader.readAsDataURL(file);
     },
-    handleFileUpload(){
-      this.file = this.$refs.file.files[0];
-    },
     removeImage: function (e) {
       this.file = '';
     }
@@ -169,7 +167,37 @@ export default {
 
 <style lang="sass" src="vue-multiselect/dist/vue-multiselect.min.css"></style>
 <style scoped lang="scss">
+
   .movie {
     white-space: pre;
+  }
+
+  $text: #777;
+
+  .card{
+    background: #2B2A34;
+    overflow: auto;
+  }
+
+  .image-container{
+    height: 300px;
+    width: 300px;
+  }
+
+  .user-image{
+    height: 100%;
+    width: 100%;
+    object-fit: fill;
+    background-image: url(http://localhost:8080/api/movies/image/pred.jpg)
+  }
+
+  .button{
+    position: absolute;
+    top: 0%;
+    left: 0%;
+    overflow: auto;
+    background-color: Transparent;
+    border: none;
+    cursor:pointer;
   }
 </style>
