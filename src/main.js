@@ -13,6 +13,10 @@ Vue.use(VueMoment, moment)
 import Vuelidate from 'vuelidate'
 Vue.use(Vuelidate)
 
+import 'vue-instant/dist/vue-instant.css'
+import VueInstant from 'vue-instant/dist/vue-instant.common'
+Vue.use(VueInstant)
+
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faSearch, faMinusSquare, faArrowLeft, faPlusSquare, faTh, faList } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'

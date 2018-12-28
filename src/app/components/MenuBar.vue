@@ -12,6 +12,14 @@
             <b-nav-item :to="{ name: 'MovieList' }" exact>Movies</b-nav-item>
           </li>
 
+          <form class="form-inline my-2 my-sm-0">
+            <vue-instant
+              v-model="input"
+              placeholder="search movie title"
+              :suggestion-attribute = "suggestionsAttribute"
+              :suggestions="movies">
+            </vue-instant>
+          </form>
           <template v-if="isLogged">
             <li class="nav-item">
             <b-nav-item :to="{ name: 'UserList' }" exact>Users</b-nav-item>
@@ -56,9 +64,24 @@
 </template>
 
 <script>
+import { HTTP } from '../common/http-common'
 import auth from '../common/auth'
 
 export default {
+  data(){
+    return {
+      movies: [],
+      input: '',
+      suggestionsAttribute: 'titulo',
+      error: null,
+    }
+  },
+  created(){
+  HTTP.get('movies')
+    .then(response => this.movies = response.data)
+    .catch(err => this.error = err.response.data)
+    .finally(() => this.loading = false)
+  },
   computed: {
     entitiesActive: function () {
       return [ 'MovieCreate', 'MovieList', 'DirectorList', 'ActorList' , 'MovieImporter', 'UserList'].indexOf(this.$route.name) != -1
