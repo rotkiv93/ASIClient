@@ -7,19 +7,21 @@
       <h1>{{user.login}}'s profile</h1>
     </nav>
 
-    <div v-if="user">
+    <div v-if="user" style="margin: 0; auto;">
       <div class="card flex-row flex-wrap">
 
         <div class="image-container px-4">
           <img class="user-image" v-bind:src="getImagen()">
-          <div v-if="!file">
-            <input class="inputfile" type="file" id="file" ref="file" @change="onFileChange"/>
-            <label for="file">Change profile image</label>
-          </div>
-          <div v-else>
-            <img class="user-image" v-bind:src="loaded">
-            <b-btn id="botonEliminaImagen" variant="danger" @click="removeImage">Remove image</b-btn>
-            <b-btn id="botonSubeImagen" @click="submitFile">Update image</b-btn>
+          <div v-if="user.login == userLogin">
+            <div v-if="!file">
+              <input class="inputfile" type="file" id="file" ref="file" @change="onFileChange"/>
+              <label for="file">Change profile image</label>
+            </div>
+            <div v-else>
+              <img class="user-image" v-bind:src="loaded">
+              <b-btn id="botonEliminaImagen" variant="danger" @click="removeImage">Remove image</b-btn>
+              <b-btn id="botonSubeImagen" @click="submitFile">Update image</b-btn>
+            </div>
           </div>
         </div>
 
@@ -108,7 +110,7 @@ export default {
         .catch(err => this.error = err.message)
     },
     getImagen(){
-      return baseURL + "/movies/image/" + this.user.login + ".jpg";
+      return baseURL + "/movies/image/" + this.user.login + ".jpg"
     },
     back() {
       this.$router.go(-1)
@@ -127,7 +129,6 @@ export default {
           })
           .then(function(response) {
             if(response.data.status == 'success') {
-              this.updateFile();
             }
           })
           .catch(function(){
@@ -136,9 +137,6 @@ export default {
       }
     },
     updateFile(){
-      HTTP.get(`image/${this.file}`)
-      .then(response => this.file = response.data)
-      .catch(err => this.error = err.message)
     },
     onFileChange(e) {
       var files = e.target.files || e.dataTransfer.files;
@@ -180,11 +178,14 @@ export default {
   }
 
   .image-container{
+    float: left;
     height: 300px;
     width: 300px;
   }
 
   .user-image{
+    position: relative;
+    display: block;
     height: 100%;
     width: 100%;
     object-fit: fill;
