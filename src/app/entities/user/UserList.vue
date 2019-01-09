@@ -6,7 +6,7 @@
       <h3>List of registered users</h3>
     </nav>
 
-    <div v-if="users">  
+    <div v-if="users">
       <div
         v-for="user in users"
         :key="user.id"
@@ -17,7 +17,7 @@
           </div>
           <h1 class="card-title">
             <router-link class="router" :to="{ name: 'UserDetail', params: { id: user.login } }">
-              {{ user.login }} 
+              {{ user.login }}
             </router-link>
           </h1>
           <h4 class="subtitle">
@@ -26,7 +26,7 @@
         </div>
       </div>
     </div>
-    
+
   </LoadingPage>
 </template>
 

@@ -12,13 +12,15 @@
             <b-nav-item :to="{ name: 'MovieList' }" exact>Movies</b-nav-item>
           </li>
 
-          <form class="form-inline my-2 my-sm-0">
+        <!--  <form class="form-inline my-2 my-sm-0">
             <vue-instant
               v-model="input"
               placeholder="search movie title"
               :suggestion-attribute = "suggestionsAttribute"
               :suggestions="movies">
             </vue-instant>
+        -->
+
           </form>
           <template v-if="isLogged">
             <li class="nav-item">
@@ -76,12 +78,12 @@ export default {
       error: null,
     }
   },
-  created(){
+  /** created(){
   HTTP.get('movies')
     .then(response => this.movies = response.data)
     .catch(err => this.error = err.response.data)
     .finally(() => this.loading = false)
-  },
+  }, */
   computed: {
     entitiesActive: function () {
       return [ 'MovieCreate', 'MovieList', 'DirectorList', 'ActorList' , 'MovieImporter', 'UserList'].indexOf(this.$route.name) != -1
@@ -116,13 +118,13 @@ export default {
   .slide-fade-leave-active {
     transition: all .2s ease;
   }
-  .slide-fade-enter { 
+  .slide-fade-enter {
     transform: translateY(-50px);
     opacity: 0;
   }
   .slide-fade-leave-to {
    transform: translateY(-50px);
-    opacity: 0; 
+    opacity: 0;
   }
 
 </style>

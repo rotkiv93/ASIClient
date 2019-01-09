@@ -33,16 +33,16 @@
           <h4>Viewed movies: <span> {{ user.num_vistas }} </span> </h4>
           <h4>Pending movies: <span> {{ user.num_pendientes }} </span> </h4>
           <h4>Rated movies: <span> {{ user.num_valoradas }} </span> </h4>
-          
+
           <div v-if="user.login == userLogin">
-            <label> Customize your notifications </label> 
+            <label> Customize your notifications </label>
             <multiselect
               class = multiselect_notif
-              v-model="user.notificaciones" 
-              :options="opciones" 
-              :multiple="false" 
-              :close-on-select="true" 
-              :clear-on-select="true" 
+              v-model="user.notificaciones"
+              :options="opciones"
+              :multiple="false"
+              :close-on-select="true"
+              :clear-on-select="true"
               :preserve-search="true"
               placeholder="Pick an option"
               :show-labels="true"
@@ -52,13 +52,13 @@
             </multiselect>
               <link rel="stylesheet" href="https://unpkg.com/vue-multiselect@2.1.0/dist/vue-multiselect.min.css">
           </div>
-        </div> 
+        </div>
 
       <div>
         <b-btn class="button" size=lg @click="back()">
-          <font-awesome-icon icon="arrow-left"/> 
+          <font-awesome-icon icon="arrow-left"/>
         </b-btn>
-      </div> 
+      </div>
     </div>
   </LoadingPage>
 </template>
@@ -68,6 +68,7 @@ import { HTTP, baseURL } from '../../common/http-common'
 import LoadingPage from '../../components/LoadingPage'
 import auth from '../../common/auth'
 import Multiselect from 'vue-multiselect'
+import Vue from 'vue'
 
 export default {
   components: { LoadingPage, Multiselect },
@@ -94,14 +95,13 @@ export default {
       this.loading = true
 
       HTTP.get(`users/${this.$route.params.id}`)
-      .then(response => {this.user = response.data, console.log(response.data)})
+      .then(response => {this.user = response.data})
       .catch(err => this.error = err.message)
       .finally(() => this.loading = false)
 
       this.userLogin = `${auth.user.login}`
     },
     updateUser(){
-      console.log(this.user.notificaciones)
         HTTP.put(`users/${this.$route.params.id}`, this.user)
         .catch(err => this.error = err.message)
     },
@@ -127,14 +127,15 @@ export default {
               'Content-Type': 'multipart/form-data'
             }
           })
-          .then(function(response) {
-            if(response.data.status == 'success') {
-            }
-          })
-          .catch(function(){
-            console.log('FAILURE!!');
-          });
-      }
+          .then(response => { this.sucess = Vue.notify({
+                text: 'Sucessfully updated Image',
+                type: 'sucess'
+              }), this.updateUser()})
+          .catch(err => { this.error = Vue.notify({
+            text: 'Check file size',
+            type: 'error'
+          }), this.updateUser()})
+        }
     },
     updateFile(){
     },
